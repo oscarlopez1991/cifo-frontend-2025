@@ -1,10 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
+  <head>
+    <meta name="author" content="Oscar Lopez"/>
+    <meta charset="UTF-8">
+    <title>Forms</title>
+  </head>
+  <body>
+    <h1>Form Example</h1>
+    <form>
+      <div id="group-name">
+        <label for="name">Name:</label>
+        <input type="text" id="name">
+      </div>
+
+      <div id="group-age">
+        <label for="age">Age:</label>
+        <input type="number" id="age">
+      </div>
+
+      <div id="group-gender">
+        <label>Gender:</label>
+        <label for="gender-male">Male</label>
+        <input type="radio" id="gender-male">
+        <label for="gender-female">Female</label>
+        <input type="radio" id="gender-female">
+      </div>
+
+      <div id="group-language">
+        <label>Languages:</label>
+        <label for="lang-catalan">Catalan</label>
+        <input type="checkbox" id="lang-catalan">
+        <label for="lang-english">English</label>
+        <input type="checkbox" id="lang-english">
+      </div>
+
+      <div id="group-color">
+        <label for="color">Favorite color:</label>
+        <input type="color" id="color">
+      </div>
+
+      <div id="group-birthdate">
+        <label for="birthdate">Date of birth:</label>
+        <input type="date" id="birthdate">
+      </div>
+
+      <div id="group-comment">
+        <label for="comment">Comment:</label>
+        <textarea id="comment"></textarea>
+      </div>
+
+      <div id="group-country">
+        <label for="country">Country:</label>
+        <select id="country">
+          <option value="spain">Spain</option>
+          <option value="france">France</option>
+        </select>
+      </div>
+
+      <div id="group-submit">
+        <input type="submit" value="Submit">
+      </div>
+    </form>
+  </body>
 </html>

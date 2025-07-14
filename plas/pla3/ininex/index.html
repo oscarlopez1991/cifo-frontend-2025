@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+        p.css-internal {
+            color: orange
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="style-external.css">
+    <meta name="author" content="Oscar Lopez"/>
+    <meta charset="UTF-8">
+    <title>Types of CSS</title>
+  </head>
+  <body>
+    <section id="examples">
+      <h1>Inline vs internal vs external CSS styles</h1>
+      <p style="color: red; "> Color text applied from inline CSS</p>
+      <p class="css-internal"> Color text applied from internal CSS</p>
+      <p class="css-external"> Color text applied from external CSS</p>
+    </section>
+
+    <section id="explanations">
+      <h2>Explanations</h2>
+      <h3>Internal better than External:</h3>
+      <ul>
+        <li>For quick testing</li>
+        <li>Specific styles for a unique page</li>
+        <li>If there's any inconvenient in not using external CSS</li>
+      </ul>
+      <h3>External better than Internal:</h3>
+      <p>In most cases (or in the remaining cases), I think it's better practice to aim for more cohesion, cleanliness,
+        and overall clarity.</p>
+      <h3>Inline inconveniences</h3>
+      <ul>
+        <li>Hard to maintain</li>
+        <li>Breaks the separation between content and presentation</li>
+        <li>Increases HTML size unnecessarily</li>
+      </ul>
+      <h3>Interesting cases to use</h3>
+      <p>Same as with the comparison between internal and external CSS: inline CSS should only be used in very specific
+        or limited cases.</p>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,47 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: sans-serif;
+    padding: 2rem;
+}
+
+/* First block: no border, no margin */
+.one {
+    color: white;
+    background-color: #2b6b84;
+}
+
+/* Second block: visible border, no margin */
+.two {
+    color: white;
+    background-color: #34c5b5;
+    border: 3px solid #2da194;
+}
+
+/* Third block: border + vertical margin */
+.three {
+    background-color: #f9b24e;
+    border: 3px solid #e3992b;
+    margin: 3rem 0;
+}
+
+/* Fourth block: margin + padding */
+.four {
+    background-color: #ef5350;
+    border: 3px solid #d84340;
+    color: white;
+    margin: 3rem 0;
+    padding: 3rem;
+}
+
+/* hr: thin dashed line */
+hr {
+    border: none;
+    border-top: 1px dashed #666;
+    margin: 0.75rem 0;
+}

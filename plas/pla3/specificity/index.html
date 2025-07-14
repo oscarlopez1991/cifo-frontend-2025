@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="author" content="Oscar Lopez">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="style-specificity.css">
+    <title>Title</title>
+  </head>
+  <body>
+    <section id="main-section" class="container">
+      <p id="first-paragraph" class="paragraph">Here first paragraph!!</p>
+      <!-- inline specificity: 1, 0, 0, 0 -->
+      <p id="second-paragraph" style="color: white" class="paragraph">Here second paragraph with inline color!!</p>
+      <div id="nested-div" class="container">
+        <p id="nested-paragraph" class="paragraph"> Here nested paragraph!!</p>
+      </div>
+    </section>
+  </body>
+</html>

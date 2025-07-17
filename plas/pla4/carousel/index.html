@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Showcase Bootstrap Carousel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="carousel.css" rel="stylesheet"/>
+  </head>
+  <body>
+
+    <header>
+      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Showcase</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#navbarCollapse" aria-controls="navbarCollapse"
+                  aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+              <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+              <li class="nav-item"><a class="nav-link" href="#">Features</a></li>
+              <li class="nav-item"><a class="nav-link disabled" aria-disabled="true">Coming soon</a></li>
+            </ul>
+            <form class="d-flex" role="search">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+              <button class="btn btn-outline-success" type="submit">Go</button>
+            </form>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="pt-5">
+
+      <!-- Carousel -->
+      <div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"
+                  aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1200&q=80" class="d-block w-100"
+                 alt="Slide 1"/>
+            <div class="carousel-caption text-start">
+              <h1>Discover new horizons</h1>
+              <p>Explore the world of Bootstrap templates with vibrant designs.</p>
+              <p><a class="btn btn-lg btn-primary" href="#">Start exploring</a></p>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img src="https://images.unsplash.com/photo-1508780709619-79562169bc64?w=1200&q=80" class="d-block w-100"
+                 alt="Slide 2"/>
+            <div class="carousel-caption">
+              <h1>Clean & minimal layout</h1>
+              <p>Designed to focus on content, not clutter.</p>
+              <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img src="https://images.unsplash.com/photo-1557683316-973673baf926?w=1200&q=80" class="d-block w-100"
+                 alt="Slide 3"/>
+            <div class="carousel-caption text-end">
+              <h1>Build your project faster</h1>
+              <p>Use this template as your launchpad for innovation.</p>
+              <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+
+      <!-- Marketing -->
+      <div class="container marketing">
+        <div class="row">
+          <div class="col-lg-4 text-center">
+            <!-- Rocket SVG icon inline -->
+            <svg width="140" height="140" class="mb-3" viewBox="0 0 16 16"
+                 xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Rocket icon">
+              <path
+                  d="M9.995 1.284a.5.5 0 0 0-.57 0l-6 4a.5.5 0 0 0-.202.446c.128 1.113.68 2.584 1.492 4.01a31.243 31.243 0 0 0 2.57 3.852 6.84 6.84 0 0 0 3.005-3.36 30.39 30.39 0 0 0 1.574-4.67.5.5 0 0 0-.202-.446l-6-4zm-5.474 5.768A17.02 17.02 0 0 1 2.56 4.75l1.383.14a16.803 16.803 0 0 1 1.097 2.963z"/>
+              <path
+                  d="M9.224 7.053a10.56 10.56 0 0 0-.91-1.78l1.196-1.2 2.933 2.933-1.2 1.195a10.554 10.554 0 0 0-2.02-.948z"/>
+            </svg>
+            <h2 class="fw-normal">Launch</h2>
+            <p>Quickly prototype and deploy your product with ease.</p>
+            <p><a class="btn btn-secondary" href="#">View details »</a></p>
+          </div>
+          <div class="col-lg-4 text-center">
+            <!-- Code SVG icon inline -->
+            <svg width="140" height="140" class="mb-3" viewBox="0 0 16 16"
+                 xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Code icon">
+              <path
+                  d="M5.719 6.423a.5.5 0 0 1 0-.846l4.5-3a.5.5 0 1 1 .562.826L6.472 6.404a.5.5 0 0 1-.753.019zm4.562 3.154a.5.5 0 0 1 0 .846l-4.5 3a.5.5 0 1 1-.562-.826l3.809-3.824a.5.5 0 0 1 .753-.019z"/>
+            </svg>
+            <h2 class="fw-normal">Develop</h2>
+            <p>Powerful components built with modern practices and clean code.</p>
+            <p><a class="btn btn-secondary" href="#">View details »</a></p>
+          </div>
+          <div class="col-lg-4 text-center">
+            <!-- Shield SVG icon inline -->
+            <svg width="140" height="140" class="mb-3" viewBox="0 0 16 16"
+                 xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Shield icon">
+              <path d="M5.5 0A5.5 5.5 0 0 0 0 5.5v3.55a6.5 6.5 0 0 0 11 4.5V5.5A5.5 5.5 0 0 0 5.5 0z"/>
+            </svg>
+            <h2 class="fw-normal">Secure</h2>
+            <p>Security-first approach for peace of mind in production.</p>
+            <p><a class="btn btn-secondary" href="#">View details »</a></p>
+          </div>
+        </div>
+
+        <!-- Featurettes -->
+        <hr class="featurette-divider"/>
+        <div class="row featurette align-items-center">
+          <div class="col-md-7">
+            <h2 class="featurette-heading">Fully responsive <span class="text-body-secondary">on all screens</span></h2>
+            <p class="lead">Enjoy seamless layout adaptability on any device. Mobile-first, always.</p>
+          </div>
+          <div class="col-md-5">
+            <img src="https://images.unsplash.com/photo-1506765515384-028b60a970df?auto=format&fit=crop&w=500&q=80"
+                 alt="Responsive design" class="featurette-image img-fluid mx-auto"/>
+          </div>
+        </div>
+
+        <hr class="featurette-divider"/>
+        <div class="row featurette align-items-center">
+          <div class="col-md-7 order-md-2">
+            <h2 class="featurette-heading">Performance focused <span
+                class="text-body-secondary">from the ground up</span></h2>
+            <p class="lead">Optimized assets, lazy loading, and clean structure help your site fly.</p>
+          </div>
+          <div class="col-md-5 order-md-1">
+            <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=500&q=80"
+                 alt="Performance illustration" class="featurette-image img-fluid mx-auto"/>
+
+          </div>
+        </div>
+
+        <hr class="featurette-divider"/>
+        <div class="row featurette align-items-center">
+          <div class="col-md-7">
+            <h2 class="featurette-heading">Modern aesthetics <span class="text-body-secondary">with minimal code</span>
+            </h2>
+            <p class="lead">A beautiful design system that doesn't get in your way.</p>
+          </div>
+          <div class="col-md-5">
+            <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=500&q=80"
+                 alt="Modern UI" class="featurette-image img-fluid mx-auto"/>
+          </div>
+        </div>
+        <hr class="featurette-divider"/>
+
+        <footer class="container text-center mt-5 pb-5">
+          <p class="float-end"><a href="#">Back to top</a></p>
+          <p>&copy; 2025 Your Company · <a href="#">Privacy</a> · <a href="#">Terms</a></p>
+        </footer>
+      </div>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

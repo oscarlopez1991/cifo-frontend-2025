@@ -1,0 +1,12 @@
+{
+  "name": "cifo-frontend-2025",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "live-server"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.33.0",
+    "eslint": "^9.33.0",
+    "globals": "^16.3.0"
+  }
+}

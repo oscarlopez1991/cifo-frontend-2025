@@ -3,13 +3,13 @@
 // número enter
 
 function isIntegerAtPosition(arr, position) {
-    if (!Array.isArray(arr) || arr.length === 0) {
-        throw new Error("First argument must be a non-empty array");
-    }
+  if (!Array.isArray(arr) || arr.length === 0) {
+    throw new Error("First argument must be a non-empty array");
+  }
 
-    if (!Number.isInteger(position) || position <= 0) {
-        throw new Error("Second argument must be a positive integer")
-    }
+  if (!Number.isInteger(position) || position <= 0) {
+    throw new Error("Second argument must be a positive integer");
+  }
 
-    return Number.isInteger(arr[position - 1]);
+  return Number.isInteger(arr[position - 1]);
 }

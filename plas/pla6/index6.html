@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="styles6.css" rel="stylesheet" type="text/css" />
+    <script src="scripts6-solution.js" type="text/javascript" defer></script>
+    <title>PLA 6 - Nom Cognom</title>
+  </head>
+  <body>
+    <header>
+      <h1>PLA 6: Manipulació del DOM</h1>
+    </header>
+
+    <!-- Task 1 ---------------------------------------------------------------------------- -->
+    <h2>1. Preguntes de teoria</h2>
+    <p>Cal respondre-les a l'arxiu JavaScript, en comentaris multilínia a la part superior.</p>
+
+    <!-- Task 2 ---------------------------------------------------------------------------- -->
+    <h2>2. Menú d'opcions segons rol seleccionat</h2>
+    <nav>
+      <ul class="nav nav-role">
+        <li>Usuari</li>
+        <li>Administrador</li>
+      </ul>
+    </nav>
+    <nav>
+      <ul class="nav nav-options">
+        <li>Llegir document</li>
+        <li>Mirar vídeo</li>
+        <li>Fer test</li>
+        <li>Pujar arxiu</li>
+        <li>Revisar nota</li>
+        <li class="admin">Esborrar document</li>
+        <li class="admin">Avaluar activitat</li>
+        <li class="admin">Gestionar usuaris</li>
+      </ul>
+    </nav>
+
+    <!-- Task 3 -------------------------------------------------------------------------------- -->
+    <h2>3. Classificació de futbol</h2>
+    <table id="classification">
+      <thead>
+        <tr>
+          <th>Team</th>
+          <th>Wins</th>
+          <th>Draws</th>
+          <th>Losses</th>
+          <th>Points</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <!-- Task 4 -------------------------------------------------------------------------------- -->
+    <h2>4. Informe de clients</h2>
+    <table id="customers">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th class="amount">Balance</th>
+          <th>Days until payment</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Botiga Baltasar</td>
+          <td class="amount">1323.91</td>
+          <td>30</td>
+        </tr>
+        <tr>
+          <td>Cafeteria Carles</td>
+          <td class="amount">493.78</td>
+          <td>-15</td>
+        </tr>
+        <tr>
+          <td>Distribuidora David</td>
+          <td class="amount">5225.34</td>
+          <td>13</td>
+        </tr>
+        <tr>
+          <td>Enderrocs Eugeni</td>
+          <td class="amount">2041.52</td>
+          <td>-52</td>
+        </tr>
+        <tr>
+          <td>Floristeria Fina</td>
+          <td class="amount">3229.91</td>
+          <td>-97</td>
+        </tr>
+        <tr>
+          <td>Gelateria Gregori</td>
+          <td class="amount">234.79</td>
+          <td>-48</td>
+        </tr>
+        <tr>
+          <td>Herbolari Helena</td>
+          <td class="amount">2219.65</td>
+          <td>37</td>
+        </tr>
+        <tr>
+          <td>Impressions Ignasi</td>
+          <td class="amount">5231.10</td>
+          <td>4</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td></td>
+          <td class="amount">0.00</td>
+          <td onclick="removeUnpaid()">Remove unpaid</td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <!-- Task 5 -------------------------------------------------------------------------------- -->
+    <h2>5. Valoració amb estrelletes</h2>
+    <div class="star-container">
+      <div class="star star-gray"></div>
+      <div class="star star-gray"></div>
+      <div class="star star-gray"></div>
+      <div class="star star-gray"></div>
+      <div class="star star-gray"></div>
+    </div>
+
+    <!-- Task 6 -------------------------------------------------------------------------------- -->
+    <h2>6. Barra de Breakout</h2>
+    <div class="bar-container">
+      <div class="bar"></div>
+    </div>
+
+    <!-- Task 7 -------------------------------------------------------------------------------- -->
+    <h2>7. Piloteta de Breakout</h2>
+    <div class="ball-container">
+      <div class="ball"></div>
+    </div>
+  </body>
+</html>

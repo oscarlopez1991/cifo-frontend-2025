@@ -1,0 +1,182 @@
+/* General -------------------------------------------------------------------------------------- */
+
+* {
+  box-sizing: border-box;
+  background-color: #eee;
+  font-family: sans-serif;
+  font-weight: 100;
+  padding: 5px;
+}
+
+body {
+  margin: 0 4em;
+}
+
+h1,
+h2 {
+  color: #333;
+  font-weight: 700;
+  border-bottom: #333 1px dashed;
+  letter-spacing: -0.02em;
+}
+
+h2 ~ h2 {
+  padding-top: 30px;
+}
+
+#h2-breakout ~ h2 {
+  padding-top: 70px;
+}
+
+th,
+tfoot td {
+  background-color: #034;
+  padding: 15px 0;
+  color: #ffe8d6;
+  text-transform: uppercase;
+  font-size: 90%;
+}
+
+td {
+  background-color: #8ce;
+  text-align: center;
+}
+
+/* Task 2 --------------------------------------------------------------------------------------- */
+
+.nav {
+  margin: 0;
+}
+
+.nav li {
+  display: inline-block;
+  color: white;
+  background-color: #283;
+  padding: 5px 20px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.nav-role li {
+  background-color: #bbb;
+  color: #222;
+}
+
+.nav .admin {
+  background-color: #a21;
+}
+
+.nav-role .role-selected {
+  background-color: #135;
+  color: #fff;
+}
+
+/* Task 3 --------------------------------------------------------------------------------------- */
+
+#classification {
+  border-collapse: collapse;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.classification-first td {
+  background-color: #283;
+  color: #fff;
+}
+
+/* Task 4 --------------------------------------------------------------------------------------- */
+
+#customers {
+  border-collapse: collapse;
+  width: 80%;
+  margin: 0 auto;
+}
+
+#customers .amount {
+  width: 40%;
+  text-align: right;
+  padding-right: 10%;
+}
+
+td.amount:after {
+  content: ' €';
+}
+
+.unpaid {
+  background-color: #a21;
+  color: #fff;
+}
+
+tfoot .amount + td {
+  cursor: pointer;
+}
+
+/* Task 5 --------------------------------------------------------------------------------------- */
+
+.star-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.star {
+  width: 20px;
+  height: 20px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.star-gray {
+  background-image: url(images6/star-gray.png);
+}
+
+.star-pink {
+  background-image: url(images6/star-pink.png);
+}
+
+/* Task 6 --------------------------------------------------------------------------------------- */
+
+.bar-container {
+  width: 80%;
+  height: 50px;
+  margin: 0 auto;
+  background-color: #034;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.bar {
+  width: 80px;
+  height: 20px;
+  position: absolute;
+  left: 200px;
+  background-color: #8ce;
+  border: 3px #fff solid;
+  border-radius: 10px;
+  transition: all 30ms linear;
+}
+
+/* Task 7 --------------------------------------------------------------------------------------- */
+
+.ball-container {
+  width: 80%;
+  height: 200px;
+  margin: 0 auto;
+  background-color: #034;
+  position: relative;
+  margin-bottom: 100px;
+}
+
+.ball {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 25px;
+  height: 25px;
+  background-color: #8ce;
+  border-radius: 15px;
+  transition: all 50ms linear;
+}

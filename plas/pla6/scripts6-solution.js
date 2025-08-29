@@ -31,6 +31,53 @@
 
 /* Task 2 solution ------------------------------------------------------------------------------ */
 
+const roleNavItems = document.querySelectorAll('.nav-role li');
+const roleNavOptions = document.querySelectorAll('.nav-options li');
+
+// DERIVE: Better maintainability (DRY principle)
+const adminOptions = Array.from(roleNavOptions).filter((option) =>
+  option.classList.contains('admin'),
+);
+
+// ASSUMPTION: index 0 = 'Usuari' (HTML modification not allowed)
+// FRAGILE: Code breaks if HTML order changes - prefer data attributes when possible
+const USER_ROLE_INDEX = 0;
+
+roleNavItems.forEach((item, index) => {
+  item.addEventListener('click', function () {
+    updateRoleSelection(this);
+    updateOptionsVisibility(index);
+  });
+});
+
+// SRP: Separated functions testability and reusability
+function updateRoleSelection(selectedItem) {
+  roleNavItems.forEach((navItem) => {
+    navItem.classList.remove('role-selected');
+  });
+  selectedItem.classList.add('role-selected');
+}
+
+function updateOptionsVisibility(roleIndex) {
+  // RESET: Remove inline overrides to restore CSS defaults
+  roleNavOptions.forEach((option) => {
+    option.style.display = '';
+  });
+
+  if (roleIndex === USER_ROLE_INDEX) {
+    hideAdminOptions();
+  }
+  // IMPLICIT: Admin role (index !== 0) shows all options by default
+}
+
+function hideAdminOptions() {
+  adminOptions.forEach((option) => {
+    // CONSTRAINT: CSS modification not permitted - using inline styles
+    // OVERRIDE: Inline style takes precedence over CSS rules
+    option.style.display = 'none';
+  });
+}
+
 /* Task 3 --------------------------------------------------------------------------------------- */
 
 let teams = [

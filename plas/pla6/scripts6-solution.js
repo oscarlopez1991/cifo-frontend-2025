@@ -117,6 +117,47 @@ let teams = [
 
 /* Task 3 solution ------------------------------------------------------------------------------ */
 
+// Sort teams by points (wins * 3 + draws) in descending order
+const sortedTeams = teams
+  .map((team) => ({
+    ...team,
+    points: team.games.wins * 3 + team.games.draws,
+  }))
+  .sort((a, b) => b.points - a.points);
+
+// Build and append all rows
+const tbody = document.querySelector('#classification tbody');
+sortedTeams.forEach((team, index) => {
+  const row = createTableRow(team, index === 0);
+  tbody.appendChild(row);
+});
+
+// Helper function to create a table row from data
+function createTableRow(data, isFirst = false) {
+  const row = document.createElement('tr');
+
+  if (isFirst) {
+    row.classList.add('classification-first');
+  }
+
+  // Define the complete row data in display order
+  const rowData = {
+    team: data.team,
+    wins: data.games.wins,
+    draws: data.games.draws,
+    losses: data.games.losses,
+    points: data.points,
+  };
+
+  Object.values(rowData).forEach((cellData) => {
+    const cell = document.createElement('td');
+    cell.textContent = cellData;
+    row.appendChild(cell);
+  });
+
+  return row;
+}
+
 /* Task 4 --------------------------------------------------------------------------------------- */
 
 // There is no initial provided code.

@@ -31,52 +31,44 @@
 
 /* Task 2 solution ------------------------------------------------------------------------------ */
 
-const roleNavItems = document.querySelectorAll('.nav-role li');
-const roleNavOptions = document.querySelectorAll('.nav-options li');
-
-// DERIVE: Better maintainability (DRY principle)
-const adminOptions = Array.from(roleNavOptions).filter((option) =>
-  option.classList.contains('admin'),
-);
-
-// ASSUMPTION: index 0 = 'Usuari' (HTML modification not allowed)
-// FRAGILE: Code breaks if HTML order changes - prefer data attributes when possible
-const USER_ROLE_INDEX = 0;
-
-// SRP: Separated functions testability and reusability
-function updateRoleSelection(selectedItem) {
+function updateRoleSelection(selectedItem, roleNavItems) {
   roleNavItems.forEach((navItem) => {
     navItem.classList.remove('role-selected');
   });
   selectedItem.classList.add('role-selected');
 }
 
-function updateOptionsVisibility(roleIndex) {
-  // RESET: Remove inline overrides to restore CSS defaults
+function updateOptionsVisibility(roleIndex, roleNavOptions, adminOptions) {
+  // Code breaks if HTML order changes, prefer data attributes when possible
+  const USER_ROLE_INDEX = 0;
+
+  // Remove inline overrides to restore CSS defaults
   roleNavOptions.forEach((option) => {
     option.style.display = '';
   });
 
   if (roleIndex === USER_ROLE_INDEX) {
-    hideAdminOptions();
+    adminOptions.forEach((option) => {
+      option.style.display = 'none';
+    });
   }
-  // IMPLICIT: Admin role (index !== 0) shows all options by default
+  // Implicit admin role (index !== 0) shows all options by default
 }
 
-function hideAdminOptions() {
-  adminOptions.forEach((option) => {
-    // CONSTRAINT: CSS modification not permitted - using inline styles
-    // OVERRIDE: Inline style takes precedence over CSS rules
-    option.style.display = 'none';
+function initializeRoleNavigation() {
+  const roleNavItems = document.querySelectorAll('.nav-role li');
+  const roleNavOptions = document.querySelectorAll('.nav-options li');
+  const adminOptions = document.querySelectorAll('.nav-options li.admin');
+
+  roleNavItems.forEach((item, index) => {
+    item.addEventListener('click', function () {
+      updateRoleSelection(this, roleNavItems);
+      updateOptionsVisibility(index, roleNavOptions, adminOptions);
+    });
   });
 }
 
-roleNavItems.forEach((item, index) => {
-  item.addEventListener('click', function () {
-    updateRoleSelection(this);
-    updateOptionsVisibility(index);
-  });
-});
+initializeRoleNavigation();
 
 /* Task 3 --------------------------------------------------------------------------------------- */
 
@@ -117,7 +109,15 @@ let teams = [
 
 /* Task 3 solution ------------------------------------------------------------------------------ */
 
-// Helper function to create a table row from data
+function sortTeamsByPoints(teams) {
+  return teams
+    .map((team) => ({
+      ...team,
+      points: team.games.wins * 3 + team.games.draws,
+    }))
+    .sort((a, b) => b.points - a.points);
+}
+
 function createTableRow(data, isFirst = false) {
   const row = document.createElement('tr');
 
@@ -125,7 +125,6 @@ function createTableRow(data, isFirst = false) {
     row.classList.add('classification-first');
   }
 
-  // Define the complete row data in display order
   const rowData = {
     team: data.team,
     wins: data.games.wins,
@@ -143,26 +142,51 @@ function createTableRow(data, isFirst = false) {
   return row;
 }
 
-// Sort teams by points (wins * 3 + draws) in descending order
-const sortedTeams = teams
-  .map((team) => ({
-    ...team,
-    points: team.games.wins * 3 + team.games.draws,
-  }))
-  .sort((a, b) => b.points - a.points);
+function renderClassificationTable(teams) {
+  const classificationTbody = document.querySelector('#classification tbody');
+  const sortedTeams = sortTeamsByPoints(teams);
 
-// Build and append all rows
-const tbody = document.querySelector('#classification tbody');
-sortedTeams.forEach((team, index) => {
-  const row = createTableRow(team, index === 0);
-  tbody.appendChild(row);
-});
+  sortedTeams.forEach((team, index) => {
+    const row = createTableRow(team, index === 0);
+    classificationTbody.appendChild(row);
+  });
+}
+
+renderClassificationTable(teams);
 
 /* Task 4 --------------------------------------------------------------------------------------- */
 
 // There is no initial provided code.
 
 /* Task 4 solution ------------------------------------------------------------------------------ */
+
+const customersTable = document.querySelector('#customers');
+const rows = customersTable.querySelectorAll('tbody tr');
+
+function markUnpaidAmount(rows) {
+  rows.forEach((row) => {
+    // Breaks if column order changes, but HTML modification is restricted
+    const thirdColumn = row.querySelector('td:nth-child(3)');
+    const value = parseFloat(thirdColumn.textContent);
+
+    if (value < 0) {
+      thirdColumn.classList.add('unpaid');
+    }
+  });
+}
+
+function calculateTotalAmount() {
+  const amountCells = customersTable.querySelectorAll('tbody .amount');
+  const total = Array.from(amountCells).reduce((totalAmount, cellAmount) => {
+    return totalAmount + parseFloat(cellAmount.textContent);
+  }, 0);
+
+  const footerAmountCell = customersTable.querySelector('tfoot .amount');
+  footerAmountCell.textContent = total.toFixed(2);
+}
+
+markUnpaidAmount(rows);
+calculateTotalAmount();
 
 /* Task 5 --------------------------------------------------------------------------------------- */
 

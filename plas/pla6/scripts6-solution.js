@@ -43,13 +43,6 @@ const adminOptions = Array.from(roleNavOptions).filter((option) =>
 // FRAGILE: Code breaks if HTML order changes - prefer data attributes when possible
 const USER_ROLE_INDEX = 0;
 
-roleNavItems.forEach((item, index) => {
-  item.addEventListener('click', function () {
-    updateRoleSelection(this);
-    updateOptionsVisibility(index);
-  });
-});
-
 // SRP: Separated functions testability and reusability
 function updateRoleSelection(selectedItem) {
   roleNavItems.forEach((navItem) => {
@@ -77,6 +70,13 @@ function hideAdminOptions() {
     option.style.display = 'none';
   });
 }
+
+roleNavItems.forEach((item, index) => {
+  item.addEventListener('click', function () {
+    updateRoleSelection(this);
+    updateOptionsVisibility(index);
+  });
+});
 
 /* Task 3 --------------------------------------------------------------------------------------- */
 
@@ -117,21 +117,6 @@ let teams = [
 
 /* Task 3 solution ------------------------------------------------------------------------------ */
 
-// Sort teams by points (wins * 3 + draws) in descending order
-const sortedTeams = teams
-  .map((team) => ({
-    ...team,
-    points: team.games.wins * 3 + team.games.draws,
-  }))
-  .sort((a, b) => b.points - a.points);
-
-// Build and append all rows
-const tbody = document.querySelector('#classification tbody');
-sortedTeams.forEach((team, index) => {
-  const row = createTableRow(team, index === 0);
-  tbody.appendChild(row);
-});
-
 // Helper function to create a table row from data
 function createTableRow(data, isFirst = false) {
   const row = document.createElement('tr');
@@ -157,6 +142,21 @@ function createTableRow(data, isFirst = false) {
 
   return row;
 }
+
+// Sort teams by points (wins * 3 + draws) in descending order
+const sortedTeams = teams
+  .map((team) => ({
+    ...team,
+    points: team.games.wins * 3 + team.games.draws,
+  }))
+  .sort((a, b) => b.points - a.points);
+
+// Build and append all rows
+const tbody = document.querySelector('#classification tbody');
+sortedTeams.forEach((team, index) => {
+  const row = createTableRow(team, index === 0);
+  tbody.appendChild(row);
+});
 
 /* Task 4 --------------------------------------------------------------------------------------- */
 

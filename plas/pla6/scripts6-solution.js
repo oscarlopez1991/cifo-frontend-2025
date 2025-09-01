@@ -160,23 +160,22 @@ renderClassificationTable(teams);
 
 /* Task 4 solution ------------------------------------------------------------------------------ */
 
-const customersTable = document.querySelector('#customers');
-const rows = customersTable.querySelectorAll('tbody tr');
-
-function markUnpaidAmount(rows) {
+function markOverdueCustomers(rows) {
   rows.forEach((row) => {
     // Breaks if column order changes, but HTML modification is restricted
-    const thirdColumn = row.querySelector('td:nth-child(3)');
-    const value = parseFloat(thirdColumn.textContent);
+    const daysColumn = row.querySelector('td:nth-child(3)');
+    const daysUntilPayment = parseFloat(daysColumn.textContent);
 
-    if (value < 0) {
-      thirdColumn.classList.add('unpaid');
+    if (daysUntilPayment < 0) {
+      daysColumn.classList.add('unpaid');
     }
   });
 }
 
 function calculateTotalAmount() {
+  const customersTable = document.querySelector('#customers');
   const amountCells = customersTable.querySelectorAll('tbody .amount');
+
   const total = Array.from(amountCells).reduce((totalAmount, cellAmount) => {
     return totalAmount + parseFloat(cellAmount.textContent);
   }, 0);
@@ -185,8 +184,32 @@ function calculateTotalAmount() {
   footerAmountCell.textContent = total.toFixed(2);
 }
 
-markUnpaidAmount(rows);
-calculateTotalAmount();
+// Global function for HTML onclick reference
+function removeUnpaid() {
+  const customersTable = document.querySelector('#customers');
+  const rows = customersTable.querySelectorAll('tbody tr');
+
+  rows.forEach((row) => {
+    const daysColumn = row.querySelector('td:nth-child(3)');
+    const daysUntilPayment = parseFloat(daysColumn.textContent);
+
+    if (daysUntilPayment < 0) {
+      row.remove();
+    }
+  });
+
+  calculateTotalAmount();
+}
+
+function initializeCustomersTable() {
+  const customersTable = document.querySelector('#customers');
+  const rows = customersTable.querySelectorAll('tbody tr');
+
+  markOverdueCustomers(rows);
+  calculateTotalAmount();
+}
+
+initializeCustomersTable();
 
 /* Task 5 --------------------------------------------------------------------------------------- */
 

@@ -217,6 +217,38 @@ let rating = 0;
 
 /* Task 5 solution ------------------------------------------------------------------------------ */
 
+function updateStarRating(selectedIndex) {
+  const stars = document.querySelectorAll('.star-container .star');
+
+  // I've used destructuring to get both index and element
+  for (const [index, star] of stars.entries()) {
+    // Remove both classes first
+    star.classList.remove('star-gray', 'star-pink');
+
+    // Add appropriate class according to the selected star index
+    if (index <= selectedIndex) {
+      star.classList.add('star-pink');
+    } else {
+      star.classList.add('star-gray');
+    }
+  }
+
+  rating = selectedIndex + 1;
+}
+
+function initializeStarRating() {
+  const stars = document.querySelectorAll('.star-container .star');
+
+  // Add click event listeners
+  stars.forEach((star, index) => {
+    star.addEventListener('click', function () {
+      updateStarRating(index);
+    });
+  });
+}
+
+initializeStarRating();
+
 /* Task 6 --------------------------------------------------------------------------------------- */
 
 // This is how many pixels the bar has to move each time.

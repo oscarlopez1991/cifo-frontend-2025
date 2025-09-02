@@ -258,6 +258,48 @@ let left = 200;
 
 /* Task 6 solution ------------------------------------------------------------------------------ */
 
+function moveBar(direction) {
+  const bar = document.querySelector('.bar');
+  const barContainer = document.querySelector('.bar-container');
+  const containerWidth = barContainer.clientWidth;
+  const barTotalWidth = bar.offsetWidth;
+
+  // Calculate maximum relative position (subtracting barTotalWidth)
+  const maxLeft = containerWidth - barTotalWidth;
+
+  if (direction === 'left' && left > 0) {
+    // Can move left if current position > 0
+    left = Math.max(0, left - delta);
+  } else if (direction === 'right' && left < maxLeft) {
+    // Can move right if current position < maxLeft
+    left = Math.min(maxLeft, left + delta);
+  }
+
+  // Update the bar position using inline CSS
+  bar.style.left = left + 'px';
+}
+
+function handleKeyPress(event) {
+  switch (event.key) {
+    case 'ArrowLeft':
+      // Prevent default scrolling behavior
+      event.preventDefault();
+      moveBar('left');
+      break;
+    case 'ArrowRight':
+      // Prevent default scrolling behavior
+      event.preventDefault();
+      moveBar('right');
+      break;
+  }
+}
+
+function initializeBarMovement() {
+  document.addEventListener('keydown', handleKeyPress);
+}
+
+initializeBarMovement();
+
 /* Task 7 --------------------------------------------------------------------------------------- */
 
 // These indicate how many pixels the ball has to move each time on each axis.

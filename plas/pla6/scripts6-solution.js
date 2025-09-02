@@ -303,12 +303,56 @@ initializeBarMovement();
 /* Task 7 --------------------------------------------------------------------------------------- */
 
 // These indicate how many pixels the ball has to move each time on each axis.
-let topDelta = (leftDelta = 5);
+let topDelta = 5,
+  leftDelta = 5; // I can't accept global variables
 // These are the coordinates for ball position.
-let topCoord = (leftCoord = 0);
+let topCoord = 0,
+  leftCoord = 0; // I can't accept global variables
 // This is the width of the playground area.
 const fieldWidth = document.querySelector('.ball-container').clientWidth;
 // This is the height of the playground area.
 const fieldHeight = document.querySelector('.ball-container').clientHeight;
 
 /* Task 7 solution ------------------------------------------------------------------------------ */
+
+function startBallAnimation() {
+  // Access the ball using querySelector inside ball-container (can't use .ball class)
+  const ballContainer = document.querySelector('.ball-container');
+  const ball = ballContainer.querySelector('div'); // Get the div inside ball-container
+
+  // Get ball dimensions for boundary calculation
+  const ballStyles = getComputedStyle(ball);
+  const ballWidth = parseInt(ballStyles.width);
+  const ballHeight = parseInt(ballStyles.height);
+
+  // Calculate boundaries (ball must stay inside container)
+  const maxTop = fieldHeight - ballHeight;
+  const maxLeft = fieldWidth - ballWidth;
+
+  function moveBall() {
+    // Update coordinates
+    topCoord += topDelta;
+    leftCoord += leftDelta;
+
+    // Bounce off top and bottom walls
+    if (topCoord <= 0 || topCoord >= maxTop) {
+      topDelta = -topDelta; // Reverse vertical direction
+      topCoord = Math.max(0, Math.min(maxTop, topCoord)); // Keep within bounds
+    }
+
+    // Bounce off left and right walls
+    if (leftCoord <= 0 || leftCoord >= maxLeft) {
+      leftDelta = -leftDelta; // Reverse horizontal direction
+      leftCoord = Math.max(0, Math.min(maxLeft, leftCoord)); // Keep within bounds
+    }
+
+    // Apply position using inline CSS (overrides external CSS)
+    ball.style.top = topCoord + 'px';
+    ball.style.left = leftCoord + 'px';
+  }
+
+  // Start automatic movement using setInterval (30ms for smooth animation)
+  setInterval(moveBall, 30);
+}
+
+startBallAnimation();

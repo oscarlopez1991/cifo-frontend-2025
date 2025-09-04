@@ -38,6 +38,13 @@ document.addEventListener('DOMContentLoaded', () => {
 /**
  * The question about promises:
  * Your answer here...
+ * Option 1: .then() and .catch() methods:
+ * (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises)
+ * Option 2: async/await syntax:
+ * (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)
+ * Both options are valid. The second one is syntactic sugar over the first one, making the code
+ * easier to read and write, especially when dealing with multiple asynchronous operations.
+ * Dev community prefers async/await for its simplicity and readability.
  */
 
 /**

@@ -15,7 +15,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   // CREATE FUNCTIONS WITH THESE NAMES IN YOUR CODE AND THEN UNCOMMENT THESE LINES TO RUN THEM
   ajaxWeather(); // Task 3
-  // fetchPokemon(); // Task 4 - fair use policy!!!
+  fetchPokemon(); // Task 4 - fair use policy!!!
   // fetchDataFromFile('books7.json'); // Task 5
   // fetchDataFromFile('not-found.json'); // Task 5
   // fetchCors(); // Task 6
@@ -223,6 +223,28 @@ function ajaxWeather() {
 const pokeapiEndpoint = 'https://pokeapi.co/api/v2/pokemon?offset=500&limit=50';
 
 /* Task 4 solution ------------------------------------------------------------------------------ */
+
+function fetchPokemon() {
+  fetch(pokeapiEndpoint)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      // Filter Pokemon names that include the letter "p"
+      const pokemonWithP = data.results
+        .filter((pokemon) => pokemon.name.includes('p'))
+        .map((pokemon) => pokemon.name);
+
+      // Show the array of names (should be more than 10 and less than 20)
+      console.log(pokemonWithP);
+    })
+    .catch((error) => {
+      console.error('Error fetching Pokemon data:', error);
+    });
+}
 
 /* Task 5 --------------------------------------------------------------------------------------- */
 

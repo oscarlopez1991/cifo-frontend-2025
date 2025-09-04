@@ -50,6 +50,15 @@ document.addEventListener('DOMContentLoaded', () => {
 /**
  * The question about HTTP response status codes:
  * Your answer here...
+ * 200 OK: The request has succeeded. The meaning of the success depends on the HTTP method.
+ * 201 Created: The request has been fulfilled and has resulted in one or more new resources being created.
+ * 204 No Content: The server has successfully processed the request and is not returning any content.
+ * 301 Moved Permanently: The requested resource has been assigned a new permanent URI.
+ * 401 Unauthorized: The request requires user authentication.
+ * 404 Not Found: The server has not found anything matching the Request-URI.
+ * 503 Service Unavailable: The server is currently unable to handle the request due to temporary
+ * overloading or maintenance of the server.
+ * (https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status)
  */
 
 /* Task 2 --------------------------------------------------------------------------------------- */

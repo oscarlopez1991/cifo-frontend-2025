@@ -14,7 +14,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   // CREATE FUNCTIONS WITH THESE NAMES IN YOUR CODE AND THEN UNCOMMENT THESE LINES TO RUN THEM
-  // ajaxWeather(); // Task 3
+  ajaxWeather(); // Task 3
   // fetchPokemon(); // Task 4 - fair use policy!!!
   // fetchDataFromFile('books7.json'); // Task 5
   // fetchDataFromFile('not-found.json'); // Task 5
@@ -182,6 +182,41 @@ const latitude = 41.60594;
 const longitude = 1.039171;
 
 /* Task 3 solution ------------------------------------------------------------------------------ */
+
+function ajaxWeather() {
+  // Build the complete endpoint URL with all required parameters
+  const finalUrl = `${apiUrl}&latitude=${latitude}&longitude=${longitude}&daily=temperature_2m_min,temperature_2m_max&forecast_days=4`;
+
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', finalUrl, true);
+
+  // Set up event handler for when the request completes
+  xhr.onreadystatechange = function () {
+    // Check if request is complete (readyState 4) and successful (status 200)
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      try {
+        const weatherData = JSON.parse(xhr.responseText);
+
+        // 1. Show elevation of Preixana above sea level
+        console.log(weatherData.elevation);
+
+        // 2. Show array with minimum temperature forecast for next 4 days in Celsius
+        console.log(weatherData.daily.temperature_2m_min);
+      } catch (error) {
+        console.error('Error parsing JSON response:', error);
+      }
+    } else if (xhr.readyState === 4) {
+      // Request completed but with error
+      console.error('Request failed with status:', xhr.status);
+    }
+  };
+
+  xhr.onerror = function () {
+    console.error('Network error occurred');
+  };
+
+  xhr.send();
+}
 
 /* Task 4 --------------------------------------------------------------------------------------- */
 

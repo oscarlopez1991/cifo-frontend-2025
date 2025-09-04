@@ -146,6 +146,33 @@ const youtube = {
 
 /* Task 2 solution ------------------------------------------------------------------------------ */
 
+// 1. The latitude of the place named Grand Hyatt
+const grandHyattMarker = googleMaps.markers.find((marker) => marker.name === 'Grand Hyatt');
+console.log(grandHyattMarker.location.lat);
+
+// 2. The name of the place with the highest longitude value
+const highestLongitudeMarker = googleMaps.markers.reduce((max, current) =>
+  current.location.long > max.location.long ? current : max,
+);
+console.log(highestLongitudeMarker.name);
+
+// 3. The supplier name of the product with an identifier that includes the string 9234
+const productWith9234 = database.find((product) => product._id.$oid.includes('9234'));
+console.log(productWith9234.supplier);
+
+// 4. The identifier of all products that have more than 250 units in stock
+const productsOver250 = database.filter((product) => product.quantity > 250);
+productsOver250.forEach((product) => console.log(product._id.$oid));
+
+// 5. The text using template literals retrieving the values
+console.log(
+  `Hi ha un total de ${youtube.pageInfo.totalResults} resultats i se'n mostren ${youtube.pageInfo.resultsPerPage} per pàgina`,
+);
+
+// 6. The videoId identifier value of the first video type element
+const firstVideo = youtube.items.find((item) => item.id.kind === 'youtube#video');
+console.log(firstVideo.id.videoId);
+
 /* Task 3 --------------------------------------------------------------------------------------- */
 
 // Use these constants to build your final endpoint.

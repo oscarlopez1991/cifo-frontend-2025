@@ -16,9 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // CREATE FUNCTIONS WITH THESE NAMES IN YOUR CODE AND THEN UNCOMMENT THESE LINES TO RUN THEM
   ajaxWeather(); // Task 3
   fetchPokemon(); // Task 4 - fair use policy!!!
-  // fetchDataFromFile('books7.json'); // Task 5
+  fetchDataFromFile('books7.json'); // Task 5
   // fetchDataFromFile('not-found.json'); // Task 5
-  // fetchCors(); // Task 6
+  fetchCors(); // Task 6
 });
 
 /* Task 1 --------------------------------------------------------------------------------------- */
@@ -252,8 +252,76 @@ function fetchPokemon() {
 
 /* Task 5 solution ------------------------------------------------------------------------------ */
 
+async function fetchDataFromFile(filename) {
+  try {
+    // Fetch the JSON file using await
+    const response = await fetch(filename);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    // Convert response to JavaScript objects and store in data variable
+    const data = await response.json();
+
+    // Calculate total cost of buying two copies of each book structure iteration
+    const totalCost = data.reduce((sum, book) => sum + book.price * 2, 0);
+
+    // Show the exact amount with two decimal places
+    console.log(totalCost.toFixed(2));
+  } catch (error) {
+    console.error(`Error fetching data from ${filename}:`, error);
+  }
+}
+
 /* Task 6 --------------------------------------------------------------------------------------- */
 
 // There is no initial provided code.
 
 /* Task 6 solution ------------------------------------------------------------------------------ */
+
+function fetchCors() {
+  // CORS API
+  const apiUrlWithoutCors = 'http://uselessfacts.jsph.pl/random.json?language=en';
+
+  // Proxy URL using corsproxy.io as recommended in the PDF
+  const proxyUrl = 'https://corsproxy.io/?';
+  const apiUrlWithProxy = proxyUrl + encodeURIComponent(apiUrlWithoutCors);
+
+  console.log('=== CORS Demonstration ===');
+
+  // 1. First, show that the API has CORS problems
+  console.log('1. Attempting direct call to API (this will fail due to CORS):');
+  console.log('URL:', apiUrlWithoutCors);
+
+  fetch(apiUrlWithoutCors)
+    .then((response) => response.json())
+    .then((data) => {
+      console.log('Direct call succeeded (unexpected):', data);
+    })
+    .catch((error) => {
+      console.error('❌ CORS Error (as expected):', error.message);
+      console.log('The browser blocked this request due to CORS policy');
+
+      // 2. Now show how to solve it using a proxy
+      console.log('\n2. Using CORS proxy to solve the problem:');
+      console.log('Proxy URL:', apiUrlWithProxy);
+
+      return fetch(apiUrlWithProxy);
+    })
+    .then((response) => {
+      if (response) {
+        return response.json();
+      }
+    })
+    .then((data) => {
+      if (data) {
+        console.log('✅ Success with proxy!');
+        console.log('Random fact:', data.text);
+        console.log('Full response:', data);
+      }
+    })
+    .catch((error) => {
+      console.error('Proxy request also failed:', error);
+    });
+}

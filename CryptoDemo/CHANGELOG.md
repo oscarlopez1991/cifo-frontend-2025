@@ -9,7 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
--
+- Created `utils/storageService.js` to manage favorite cryptocurrencies in `localStorage`.
+- Created `services/cryptoService.js` to fetch market chart data from the CoinGecko API for favorite coins.
+- Updated `main.js` to fetch and log data on page load.
 
 ### Changed
 
@@ -17,7 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
--
+- Added a default favicon link in `index.html` to prevent 404 errors.
 
 ---
 

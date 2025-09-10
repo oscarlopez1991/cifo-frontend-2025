@@ -24,7 +24,7 @@ _(Who is this application for? For example: "Beginners in the crypto space, stud
 
 - **Languages**: HTML5, CSS3, Vanilla JavaScript (ES6+)
 - **Styling**: Tailwind CSS
-- **API Consumed**: [Name of the Public Crypto API you are using]
+- **API Consumed**: [CoinGecko API](https://www.coingecko.com/en/api/documentation)
 - **Tooling**:
   - Node.js & npm
   - ESLint (for code linting)
@@ -69,7 +69,7 @@ The project follows a modular structure to separate concerns:
 
 _(Keep a simple log of your progress here. This will help you write the final document.)_
 
-- **Week 1 (Date):** Project setup, Tailwind configuration, initial API service.
+- **Week 1 (Date):** Project setup, Tailwind configuration, initial API service to fetch data from CoinGecko, and `localStorage` management for user favorites.
 - **Week 2 (Date):** ...
 - **Week 3 (Date):** ...
 
@@ -93,18 +93,14 @@ _(What works well in your project?)_
 _(What could be improved?)_
 
 -
--
-
----
+- ***
 
 ## 5. Future Evolution
 
 _(What features would you add next if you had more time?)_
 
 -
--
-
----
+- ***
 
 ## 6. References
 

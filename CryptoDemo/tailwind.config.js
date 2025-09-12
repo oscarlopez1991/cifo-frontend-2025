@@ -8,9 +8,10 @@ module.exports = {
     './pages/**/*.{js,css,html}',
     './services/**/*.{js,css,html}',
     './utils/**/*.{js,css,html}',
+    './node_modules/flowbite/**/*.js',
   ],
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [require('flowbite/plugin')],
 };

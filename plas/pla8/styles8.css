@@ -1,0 +1,43 @@
+* {
+  font-family: Arial, sans-serif;
+  padding: 3px 6px;
+  line-height: 150%;
+}
+
+h1,
+h2 {
+  border-bottom: #000 1px dotted;
+}
+
+.killed {
+  text-decoration: line-through;
+}
+
+#task3 {
+  padding: 20px;
+  width: fit-content;
+  background-color: #9009;
+  color: #fff;
+}
+
+.task4 {
+  background-color: #333;
+  width: 50%;
+  height: 20vh;
+  overflow-y: scroll;
+  font-family: monospace;
+  color: #fff;
+}
+
+.task4::after {
+  content: '_';
+  font-weight: bold;
+  color: greenyellow;
+  animation: blinker 500ms linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}

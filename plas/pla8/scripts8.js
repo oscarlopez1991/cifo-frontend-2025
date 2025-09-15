@@ -26,6 +26,31 @@ $('#task22 li').removeClass('killed');
 
 /* Task 3 solution ------------------------------------------------------------------------------ */
 
+/* Task 3 solution ------------------------------------------------------------------------------ */
+
+// Variable to track the state of body background color
+let isBodyToggled = false;
+
+$('#task3')
+  .on('mouseenter', function () {
+    // On hover, randomly set color to #0909
+    if (Math.random() > 0.5) {
+      $(this).css('background-color', '#0909');
+    }
+  })
+  .on('mouseleave', function () {
+    // On mouse leave, restart color (#9009)
+    $(this).css('background-color', '#9009');
+  })
+  .on('click', function () {
+    // On click, toggle body background between #9009 and #fff
+    const backgroundColor = isBodyToggled ? '#fff' : '#9009';
+    $('body').css('background-color', backgroundColor);
+
+    // Flip the state for the next click
+    isBodyToggled = !isBodyToggled;
+  });
+
 /* Task 4 --------------------------------------------------------------------------------------- */
 
 // There is no initial provided code.

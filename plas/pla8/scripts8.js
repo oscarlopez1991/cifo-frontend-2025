@@ -15,6 +15,11 @@ function testCdn() {
 
 /* Task 2 solution ------------------------------------------------------------------------------ */
 
+// Add class killed to id "task21" of element bill in index8.html
+$('#task21 li:contains("Bill")').addClass('killed');
+// Remove killed class of list id "task22" elements in index8.html
+$('#task22 li').removeClass('killed');
+
 /* Task 3 --------------------------------------------------------------------------------------- */
 
 // There is no initial provided code.

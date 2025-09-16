@@ -56,6 +56,77 @@
 
     <!-- Task 6 -------------------------------------------------------------------------------- -->
     <h2>6. Validació de formularis</h2>
-    <p>Poseu aquí la vostra resposta...</p>
+    <p>
+      La validació de formularis amb jQuery és el procés de comprovar les dades que un usuari ha
+      introduït en un formulari abans d'enviar-les al servidor, utilitzant la llibreria jQuery per
+      facilitar la tasca. L'objectiu és assegurar-se que la informació és correcta, completa i té el
+      format adequat (per exemple, que un email sembli un email). Això millora l'experiència de
+      l'usuari, ja que rep una resposta immediata sense haver de recarregar la pàgina.
+    </p>
+
+    <h4>Passos per implementar-la:</h4>
+    <ol>
+      <li>
+        <strong>Interceptar l'enviament del formulari:</strong> S'utilitza el mètode
+        <code>.on('submit', ...)</code> de jQuery per executar una funció just quan l'usuari intenta
+        enviar el formulari.
+      </li>
+      <li>
+        <strong>Prevenir l'enviament per defecte:</strong> Dins de la funció, la primera cosa que es
+        fa és cridar <code>event.preventDefault()</code>. Això atura l'enviament normal del
+        formulari, donant-nos temps per validar les dades.
+      </li>
+      <li>
+        <strong>Validar cada camp:</strong> Es comprova el valor de cada camp (<code>.val()</code>)
+        per veure si compleix les regles necessàries (no està buit, té un format correcte, etc.).
+      </li>
+      <li>
+        <strong>Mostrar feedback a l'usuari:</strong> Si una dada és incorrecta, es mostra un
+        missatge d'error a prop del camp i se li pot afegir una classe (p. ex.,
+        <code>.addClass('error')</code>) per ressaltar-lo en vermell. Si tot és correcte, es pot
+        enviar el formulari manualment o mitjançant AJAX.
+      </li>
+    </ol>
+
+    <h4>Beneficis d'utilitzar jQuery:</h4>
+    <ul>
+      <li>
+        <strong>Simplicitat:</strong> Facilita enormement la selecció d'elements del DOM i la
+        manipulació de classes i contingut per mostrar missatges d'error.
+      </li>
+      <li>
+        <strong>Compatibilitat:</strong> jQuery gestiona les inconsistències entre diferents
+        navegadors, assegurant que el codi funcioni de la mateixa manera a tot arreu.
+      </li>
+      <li>
+        <strong>Integració amb AJAX:</strong> És molt senzill enviar les dades del formulari de
+        forma asíncrona amb <code>$.ajax()</code> un cop la validació ha estat superada.
+      </li>
+    </ul>
+
+    <h4>Alternatives actuals (sense jQuery):</h4>
+    <p>
+      Avui dia, jQuery ja no és tan necessari per a aquesta tasca. Les alternatives més comunes són:
+    </p>
+    <ul>
+      <li>
+        <strong>Validació nativa d'HTML5:</strong> És l'opció més senzilla i recomanada. Només cal
+        afegir atributs als camps del formulari, com <code>required</code> (per a camps
+        obligatoris), <code>type="email"</code> (per validar el format d'email),
+        <code>pattern="..."</code> (per a expressions regulars), <code>minlength</code>, etc. El
+        navegador s'encarrega de la validació i de mostrar els missatges d'error de forma
+        automàtica.
+      </li>
+      <li>
+        <strong>JavaScript pur (Vanilla JS):</strong> Amb les millores del llenguatge, ara és molt
+        més fàcil fer el mateix que fèiem amb jQuery utilitzant
+        <code>document.querySelector()</code> i <code>element.addEventListener()</code>.
+      </li>
+      <li>
+        <strong>Llibreries de validació:</strong> Existeixen llibreries modernes i lleugeres
+        especialitzades en validació, com <strong>Parsley.js</strong> o
+        <strong>Just-Validate</strong>, que ofereixen molta potència amb poc codi.
+      </li>
+    </ul>
   </body>
 </html>

@@ -84,13 +84,87 @@
       l'emmagatzematge local d'informació.
     </p>
 
-    <p>Aquí la vostra resposta...</p>
+    <p>
+      L'emmagatzematge local (<em>local storage</em>) ofereix diversos avantatges clau per al
+      desenvolupament d'aplicacions web modernes:
+    </p>
+    <ul>
+      <li>
+        <strong>Persistència de dades:</strong> La informació guardada al local storage es manté de
+        forma indefinida al navegador de l'usuari, fins i tot si tanca la pestanya, el navegador o
+        reinicia l'ordinador. Les dades només s'esborren si es fa de manera explícita.
+      </li>
+      <li>
+        <strong>Millora del rendiment:</strong> Accedir a les dades des del local storage és
+        extremadament ràpid, ja que no requereix cap petició a la xarxa. Això permet que les
+        aplicacions carreguin més de pressa i se sentin més àgils, especialment per desar
+        preferències de l'usuari com el tema (clar/fosc) o l'idioma.
+      </li>
+      <li>
+        <strong>Funcionalitat offline:</strong> Permet que una aplicació web pugui funcionar sense
+        connexió a Internet. Es poden guardar dades essencials localment i, un cop es recuperi la
+        connexió, sincronitzar-les amb el servidor.
+      </li>
+      <li>
+        <strong>Reducció de la càrrega del servidor:</strong> En guardar informació no crítica al
+        client, es redueix el nombre de peticions al servidor, estalviant amplada de banda i
+        recursos.
+      </li>
+      <li>
+        <strong>Major capacitat:</strong> Ofereix una capacitat d'emmagatzematge molt més gran
+        (típicament 5-10 MB per domini) en comparació amb les cookies (que només permeten uns 4 KB).
+      </li>
+    </ul>
 
     <p class="question">
       Expliqueu de manera molt detallada què fa el codi de cada una d'aquestes parts.
     </p>
 
-    <p>Aquí la vostra resposta...</p>
+    <h4>Part 2.1: Configuració inicial dels botons</h4>
+    <ul>
+      <li>
+        <code>document.querySelectorAll('.btn').forEach(...)</code>: Aquesta línia selecciona tots
+        els botons (elements amb la classe <code>.btn</code>) i itera sobre cadascun. Per a cada
+        botó, estableix el seu color de fons perquè coincideixi amb el seu contingut de text (p.
+        ex., el botó amb text "#800" es torna de color #800).
+      </li>
+      <li>
+        <code>document.querySelector('.buttons').addEventListener(...)</code>: Aquesta línia aplica
+        un únic detector d'esdeveniments (<em>event listener</em>) al contenidor pare dels botons
+        (el <code>div</code> amb la classe <code>.buttons</code>). Aquesta tècnica, coneguda com a
+        <strong>delegació d'esdeveniments</strong> (<em>event delegation</em>), és més eficient que
+        afegir un detector a cada botó individualment. Escolta els clics que "bombollegen" des dels
+        botons fills cap al pare.
+      </li>
+    </ul>
+
+    <h4>Part 2.2: Funció <code>changeBackground</code></h4>
+    <p>
+      Aquesta funció s'executa cada vegada que es fa clic dins del contenidor <code>.buttons</code>.
+    </p>
+    <ul>
+      <li>
+        <code>if (e.target.classList.contains('btn'))</code>: Comprova si l'element que ha rebut el
+        clic (<code>e.target</code>) és realment un botó (té la classe <code>.btn</code>). Això
+        evita que el codi s'executi si es fa clic a l'espai buit entre els botons.
+      </li>
+      <li>
+        <code>document.body.style.background = e.target.textContent + '6';</code>: Si s'ha fet clic
+        en un botó, aquesta línia canvia el color de fons de tota la pàgina. Agafa el text del botó
+        (p. ex., "#800") i hi afegeix un '6' al final, creant un color hexadecimal de 4 dígits amb
+        transparència (p. ex., "#8006").
+      </li>
+      <li>
+        <code>saveBackgroundColor();</code>: Crida la funció que s'encarregarà de guardar el nou
+        color de fons a l'emmagatzematge local del navegador.
+      </li>
+      <li>
+        <code>e.preventDefault();</code>: Com que els botons són enllaços (<code
+          >&lt;a href="#"&gt;</code
+        >), aquesta línia evita el seu comportament per defecte, que seria fer saltar la pàgina a la
+        part superior.
+      </li>
+    </ul>
 
     <!-- Task 3 -------------------------------------------------------------------------------- -->
     <h2>3. Classes i mòduls</h2>

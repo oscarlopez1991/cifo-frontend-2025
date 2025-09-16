@@ -56,10 +56,25 @@ console.log('Setup done');
 /* Task 2 solution ------------------------------------------------------------------------------ */
 
 function saveBackgroundColor() {
-  // 🤔 I should save something somewhere...
+  // Get the current background color from the body's inline style
+  const currentBackgroundColor = document.body.style.background;
+  // Save it to localStorage with a specific key
+  localStorage.setItem('userBackgroundColor', currentBackgroundColor);
 }
 
-// 🤔 Oh wait... and I should do something sometime with that something saved somewhere...
+// This function will run when the page loads to check for a saved color
+function loadAndApplyBackgroundColor() {
+  // Retrieve the saved color from localStorage using the same key
+  const savedColor = localStorage.getItem('userBackgroundColor');
+
+  // If a color was found in localStorage, apply it to the body
+  if (savedColor) {
+    document.body.style.background = savedColor;
+  }
+}
+
+// Run the function to apply the saved color as soon as the script loads
+loadAndApplyBackgroundColor();
 
 /* Task 3 provided code (do NOT modify anything) ------------------------------------------------ */
 

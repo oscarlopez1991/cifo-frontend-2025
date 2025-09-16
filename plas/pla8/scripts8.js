@@ -57,6 +57,31 @@ $('#task3')
 
 /* Task 4 solution ------------------------------------------------------------------------------ */
 
+function ajaxPokemon() {
+  const pokemonName = 'charmeleon';
+  const apiUrl = `https://pokeapi.co/api/v2/pokemon/${pokemonName}`;
+
+  $.ajax({
+    url: apiUrl,
+    method: 'GET',
+    success: function (data) {
+      // The raw abilities array from the API
+      const abilitiesArray = data.abilities;
+
+      // Convert the JavaScript array of objects into a formatted JSON string
+      // The third argument '2' makes it nicely indented and readable
+      const abilitiesJSON = JSON.stringify(abilitiesArray, null, 2);
+
+      // Display the formatted JSON string directly in the .task4 div
+      $('.task4').text(abilitiesJSON);
+    },
+    error: function (xhr, status, error) {
+      // Log an error message if the request fails
+      $('.task4').text(`Failed to fetch Pokémon data: ${status} ${error}`);
+    },
+  });
+}
+
 /* Task 5 --------------------------------------------------------------------------------------- */
 
 // There is no initial provided code.
@@ -67,5 +92,5 @@ $('#task3')
 
 document.addEventListener('DOMContentLoaded', () => {
   testCdn();
-  // ajaxPokemon();
+  ajaxPokemon();
 });

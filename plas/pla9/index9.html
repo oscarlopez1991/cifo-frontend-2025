@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="styles9.css" rel="stylesheet" type="text/css" />
+    <script src="scripts9.js" type="module"></script>
+    <title>PLA 9 - Nom Cognom</title>
+  </head>
+  <body>
+    <header>
+      <h1>PLA 9: JavaScript avançat i fonaments de TypeScript</h1>
+    </header>
+
+    <!-- Task 1 ---------------------------------------------------------------------------- -->
+    <h2>1. Spread, rest i destructuring objects</h2>
+
+    <p class="question">Expliqueu de manera entenedora per què es produeix aquest error...</p>
+
+    <p>
+      L'error es produeix perquè la funció <code>chooseBetween(artist1, artist2)</code> espera rebre
+      <strong>dos arguments separats</strong>, però se li està passant un de sol: l'array
+      <code>artists</code> sencer.
+    </p>
+    <p>
+      Dins de la funció, el paràmetre <code>artist1</code> rep l'array complet
+      <code>[{ name: 'Miquel' }, { name: 'David' }]</code>, mentre que el paràmetre
+      <code>artist2</code> queda com a <code>undefined</code>.
+    </p>
+    <p>
+      Quan el codi intenta accedir a <code>artist1.name</code> o <code>artist2.name</code>, falla.
+      En el primer cas, perquè un array no té la propietat <code>name</code>. En el segon cas,
+      perquè intentar accedir a una propietat de <code>undefined</code> llança un error de tipus
+      (<code>TypeError</code>). La solució és fer servir l'operador
+      <em>spread</em> (<code>...</code>) per "desempaquetar" l'array en arguments individuals:
+      <code>chooseBetween(...artists)</code>.
+    </p>
+
+    <p class="question">Quin mecanisme s'està aplicant a les dues primeres línies?</p>
+
+    <p>
+      El mecanisme que s'està aplicant és l'<strong>assignació per desestructuració</strong> (<em
+        >destructuring assignment</em
+      >), una característica de JavaScript modern que permet extreure dades d'arrays o objectes
+      d'una manera molt més neta i concisa.
+    </p>
+    <ul>
+      <li>
+        A la primera línia, <code>const [a1, a2, a3] = artists;</code>, s'aplica la
+        <strong>desestructuració d'arrays</strong>. Aquesta sintaxi "desempaqueta" els valors de
+        l'array <code>artists</code> i els assigna a les variables <code>a1</code>,
+        <code>a2</code> i <code>a3</code> segons la seva posició. És l'equivalent a fer:
+        <br />
+        <code>const a1 = artists[0];</code><br />
+        <code>const a2 = artists[1];</code><br />
+        <code>const a3 = artists[2];</code>
+      </li>
+      <li>
+        A la segona línia, <code>const {name, art} = a2;</code>, s'aplica la
+        <strong>desestructuració d'objectes</strong>. Aquesta sintaxi extreu les propietats de
+        l'objecte <code>a2</code> i crea noves variables amb el mateix nom que les propietats. És
+        l'equivalent a fer:
+        <br />
+        <code>const name = a2.name;</code><br />
+        <code>const art = a2.art;</code>
+      </li>
+    </ul>
+
+    <!-- Task 2 ---------------------------------------------------------------------------- -->
+    <h2>2. Emmagatzematge local (local storage)</h2>
+    <div class="buttons">
+      <a href="#" class="btn">#800</a>
+      <a href="#" class="btn">#080</a>
+      <a href="#" class="btn">#008</a>
+      <a href="#" class="btn">#880</a>
+      <a href="#" class="btn">#808</a>
+      <a href="#" class="btn">#088</a>
+      <a href="#" class="btn">#888</a>
+    </div>
+
+    <p class="question">
+      Expliqueu de manera entenedora quins són els principals avantatges que ofereix
+      l'emmagatzematge local d'informació.
+    </p>
+
+    <p>Aquí la vostra resposta...</p>
+
+    <p class="question">
+      Expliqueu de manera molt detallada què fa el codi de cada una d'aquestes parts.
+    </p>
+
+    <p>Aquí la vostra resposta...</p>
+
+    <!-- Task 3 -------------------------------------------------------------------------------- -->
+    <h2>3. Classes i mòduls</h2>
+
+    <p class="question">
+      Expliqueu quina és aquesta part i en què es diferencia de la sintaxi que havíem utilitzat fins
+      ara.
+    </p>
+
+    <p>Aquí la vostra resposta...</p>
+
+    <p class="question">
+      Expliqueu de manera clara quina sintaxi cal seguir per definir una classe i quina sintaxi
+      s'utilitza després per crear un objecte d'aquesta classe.
+    </p>
+
+    <p>Aquí la vostra resposta...</p>
+
+    <!-- Task 4 -------------------------------------------------------------------------------- -->
+    <h2>4. Mapatge d'arrays</h2>
+
+    <p class="question">
+      Expliqueu de manera entenedora quina és la diferència entre les anomenades higher-order
+      functions i les first-order functions.
+    </p>
+
+    <p>Aquí la vostra resposta...</p>
+
+    <!-- Task 5 -------------------------------------------------------------------------------- -->
+    <h2>5. TypeScript</h2>
+
+    <p class="question">
+      ...expliqueu la diferència entre aquests dos tipus de llenguatges amb les vostres paraules.
+    </p>
+
+    <p>Aquí la vostra resposta...</p>
+
+    <p class="question">
+      ...expliqueu quins són els principals avantatges de fer servir un llenguatge de tipat estàtic
+      com TypeScript per sobre d'un llenguatge de tipat dinàmic com JavaScript.
+    </p>
+
+    <p>Aquí la vostra resposta...</p>
+
+    <p class="question">
+      ...explicar com funciona a grans trets el procediment per escriure codi TypeScript en un
+      projecte web.
+    </p>
+
+    <p>Aquí la vostra resposta...</p>
+  </body>
+</html>

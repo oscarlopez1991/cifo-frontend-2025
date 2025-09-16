@@ -88,9 +88,22 @@ function ajaxPokemon() {
 
 /* Task 5 solution ------------------------------------------------------------------------------ */
 
+function initializeSlider() {
+  $('#slider').slider({
+    min: 0,
+    max: 42,
+    // This event fires every time the slider moves
+    slide: function (event, ui) {
+      // Log the current value of the slider to the console
+      console.log('Selected value: ' + ui.value);
+    },
+  });
+}
+
 /* DOMContentLoaded ----------------------------------------------------------------------------- */
 
 document.addEventListener('DOMContentLoaded', () => {
   testCdn();
   ajaxPokemon();
+  initializeSlider();
 });

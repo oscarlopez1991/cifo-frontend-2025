@@ -99,6 +99,24 @@ console.log('42 + 3 is ' + addThree(42));
 
 /* Task 3 solution ------------------------------------------------------------------------------ */
 
+// Import from the new stuff.js module
+import Laptop, { formatBytes, capitalize } from './modules/stuff.js';
+
+console.log('--- Using stuff.js module ---');
+
+// 1. Create an instance of the Laptop class
+const myLaptop = new Laptop('Apple', 'MacBook Pro', 16);
+console.log('Initial specs:', myLaptop.getSpecs());
+
+// 2. Use a method to update a property
+myLaptop.upgradeRam(32);
+console.log('Upgraded specs:', myLaptop.getSpecs());
+
+// 3. Use the utility functions
+const fileSize = 1572864; // 1.5 MB
+console.log(`File size: ${formatBytes(fileSize)}`);
+console.log(`Capitalized word: ${capitalize('hello')}`);
+
 /* Task 4 provided code (do NOT modify anything) ------------------------------------------------ */
 
 const people = [

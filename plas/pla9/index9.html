@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="styles9.css" rel="stylesheet" type="text/css" />
     <script src="scripts9.js" type="module"></script>
-    <title>PLA 9 - Nom Cognom</title>
+    <title>PLA 9 - Oscar Lopez</title>
   </head>
   <body>
     <header>
@@ -174,14 +174,78 @@
       ara.
     </p>
 
-    <p>Aquí la vostra resposta...</p>
+    <p>
+      La part clau és l'atribut <code>type="module"</code> a l'etiqueta <code>&lt;script&gt;</code>.
+      Aquesta és la sintaxi que habilita l'ús de mòduls natius de JavaScript (ES6).
+    </p>
+    <p>
+      La diferència principal amb la sintaxi anterior (sense <code>type="module"</code>) és com es
+      gestiona l'àmbit (scope) de les variables i funcions:
+    </p>
+    <ul>
+      <li>
+        <strong>Scripts tradicionals:</strong> Les variables declarades en un arxiu són globals, la
+        qual cosa significa que poden xocar amb variables d'altres arxius si tenen el mateix nom.
+      </li>
+      <li>
+        <strong>Mòduls:</strong> Cada arxiu té el seu propi àmbit privat. Les variables no són
+        accessibles des de fora, tret que s'exportin explícitament amb <code>export</code> i
+        s'importin en un altre arxiu amb <code>import</code>. Això evita conflictes i fa que el codi
+        sigui més organitzat i reutilitzable.
+      </li>
+    </ul>
+
+    <p><strong>Altres diferències clau:</strong></p>
+    <ul>
+      <li>
+        <strong>Comportament de càrrega (<code>defer</code>):</strong> Aquesta és una diferència
+        fonamental. Els mòduls es comporten com si tinguessin l'atribut <code>defer</code>
+        <strong>per defecte</strong>. Això significa que el navegador els descarrega en paral·lel
+        mentre continua analitzant l'HTML, i només els executa un cop l'anàlisi de la pàgina ha
+        acabat. En canvi, els scripts tradicionals són bloquejants per defecte: aturen l'anàlisi de
+        l'HTML, descarreguen el script, l'executen i després continuen, la qual cosa és molt pitjor
+        per al rendiment.
+      </li>
+      <li>
+        <strong>Mode estricte (Strict Mode):</strong> Els mòduls s'executen sempre en mode estricte
+        de JavaScript (<code>'use strict'</code>) de manera automàtica. Això ajuda a prevenir errors
+        comuns i promou millors pràctiques de codificació. En els scripts tradicionals, cal activar
+        el mode estricte manualment.
+      </li>
+    </ul>
 
     <p class="question">
       Expliqueu de manera clara quina sintaxi cal seguir per definir una classe i quina sintaxi
       s'utilitza després per crear un objecte d'aquesta classe.
     </p>
 
-    <p>Aquí la vostra resposta...</p>
+    <p>
+      Una <strong>classe</strong> és com un plànol o una plantilla per crear objectes. Un
+      <strong>objecte</strong> és la instància concreta creada a partir d'aquesta plantilla.
+    </p>
+    <p><strong>Sintaxi per definir una classe (la plantilla):</strong></p>
+    <ul>
+      <li>
+        S'utilitza la paraula clau <code>class</code> seguida del nom (p. ex.,
+        <code>class Person</code>).
+      </li>
+      <li>
+        A dins, es defineix un mètode especial anomenat <code>constructor</code>, que inicialitza
+        les propietats que tindrà cada objecte (<code>this.name = name;</code>).
+      </li>
+      <li>
+        També es poden definir altres mètodes (funcions) que els objectes podran executar, com ara
+        <code>greet()</code>.
+      </li>
+    </ul>
+    <p><strong>Sintaxi per crear un objecte (la instància):</strong></p>
+    <ul>
+      <li>
+        S'utilitza la paraula clau <code>new</code> seguida del nom de la classe i els arguments que
+        necessita el seu constructor. Per exemple:
+        <code>const albert = new Person('Albert', ...);</code>.
+      </li>
+    </ul>
 
     <!-- Task 4 -------------------------------------------------------------------------------- -->
     <h2>4. Mapatge d'arrays</h2>

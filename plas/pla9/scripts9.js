@@ -391,17 +391,27 @@ console.log('Task 4 ---------------------------------------');
 
 /* Task 4 solution ------------------------------------------------------------------------------ */
 
-const numberOfFriends = null; // replace null with your expression
+// It will return the total number of friends of all people
+const numberOfFriends = people.map((x) => x.friends.length).reduce((a, b) => a + b, 0);
 console.log(numberOfFriends);
 
-const emailDomains = null; // replace null with your expression
+// It will return a list of all email domains (the part after the '@')
+const emailDomains = people.map((x) => x.email.split('@')[1]);
 console.log(emailDomains);
 
-const favoriteFruits = null; // replace null with your expression
+// It will return a list of all unique favorite fruits ordered alphabetically
+const favoriteFruits = [...new Set(people.map((x) => x.favoriteFruit))].sort();
 console.log(favoriteFruits);
 
-const averageAge = null; // replace null with your expression
-console.log(averageAge);
+// It will return the average age of all people rounded at two decimals
+const averageAge = people.map((x) => x.age).reduce((a, b) => a + b, 0) / people.length;
+console.log(averageAge.toFixed(2));
 
-const richPeople = null; // replace null with your expression
+// It will return true if the average balance of all people is greater than $2500
+const richPeople =
+  people
+    .map((p) => parseFloat(p.balance.replace('$', '').replace(',', '')))
+    .reduce((sum, balance) => sum + balance, 0) /
+    people.length >
+  2500;
 console.log(richPeople);

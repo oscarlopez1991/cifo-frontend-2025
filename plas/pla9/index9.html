@@ -255,7 +255,41 @@
       functions i les first-order functions.
     </p>
 
-    <p>Aquí la vostra resposta...</p>
+    <p>
+      La distinció entre aquests dos tipus de funcions és senzilla i es basa en si poden operar amb
+      altres funcions o no. Una funció pot rebre dades (com números o text) com a paràmetres, però
+      algunes funcions especials també poden rebre altres funcions com a paràmetres. Aquesta és la
+      diferència clau.
+    </p>
+    <ul>
+      <li>
+        <strong>First-Order Functions (Funcions de Primer Ordre):</strong> Són les funcions
+        "normals" o bàsiques. Són aquelles que <strong>NO</strong> accepten altres funcions com a
+        arguments ni retornen una funció com a resultat. Només operen amb dades simples com números,
+        strings, objectes, etc.
+      </li>
+      <li>
+        <strong>Higher-Order Functions (Funcions d'Ordre Superior):</strong> Són funcions que operen
+        amb altres funcions. Per ser considerada d'ordre superior, una funció ha de complir
+        <strong>almenys una</strong> d'aquestes dues condicions:
+        <ol>
+          <li>
+            Acceptar una o més funcions com a argument (aquestes funcions s'anomenen "callbacks").
+          </li>
+          <li>Retornar una funció com a resultat.</li>
+        </ol>
+      </li>
+    </ul>
+    <p>
+      Exemples molt comuns de funcions d'ordre superior són els mètodes d'array com
+      <code>.map()</code>, <code>.filter()</code> i <code>.reduce()</code>. Quan escrivim
+      <code>array.map(item => item.name)</code>, la funció <code>.map()</code> és d'ordre superior
+      perquè està acceptant una altra funció (arrow function) com a argument per decidir com ha de
+      transformar cada element. Un altre exemple clar és
+      <code>element.addEventListener('click', myFunction)</code>, on
+      <code>addEventListener</code> és una funció d'ordre superior perquè accepta la funció
+      <code>myFunction</code> com a argument.
+    </p>
 
     <!-- Task 5 -------------------------------------------------------------------------------- -->
     <h2>5. TypeScript</h2>

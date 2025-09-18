@@ -298,20 +298,92 @@
       ...expliqueu la diferència entre aquests dos tipus de llenguatges amb les vostres paraules.
     </p>
 
-    <p>Aquí la vostra resposta...</p>
+    <p>
+      La diferència principal rau en <strong>quan</strong> es comprova el tipus de dades d'una
+      variable (si és un número, un text, etc.).
+    </p>
+    <ul>
+      <li>
+        <strong>Llenguatges de Tipat Dinàmic (com JavaScript):</strong> El tipus d'una variable es
+        comprova <strong>durant l'execució</strong> del programa. Això vol dir que una mateixa
+        variable pot canviar de tipus lliurement. Per exemple, en JavaScript podem fer
+        <code>let dades = 10;</code> i, més tard, <code>dades = 'Hola';</code> sense cap problema.
+        L'inconvenient és que els errors de tipus (com intentar fer una operació matemàtica amb un
+        text) només apareixen quan el codi ja s'està executant.
+      </li>
+      <li>
+        <strong>Llenguatges de Tipat Estàtic (com TypeScript):</strong> El tipus d'una variable es
+        comprova <strong>abans d'executar el programa</strong>, durant la fase de desenvolupament o
+        compilació. Un cop declares una variable d'un tipus, no pot canviar. Per exemple, en
+        TypeScript, si fem <code>let dades: number = 10;</code> i després intentem fer
+        <code>dades = 'Hola';</code>, l'editor de codi ens mostrarà un error immediatament, abans
+        fins i tot de provar el programa al navegador.
+      </li>
+    </ul>
 
     <p class="question">
       ...expliqueu quins són els principals avantatges de fer servir un llenguatge de tipat estàtic
       com TypeScript per sobre d'un llenguatge de tipat dinàmic com JavaScript.
     </p>
 
-    <p>Aquí la vostra resposta...</p>
+    <p>
+      Fer servir un llenguatge de tipat estàtic com TypeScript ofereix avantatges molt importants,
+      especialment en projectes mitjans i grans:
+    </p>
+    <ul>
+      <li>
+        <strong>Detecció d'errors primerenca:</strong> És l'avantatge principal. Els errors de tipus
+        es detecten durant el desenvolupament, no en producció. Això evita una categoria sencera de
+        bugs que podrien afectar els usuaris finals.
+      </li>
+      <li>
+        <strong>Millora de l'autocompletat (IntelliSense):</strong> Com que l'editor sap exactament
+        de quin tipus és cada variable i objecte, pot oferir suggeriments molt més precisos i útils,
+        accelerant el desenvolupament i reduint la necessitat de consultar documentació.
+      </li>
+      <li>
+        <strong>Codi més llegible i mantenible:</strong> Els tipus explícits actuen com a
+        autodocumentació. Una funció com <code>calculaPreu(quantitat: number)</code> deixa clar què
+        espera rebre, facilitant el treball en equip i el manteniment del codi a llarg termini.
+      </li>
+      <li>
+        <strong>Refactorització més segura:</strong> Si necessites canviar el nom d'una propietat en
+        un objecte, el compilador de TypeScript t'avisarà de tots els llocs del codi on has de fer
+        el canvi. Fer això en JavaScript és molt més arriscat i propens a errors.
+      </li>
+    </ul>
 
     <p class="question">
       ...explicar com funciona a grans trets el procediment per escriure codi TypeScript en un
       projecte web.
     </p>
 
-    <p>Aquí la vostra resposta...</p>
+    <p>
+      El procediment es basa en un pas clau anomenat <strong>transpilació</strong>, ja que els
+      navegadors web <strong>no entenen TypeScript</strong>, només entenen JavaScript.
+    </p>
+    <p>
+      Per tant, no podem simplement canviar l'extensió a <code>.ts</code> i enllaçar aquest arxiu a
+      l'HTML amb <code>&lt;script src="app.ts"&gt;</code>. Si ho féssim, el navegador intentaria
+      llegir codi TypeScript com si fos JavaScript i donaria errors de sintaxi.
+    </p>
+    <p>El flux de treball correcte és el següent:</p>
+    <ol>
+      <li>
+        <strong>Escriure el codi:</strong> Escrivim el nostre codi en arxius amb extensió
+        <code>.ts</code>, aprofitant tots els avantatges del tipat estàtic.
+      </li>
+      <li>
+        <strong>Transpilar el codi:</strong> Utilitzem una eina, com el compilador de TypeScript
+        (<code>tsc</code>), que llegeix els nostres arxius <code>.ts</code> i els "tradueix" a
+        arxius equivalents en JavaScript (<code>.js</code>) que qualsevol navegador pot entendre.
+        Aquest procés també comprova que no hi hagi errors de tipus.
+      </li>
+      <li>
+        <strong>Enllaçar el codi resultant:</strong> Al nostre document HTML, enllacem l'arxiu
+        JavaScript (<code>.js</code>) que ha estat generat durant la transpilació, no l'arxiu
+        TypeScript original.
+      </li>
+    </ol>
   </body>
 </html>

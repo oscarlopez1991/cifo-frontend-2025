@@ -1,6 +1,6 @@
-import { loadNavbar } from './components/Navbar/Navbar.js';
-import { loadFooter } from './components/Footer/Footer.js';
-import { loadHomePage } from './pages/Home/Home.js';
+import { loadNavbar } from '../components/Navbar/Navbar.js';
+import { loadFooter } from '../components/Footer/Footer.js';
+import { loadHomePage } from '../pages/Home/Home.js';
 
 // This function renders the shared layout components
 const renderLayout = () => {

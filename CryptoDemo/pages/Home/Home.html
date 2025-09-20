@@ -1,0 +1,313 @@
+<!-- Hero Section -->
+<section
+  class="bg-gradient-to-br from-blue-900 via-gray-900 to-black text-white"
+>
+  <div class="max-w-screen-xl mx-auto px-4 py-16 lg:py-24">
+    <div class="text-center">
+      <h1
+        class="mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl lg:text-6xl"
+      >
+        Track Your <span class="text-blue-400">Crypto</span> Journey
+      </h1>
+      <p
+        class="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48"
+      >
+        Real-time cryptocurrency tracking, market analysis, and portfolio
+        management. Stay ahead of the market with our comprehensive crypto
+        dashboard.
+      </p>
+      <div
+        class="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4"
+      >
+        <button
+          id="start-tracking-btn"
+          class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900"
+        >
+          Start Tracking
+          <svg
+            class="w-3.5 h-3.5 ms-2 rtl:rotate-180"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 14 10"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M1 5h12m0 0L9 1m4 4L9 9"
+            />
+          </svg>
+        </button>
+        <button
+          id="view-demo-btn"
+          class="inline-flex justify-center items-center py-3 px-5 sm:ms-4 text-base font-medium text-center text-gray-900 rounded-lg border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
+        >
+          View Demo
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Crypto Stats Section -->
+<section class="bg-white dark:bg-gray-900">
+  <div class="max-w-screen-xl px-4 py-8 mx-auto lg:py-16">
+    <div class="text-center mb-8">
+      <h2 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white">
+        Your Favorite Cryptocurrencies
+      </h2>
+      <p class="text-gray-500 dark:text-gray-400">
+        Track your preferred cryptocurrencies in real-time
+      </p>
+    </div>
+
+    <!-- Crypto Cards Container -->
+    <div
+      id="crypto-cards-container"
+      class="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+    >
+      <!-- Bitcoin Card -->
+      <div
+        class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300 dark:bg-gray-700"
+      >
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-xl font-bold text-gray-900 dark:text-white">
+            Bitcoin
+          </h3>
+          <span class="text-sm text-gray-500 dark:text-gray-400 uppercase"
+            >BTC</span
+          >
+        </div>
+
+        <div class="mb-4">
+          <p
+            id="btc-price"
+            class="text-2xl font-bold text-gray-900 dark:text-white"
+          >
+            $43,250.75
+          </p>
+          <p id="btc-change" class="text-sm text-green-600 font-medium">
+            +2.34% (24h)
+          </p>
+        </div>
+
+        <div
+          class="flex justify-between items-center text-sm text-gray-500 dark:text-gray-400"
+        >
+          <span>24h Range</span>
+          <span id="btc-range"> $42,800.25 - $44,100.00 </span>
+        </div>
+
+        <!-- Mini Chart Placeholder -->
+        <div
+          class="mt-4 h-16 bg-gray-100 dark:bg-gray-600 rounded flex items-center justify-center"
+        >
+          <span class="text-xs text-gray-500 dark:text-gray-400"
+            >Chart coming soon</span
+          >
+        </div>
+      </div>
+
+      <!-- Ethereum Card -->
+      <div
+        class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300 dark:bg-gray-700"
+      >
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-xl font-bold text-gray-900 dark:text-white">
+            Ethereum
+          </h3>
+          <span class="text-sm text-gray-500 dark:text-gray-400 uppercase"
+            >ETH</span
+          >
+        </div>
+
+        <div class="mb-4">
+          <p
+            id="eth-price"
+            class="text-2xl font-bold text-gray-900 dark:text-white"
+          >
+            $2,687.43
+          </p>
+          <p id="eth-change" class="text-sm text-red-500 font-medium">
+            -1.23% (24h)
+          </p>
+        </div>
+
+        <div
+          class="flex justify-between items-center text-sm text-gray-500 dark:text-gray-400"
+        >
+          <span>24h Range</span>
+          <span id="eth-range"> $2,650.15 - $2,750.80 </span>
+        </div>
+
+        <!-- Mini Chart Placeholder -->
+        <div
+          class="mt-4 h-16 bg-gray-100 dark:bg-gray-600 rounded flex items-center justify-center"
+        >
+          <span class="text-xs text-gray-500 dark:text-gray-400"
+            >Chart coming soon</span
+          >
+        </div>
+      </div>
+
+      <!-- Ripple Card -->
+      <div
+        class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300 dark:bg-gray-700"
+      >
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-xl font-bold text-gray-900 dark:text-white">
+            Ripple
+          </h3>
+          <span class="text-sm text-gray-500 dark:text-gray-400 uppercase"
+            >XRP</span
+          >
+        </div>
+
+        <div class="mb-4">
+          <p
+            id="xrp-price"
+            class="text-2xl font-bold text-gray-900 dark:text-white"
+          >
+            $0.6234
+          </p>
+          <p id="xrp-change" class="text-sm text-green-600 font-medium">
+            +5.67% (24h)
+          </p>
+        </div>
+
+        <div
+          class="flex justify-between items-center text-sm text-gray-500 dark:text-gray-400"
+        >
+          <span>24h Range</span>
+          <span id="xrp-range"> $0.5987 - $0.6456 </span>
+        </div>
+
+        <!-- Mini Chart Placeholder -->
+        <div
+          class="mt-4 h-16 bg-gray-100 dark:bg-gray-600 rounded flex items-center justify-center"
+        >
+          <span class="text-xs text-gray-500 dark:text-gray-400"
+            >Chart coming soon</span
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="bg-gray-50 dark:bg-gray-800">
+  <div class="max-w-screen-xl px-4 py-8 mx-auto lg:py-16">
+    <div class="text-center mb-8">
+      <h2 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white">
+        Why Choose Crypto Demo?
+      </h2>
+    </div>
+
+    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <!-- Real-time Data -->
+      <div class="bg-white rounded-lg shadow-lg p-6 dark:bg-gray-700">
+        <div
+          class="flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-blue-100 lg:h-12 lg:w-12 dark:bg-blue-900"
+        >
+          <svg
+            class="w-5 h-5 text-blue-600 lg:w-6 lg:h-6 dark:text-blue-300"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+        </div>
+        <h3 class="mb-2 text-xl font-bold dark:text-white">Real-time Data</h3>
+        <p class="text-gray-500 dark:text-gray-400">
+          Get live cryptocurrency prices and market data updated in real-time
+          from CoinGecko API.
+        </p>
+      </div>
+
+      <!-- Portfolio Tracking -->
+      <div class="bg-white rounded-lg shadow-lg p-6 dark:bg-gray-700">
+        <div
+          class="flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-green-100 lg:h-12 lg:w-12 dark:bg-green-900"
+        >
+          <svg
+            class="w-5 h-5 text-green-600 lg:w-6 lg:h-6 dark:text-green-300"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <h3 class="mb-2 text-xl font-bold dark:text-white">Easy Tracking</h3>
+        <p class="text-gray-500 dark:text-gray-400">
+          Track your favorite cryptocurrencies with customizable watchlists and
+          detailed charts.
+        </p>
+      </div>
+
+      <!-- User Friendly -->
+      <div class="bg-white rounded-lg shadow-lg p-6 dark:bg-gray-700">
+        <div
+          class="flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-purple-100 lg:h-12 lg:w-12 dark:bg-purple-900"
+        >
+          <svg
+            class="w-5 h-5 text-purple-600 lg:w-6 lg:h-6 dark:text-purple-300"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"
+            ></path>
+          </svg>
+        </div>
+        <h3 class="mb-2 text-xl font-bold dark:text-white">User Friendly</h3>
+        <p class="text-gray-500 dark:text-gray-400">
+          Clean, intuitive interface designed for both beginners and experienced
+          crypto enthusiasts.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="bg-blue-700 dark:bg-blue-800">
+  <div class="max-w-screen-xl px-4 py-8 mx-auto lg:py-16">
+    <div class="text-center">
+      <h2 class="mb-4 text-3xl font-extrabold text-white">
+        Ready to Start Your Crypto Journey?
+      </h2>
+      <p class="mb-8 text-lg text-blue-100">
+        Join thousands of users who trust Crypto Demo for their cryptocurrency
+        tracking needs.
+      </p>
+      <button
+        id="get-started-btn"
+        class="inline-flex items-center py-3 px-5 text-base font-medium text-center text-blue-700 rounded-lg bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300"
+      >
+        Get Started Now
+        <svg
+          class="w-3.5 h-3.5 ms-2 rtl:rotate-180"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 14 10"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M1 5h12m0 0L9 1m4 4L9 9"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+</section>

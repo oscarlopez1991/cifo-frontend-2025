@@ -17,7 +17,8 @@ const getHeaders = () => {
 export async function fetchTopMarkets(perPage = 100) {
   const url = `${API_BASE}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=${perPage}&page=1&sparkline=false&price_change_percentage=24h`;
   const res = await fetch(url, { headers: getHeaders() });
-  if (!res.ok) throw new Error(`CoinGecko error: ${res.status} ${res.statusText}`);
+  if (!res.ok)
+    throw new Error(`CoinGecko error: ${res.status} ${res.statusText}`);
   const json = await res.json();
 
   return json.map((c) => ({

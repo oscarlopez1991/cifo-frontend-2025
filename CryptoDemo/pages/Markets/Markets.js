@@ -1,4 +1,4 @@
-// ...existing code...
+import { fetchTopMarkets } from '../../services/cryptoService.js';
 /**
  * Loads and displays the markets page content
  */
@@ -18,8 +18,16 @@ export const loadMarketsPage = async () => {
     const html = await response.text();
     appContainer.innerHTML = html;
 
-    // Initialize search, sorting, and pagination
-    initMarketsTable();
+    // Try to load live data; fallback to static rows if it fails
+    let data = null;
+    try {
+      data = await fetchTopMarkets(100);
+    } catch (e) {
+      console.warn('CoinGecko fetch failed, using static rows:', e);
+    }
+
+    // Initialize search, sorting, and pagination with live data (when available)
+    initMarketsTable(data);
   } catch (error) {
     console.error('Error loading markets page:', error);
     appContainer.innerHTML = `
@@ -34,7 +42,7 @@ export const loadMarketsPage = async () => {
 };
 
 // --- Table logic (search + sort + paginate) ---
-const initMarketsTable = () => {
+const initMarketsTable = (coinsData) => {
   const table = document.getElementById('markets-table');
   const tbody = document.getElementById('markets-tbody');
   const searchInput = document.getElementById('market-search');
@@ -44,8 +52,15 @@ const initMarketsTable = () => {
 
   if (!table || !tbody) return;
 
-  // Snapshot original rows to avoid losing data on re-render
-  const originalRows = Array.from(tbody.querySelectorAll('tr')).map((tr) =>
+  // If API data exists, render it into tbody first
+  if (Array.isArray(coinsData) && coinsData.length) {
+    tbody.innerHTML = '';
+    const rows = coinsData.map((c) => createRowFromCoin(c));
+    rows.forEach((tr) => tbody.appendChild(tr));
+  }
+
+  // Snapshot rows for client-side filtering/sorting/pagination
+  let originalRows = Array.from(tbody.querySelectorAll('tr')).map((tr) =>
     tr.cloneNode(true)
   );
 
@@ -164,6 +179,7 @@ const initMarketsTable = () => {
   };
 
   const render = () => {
+    // Always start from the stored snapshot
     let rows = originalRows.slice();
     rows = filterRows(rows);
     const total = rows.length;
@@ -225,3 +241,38 @@ const initMarketsTable = () => {
   // First render
   render();
 };
+
+/**
+ * Create a <tr> element from a coin object returned by the service.
+ */
+function createRowFromCoin(c) {
+  const tr = document.createElement('tr');
+  tr.className =
+    'bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600';
+
+  const isUp = (c.change24h || 0) >= 0;
+  const changeClass = isUp ? 'text-green-500' : 'text-red-500';
+
+  const fmtCurrency = (n) =>
+    n.toLocaleString(undefined, {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 2,
+    });
+  const fmtNumber = (n) =>
+    n.toLocaleString(undefined, { maximumFractionDigits: 0 });
+
+  tr.innerHTML = `
+    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+      <div class="flex items-center">
+        <img class="h-6 w-6 mr-2" src="${c.image}" alt="${c.name}" />
+        ${c.name} (${c.symbol})
+      </div>
+    </th>
+    <td class="px-6 py-4" data-value="${c.price}">${fmtCurrency(c.price)}</td>
+    <td class="px-6 py-4" data-value="${c.marketCap}">${fmtNumber(c.marketCap)}</td>
+    <td class="px-6 py-4 text-blue-600 dark:text-blue-500" data-value="${c.volume24h}">${fmtNumber(c.volume24h)}</td>
+    <td class="px-6 py-4 ${changeClass}" data-value="${c.change24h}">${(c.change24h ?? 0).toFixed(2)}%</td>
+  `;
+  return tr;
+}

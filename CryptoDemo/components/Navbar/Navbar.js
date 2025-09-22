@@ -4,33 +4,37 @@
  * @param {string} pageName - The name of the active page (e.g., 'home').
  */
 export const setActiveNavLink = (pageName) => {
-  // Remove active classes from all links
   const allNavLinks = document.querySelectorAll('.navbar-link');
-  allNavLinks.forEach((link) => {
-    link.classList.remove(
-      'text-white',
-      'bg-blue-700',
-      'md:text-blue-700',
-      'md:dark:text-blue-500'
-    );
-    link.classList.add('text-gray-900', 'dark:text-white');
-    link.removeAttribute('aria-current');
-  });
 
-  // Apply active classes to the current link(s)
-  // Use querySelectorAll because multiple UI elements (e.g., the logo and the "Home" text link)
-  // can point to the same page, and all of them should be managed as active.
-  const activeLinks = document.querySelectorAll(`[data-page="${pageName}"]`);
-  activeLinks.forEach((link) => {
-    link.classList.remove('text-gray-900', 'dark:text-white');
-    link.classList.add(
-      'text-white',
-      'bg-blue-700',
-      'md:bg-transparent',
-      'md:text-blue-700',
-      'md:dark:text-blue-500'
-    );
-    link.setAttribute('aria-current', 'page');
+  // Define the class sets ONCE.
+  const activeClasses = [
+    'bg-blue-700',
+    'text-white',
+    'md:bg-transparent',
+    'md:text-blue-700',
+    'dark:md:text-blue-500',
+  ];
+  const inactiveClasses = [
+    'text-gray-900',
+    'dark:text-white',
+    'hover:bg-gray-100',
+    'md:hover:bg-transparent',
+    'md:hover:text-blue-700',
+  ];
+
+  allNavLinks.forEach((link) => {
+    const isLinkActive = link.dataset.page === pageName;
+
+    // Remove all possible classes to ensure a clean slate.
+    link.classList.remove(...activeClasses, ...inactiveClasses);
+    link.removeAttribute('aria-current');
+
+    if (isLinkActive) {
+      link.classList.add(...activeClasses);
+      link.setAttribute('aria-current', 'page');
+    } else {
+      link.classList.add(...inactiveClasses);
+    }
   });
 };
 

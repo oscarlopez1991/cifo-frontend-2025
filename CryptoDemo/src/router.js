@@ -1,9 +1,6 @@
 import { setActiveNavLink } from '../components/Navbar/Navbar.js';
 
 // --- The Route Map ---
-// This is the core of the robust approach. We explicitly map a route name
-// to the function that loads the page. This is safe, clear, and easy to maintain.
-// No more brittle "magic strings".
 const routes = {
   home: async () => {
     const { loadHomePage } = await import('../pages/Home/Home.js');

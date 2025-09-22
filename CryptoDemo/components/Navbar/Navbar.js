@@ -25,10 +25,11 @@ export const setActiveNavLink = (pageName) => {
   allNavLinks.forEach((link) => {
     const isLinkActive = link.dataset.page === pageName;
 
-    // Remove all possible classes to ensure a clean slate.
+    // Remove all possible classes to ensure a clean slate
     link.classList.remove(...activeClasses, ...inactiveClasses);
     link.removeAttribute('aria-current');
 
+    // Apply the appropriate classes based on active state
     if (isLinkActive) {
       link.classList.add(...activeClasses);
       link.setAttribute('aria-current', 'page');

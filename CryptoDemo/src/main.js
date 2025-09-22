@@ -1,17 +1,15 @@
 import { loadNavbar } from '../components/Navbar/Navbar.js';
 import { loadFooter } from '../components/Footer/Footer.js';
-import { loadHomePage } from '../pages/Home/Home.js';
+import { router } from './router.js';
 
 // This function renders the shared layout components
-const renderLayout = () => {
-  loadNavbar();
-  loadFooter();
+const renderLayout = async () => {
+  await loadNavbar();
+  await loadFooter();
 };
 
 // Main execution on page load
-document.addEventListener('DOMContentLoaded', () => {
-  renderLayout();
-
-  // Load the home page content
-  loadHomePage();
+document.addEventListener('DOMContentLoaded', async () => {
+  await renderLayout();
+  router.init();
 });

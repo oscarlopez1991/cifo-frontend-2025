@@ -23,8 +23,8 @@ export const loadMarketsPage = async () => {
     let data = null;
     try {
       data = await fetchTopMarkets(100);
-    } catch (e) {
-      console.warn('CoinGecko fetch failed, using static rows:', e);
+    } catch (error) {
+      console.warn('CoinGecko fetch failed, using static rows:', error);
     }
 
     // Initialize search, sorting, and pagination with live data (when available)
@@ -133,7 +133,7 @@ function renderTable(
   const pageRows = rows.slice(start, start + state.pageSize);
 
   tbody.innerHTML = '';
-  pageRows.forEach((r) => tbody.appendChild(r.cloneNode(true)));
+  pageRows.forEach((tr) => tbody.appendChild(tr.cloneNode(true)));
 
   renderPagination(total);
   updateSortHeaderStyles();
@@ -257,38 +257,42 @@ function getCellValue(tr, key) {
 /**
  * Create a <tr> element from a coin object returned by the service.
  */
-function createRowFromCoin(c) {
+function createRowFromCoin(coinData) {
   const coinRowTemplate = document.getElementById('coin-row-template');
   const coinRowElement =
     coinRowTemplate.content.firstElementChild.cloneNode(true);
 
-  coinRowElement.querySelector('img').src = c.image;
-  coinRowElement.querySelector('img').alt = c.name;
+  coinRowElement.querySelector('img').src = coinData.image;
+  coinRowElement.querySelector('img').alt = coinData.name;
   coinRowElement.querySelector('.coin-name').textContent =
-    `${c.name} (${c.symbol})`;
+    `${coinData.name} (${coinData.symbol})`;
 
   coinRowElement.querySelector('.price').textContent =
-    `$${c.price.toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
+    `$${coinData.price.toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
   coinRowElement.querySelector('.market-cap').textContent =
-    `$${c.marketCap.toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
+    `$${coinData.marketCap.toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
   coinRowElement.querySelector('.volume').textContent =
-    `$${c.volume24h.toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
+    `$${coinData.volume24h.toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
 
   coinRowElement.querySelector('.change').textContent =
-    `${(c.change24h ?? 0).toFixed(2)}%`;
+    `${(coinData.change24h ?? 0).toFixed(2)}%`;
   coinRowElement
     .querySelector('.change')
-    .classList.add((c.change24h ?? 0) >= 0 ? 'text-green-500' : 'text-red-500');
-  coinRowElement.querySelector('.price').setAttribute('data-value', c.price);
+    .classList.add(
+      (coinData.change24h ?? 0) >= 0 ? 'text-green-500' : 'text-red-500'
+    );
+  coinRowElement
+    .querySelector('.price')
+    .setAttribute('data-value', coinData.price);
   coinRowElement
     .querySelector('.market-cap')
-    .setAttribute('data-value', c.marketCap);
+    .setAttribute('data-value', coinData.marketCap);
   coinRowElement
     .querySelector('.volume')
-    .setAttribute('data-value', c.volume24h);
+    .setAttribute('data-value', coinData.volume24h);
   coinRowElement
     .querySelector('.change')
-    .setAttribute('data-value', c.change24h);
+    .setAttribute('data-value', coinData.change24h);
 
   return coinRowElement;
 }

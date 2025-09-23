@@ -254,18 +254,15 @@ function createRowFromCoin(c) {
   coinRowElement.querySelector('img').alt = c.name;
   coinRowElement.querySelector('.coin-name').textContent =
     `${c.name} (${c.symbol})`;
-  coinRowElement.querySelector('.price').textContent = c.price.toLocaleString(
-    undefined,
-    {
-      style: 'currency',
-      currency: 'USD',
-      maximumFractionDigits: 2,
-    }
-  );
+
+  // Always use $ (not US$) and prepend for all three columns
+  coinRowElement.querySelector('.price').textContent =
+    `$${c.price.toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
   coinRowElement.querySelector('.market-cap').textContent =
-    c.marketCap.toLocaleString(undefined, { maximumFractionDigits: 0 });
+    `$${c.marketCap.toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
   coinRowElement.querySelector('.volume').textContent =
-    c.volume24h.toLocaleString(undefined, { maximumFractionDigits: 0 });
+    `$${c.volume24h.toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
+
   coinRowElement.querySelector('.change').textContent =
     `${(c.change24h ?? 0).toFixed(2)}%`;
   coinRowElement

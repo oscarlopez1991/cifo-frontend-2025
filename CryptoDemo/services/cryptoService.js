@@ -13,6 +13,7 @@ export async function fetchTopMarkets(perPage = 100) {
     throw new Error(`CoinGecko error: ${res.status} ${res.statusText}`);
   const json = await res.json();
 
+  // Map to our desired structure
   return json.map((c) => ({
     id: c.id,
     name: c.name,

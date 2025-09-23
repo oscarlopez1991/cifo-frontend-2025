@@ -1,6 +1,9 @@
 <template id="coin-row-template">
   <tr>
-    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+    <th
+      scope="row"
+      class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+    >
       <div class="flex items-center">
         <img class="h-6 w-6 mr-2" src="" alt="" />
         <span class="coin-name"></span>
@@ -11,4 +14,15 @@
     <td class="px-6 py-4 text-blue-600 dark:text-blue-500 volume"></td>
     <td class="px-6 py-4 change"></td>
   </tr>
+</template>
+
+<template id="page-error-template">
+  <div class="text-center py-16">
+    <h1
+      class="text-2xl font-bold text-gray-900 dark:text-white mb-4 error-title"
+    ></h1>
+    <p class="text-gray-500 dark:text-gray-400 error-message">
+      Please refresh the page to try again.
+    </p>
+  </div>
 </template>

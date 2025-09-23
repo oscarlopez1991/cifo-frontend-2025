@@ -8,8 +8,18 @@ const renderLayout = async () => {
   await loadFooter();
 };
 
+// Add at the top of src/main.js
+async function loadTemplates() {
+  const res = await fetch('./utils/templates.html');
+  const html = await res.text();
+  const div = document.createElement('div');
+  div.innerHTML = html;
+  document.body.appendChild(div);
+}
+
 // Main execution on page load
 document.addEventListener('DOMContentLoaded', async () => {
+  await loadTemplates();
   await renderLayout();
   router.init();
 });

@@ -246,33 +246,41 @@ const initMarketsTable = (coinsData) => {
  * Create a <tr> element from a coin object returned by the service.
  */
 function createRowFromCoin(c) {
-  const tr = document.createElement('tr');
-  tr.className =
-    'bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600';
+  const coinRowTemplate = document.getElementById('coin-row-template');
+  const coinRowElement =
+    coinRowTemplate.content.firstElementChild.cloneNode(true);
 
-  const isUp = (c.change24h || 0) >= 0;
-  const changeClass = isUp ? 'text-green-500' : 'text-red-500';
-
-  const fmtCurrency = (n) =>
-    n.toLocaleString(undefined, {
+  coinRowElement.querySelector('img').src = c.image;
+  coinRowElement.querySelector('img').alt = c.name;
+  coinRowElement.querySelector('.coin-name').textContent =
+    `${c.name} (${c.symbol})`;
+  coinRowElement.querySelector('.price').textContent = c.price.toLocaleString(
+    undefined,
+    {
       style: 'currency',
       currency: 'USD',
       maximumFractionDigits: 2,
-    });
-  const fmtNumber = (n) =>
-    n.toLocaleString(undefined, { maximumFractionDigits: 0 });
+    }
+  );
+  coinRowElement.querySelector('.market-cap').textContent =
+    c.marketCap.toLocaleString(undefined, { maximumFractionDigits: 0 });
+  coinRowElement.querySelector('.volume').textContent =
+    c.volume24h.toLocaleString(undefined, { maximumFractionDigits: 0 });
+  coinRowElement.querySelector('.change').textContent =
+    `${(c.change24h ?? 0).toFixed(2)}%`;
+  coinRowElement
+    .querySelector('.change')
+    .classList.add((c.change24h ?? 0) >= 0 ? 'text-green-500' : 'text-red-500');
+  coinRowElement.querySelector('.price').setAttribute('data-value', c.price);
+  coinRowElement
+    .querySelector('.market-cap')
+    .setAttribute('data-value', c.marketCap);
+  coinRowElement
+    .querySelector('.volume')
+    .setAttribute('data-value', c.volume24h);
+  coinRowElement
+    .querySelector('.change')
+    .setAttribute('data-value', c.change24h);
 
-  tr.innerHTML = `
-    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-      <div class="flex items-center">
-        <img class="h-6 w-6 mr-2" src="${c.image}" alt="${c.name}" />
-        ${c.name} (${c.symbol})
-      </div>
-    </th>
-    <td class="px-6 py-4" data-value="${c.price}">${fmtCurrency(c.price)}</td>
-    <td class="px-6 py-4" data-value="${c.marketCap}">${fmtNumber(c.marketCap)}</td>
-    <td class="px-6 py-4 text-blue-600 dark:text-blue-500" data-value="${c.volume24h}">${fmtNumber(c.volume24h)}</td>
-    <td class="px-6 py-4 ${changeClass}" data-value="${c.change24h}">${(c.change24h ?? 0).toFixed(2)}%</td>
-  `;
-  return tr;
+  return coinRowElement;
 }

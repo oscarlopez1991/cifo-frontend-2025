@@ -108,6 +108,7 @@ async function setupAnalyticsPage() {
         legend: { show: false },
       };
       if (chart) chart.destroy();
+      chartContainer.innerHTML = '';
       chart = new window.ApexCharts(chartContainer, options);
       chart.render();
     } catch (err) {

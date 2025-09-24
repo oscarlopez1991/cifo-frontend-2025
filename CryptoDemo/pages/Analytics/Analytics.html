@@ -1,163 +1,43 @@
 <section class="bg-white dark:bg-gray-900 min-h-[60vh]">
-  <div class="max-w-screen-xl mx-auto px-4 py-8 lg:py-16">
-    <!-- Header -->
-    <div class="mb-8 text-center">
-      <h1 class="text-4xl font-extrabold text-gray-900 dark:text-white mb-2">
-        Crypto Analytics
-      </h1>
-      <p class="text-gray-500 dark:text-gray-400">
-        Advanced charts and technical analysis
-      </p>
-    </div>
-    <div class="flex flex-col lg:flex-row gap-8">
-      <!-- Left: Technical Indicators -->
-      <div class="flex-1 flex flex-col gap-6">
-        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-          Technical Indicators
-        </h2>
-        <div class="flex flex-col gap-4">
-          <!-- RSI Popover -->
-          <button
-            data-popover-target="popover-rsi"
-            type="button"
-            class="flex items-center gap-2 px-4 py-2 bg-blue-50 dark:bg-gray-800 rounded-lg shadow hover:bg-blue-100 dark:hover:bg-gray-700 transition"
-          >
-            <span class="font-semibold text-blue-700 dark:text-blue-300"
-              >RSI</span
-            >
-            <svg
-              class="w-4 h-4 text-blue-400"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
-              <path
-                d="M10 3a1 1 0 01.993.883L11 4v12a1 1 0 01-1.993.117L9 16V4a1 1 0 011-1z"
-              />
-            </svg>
-          </button>
+  <div class="max-w-screen-md mx-auto px-4 py-8 lg:py-16">
+    <div
+      class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 max-w-lg mx-auto"
+    >
+      <div class="flex justify-between items-center mb-4">
+        <div>
           <div
-            data-popover
-            id="popover-rsi"
-            role="tooltip"
-            class="absolute z-10 invisible inline-block w-72 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:bg-gray-800 dark:border-gray-600"
+            id="metric-price"
+            class="text-3xl font-bold text-gray-900 dark:text-white"
           >
-            <div class="px-3 py-2.5">
-              <h3 class="font-semibold text-gray-900 dark:text-white mb-1">
-                Relative Strength Index (RSI)
-              </h3>
-              <p>
-                Momentum oscillator measuring speed and change of price
-                movements. Values above 70 = overbought, below 30 = oversold.
-              </p>
-            </div>
-            <div data-popper-arrow></div>
+            --
           </div>
-          <!-- MACD Popover -->
-          <button
-            data-popover-target="popover-macd"
-            type="button"
-            class="flex items-center gap-2 px-4 py-2 bg-green-50 dark:bg-gray-800 rounded-lg shadow hover:bg-green-100 dark:hover:bg-gray-700 transition"
-          >
-            <span class="font-semibold text-green-700 dark:text-green-300"
-              >MACD</span
-            >
-            <svg
-              class="w-4 h-4 text-green-400"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
-              <path
-                d="M10 3a1 1 0 01.993.883L11 4v12a1 1 0 01-1.993.117L9 16V4a1 1 0 011-1z"
-              />
-            </svg>
-          </button>
           <div
-            data-popover
-            id="popover-macd"
-            role="tooltip"
-            class="absolute z-10 invisible inline-block w-72 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:bg-gray-800 dark:border-gray-600"
+            id="metric-change"
+            class="text-base font-medium text-green-500 dark:text-green-400"
           >
-            <div class="px-3 py-2.5">
-              <h3 class="font-semibold text-gray-900 dark:text-white mb-1">
-                MACD
-              </h3>
-              <p>
-                Moving Average Convergence Divergence: trend-following momentum
-                indicator showing relationship between two moving averages.
-              </p>
-            </div>
-            <div data-popper-arrow></div>
-          </div>
-          <!-- MA Popover -->
-          <button
-            data-popover-target="popover-ma"
-            type="button"
-            class="flex items-center gap-2 px-4 py-2 bg-purple-50 dark:bg-gray-800 rounded-lg shadow hover:bg-purple-100 dark:hover:bg-gray-700 transition"
-          >
-            <span class="font-semibold text-purple-700 dark:text-purple-300"
-              >Moving Averages</span
-            >
-            <svg
-              class="w-4 h-4 text-purple-400"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
-              <path
-                d="M10 3a1 1 0 01.993.883L11 4v12a1 1 0 01-1.993.117L9 16V4a1 1 0 011-1z"
-              />
-            </svg>
-          </button>
-          <div
-            data-popover
-            id="popover-ma"
-            role="tooltip"
-            class="absolute z-10 invisible inline-block w-72 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:bg-gray-800 dark:border-gray-600"
-          >
-            <div class="px-3 py-2.5">
-              <h3 class="font-semibold text-gray-900 dark:text-white mb-1">
-                Moving Averages
-              </h3>
-              <p>
-                Shows the average price over a period. Common types: Simple
-                (SMA), Exponential (EMA). Used to identify trends and
-                support/resistance.
-              </p>
-            </div>
-            <div data-popper-arrow></div>
+            --
           </div>
         </div>
-      </div>
-      <!-- Right: Chart Area -->
-      <div class="flex-[2] min-w-0">
-        <div class="flex flex-col gap-4">
-          <!-- Controls -->
-          <div class="flex flex-wrap gap-2 items-center justify-end">
-            <label for="coin-select" class="sr-only">Coin</label>
-            <select
-              id="coin-select"
-              class="p-2 rounded border border-gray-300 dark:bg-gray-800 dark:text-white dark:border-gray-700"
-            >
-              <option value="bitcoin">BTC</option>
-              <option value="ethereum">ETH</option>
-              <option value="solana">SOL</option>
-            </select>
-            <label for="period-select" class="sr-only">Period</label>
-            <select
-              id="period-select"
-              class="p-2 rounded border border-gray-300 dark:bg-gray-800 dark:text-white dark:border-gray-700"
-            >
-              <option value="1">1D</option>
-              <option value="7">1W</option>
-              <option value="30">1M</option>
-            </select>
-          </div>
-          <!-- Chart -->
-          <div
-            id="analytics-chart"
-            class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 min-h-[350px]"
-          ></div>
+        <div class="flex gap-2">
+          <select
+            id="coin-select"
+            class="p-2 rounded border border-gray-300 dark:bg-gray-800 dark:text-white dark:border-gray-700"
+          >
+            <option value="bitcoin">BTC</option>
+            <option value="ethereum">ETH</option>
+            <option value="solana">SOL</option>
+          </select>
+          <select
+            id="period-select"
+            class="p-2 rounded border border-gray-300 dark:bg-gray-800 dark:text-white dark:border-gray-700"
+          >
+            <option value="1">1D</option>
+            <option value="7">1W</option>
+            <option value="30">1M</option>
+          </select>
         </div>
       </div>
+      <div id="analytics-chart" class="min-h-[300px]"></div>
     </div>
   </div>
 </section>

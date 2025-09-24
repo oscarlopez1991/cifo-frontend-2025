@@ -43,6 +43,8 @@ async function setupAnalyticsPage() {
   const chartContainer = document.getElementById('analytics-chart');
   const coinSelect = document.getElementById('coin-select');
   const periodSelect = document.getElementById('period-select');
+  const priceEl = document.getElementById('metric-price');
+  const changeEl = document.getElementById('metric-change');
 
   // State
   let currentCoin = coinSelect.value;
@@ -53,44 +55,67 @@ async function setupAnalyticsPage() {
   async function updateChart() {
     chartContainer.innerHTML =
       '<div class="text-center animate-pulse text-gray-400 py-16">Loading chart...</div>';
-    try {
-      // Fetch market data for the selected coin
-      const marketData = await fetchMarketChart(currentCoin, currentPeriod);
-      const { prices, times } = marketData;
+    priceEl.textContent = '--';
+    changeEl.textContent = '--';
 
-      // Prepare chart options
+    try {
+      const { prices, times } = await fetchMarketChart(
+        currentCoin,
+        currentPeriod
+      );
+
+      // Metrics
+      const last = prices[prices.length - 1];
+      const first = prices[0];
+      const change = ((last - first) / first) * 100;
+      priceEl.textContent = `$${last.toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
+      changeEl.textContent = `${change >= 0 ? '+' : ''}${change.toFixed(2)}%`;
+      changeEl.className = `text-base font-medium ${change >= 0 ? 'text-green-500 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`;
+
+      // Chart options (Flowbite minimal area style)
       const options = {
         chart: {
-          type: 'line',
-          height: 350,
+          height: '100%',
+          maxWidth: '100%',
+          type: 'area',
+          fontFamily: 'Inter, sans-serif',
+          dropShadow: { enabled: false },
           toolbar: { show: false },
-          animations: { enabled: true },
+        },
+        tooltip: {
+          enabled: true,
+          x: { show: false },
+        },
+        fill: {
+          type: 'gradient',
+          gradient: {
+            opacityFrom: 0.55,
+            opacityTo: 0,
+            shade: '#1C64F2',
+            gradientToColors: ['#1C64F2'],
+          },
+        },
+        dataLabels: { enabled: false },
+        stroke: { width: 6 },
+        grid: {
+          show: false,
+          strokeDashArray: 4,
+          padding: { left: 2, right: 2, top: 0 },
         },
         series: [
           {
             name: currentCoin.toUpperCase(),
             data: prices,
+            color: '#1A56DB',
           },
         ],
         xaxis: {
           categories: times,
-          labels: { rotate: -45, style: { colors: '#6B7280' } },
+          labels: { show: false },
+          axisBorder: { show: false },
+          axisTicks: { show: false },
         },
-        yaxis: {
-          labels: {
-            formatter: (v) =>
-              `$${v.toLocaleString(undefined, { maximumFractionDigits: 2 })}`,
-          },
-        },
-        colors: ['#2563eb'],
-        stroke: { width: 2, curve: 'smooth' },
-        grid: { borderColor: '#e5e7eb' },
-        tooltip: { x: { format: 'dd MMM HH:mm' } },
-        theme: {
-          mode: document.documentElement.classList.contains('dark')
-            ? 'dark'
-            : 'light',
-        },
+        yaxis: { show: false },
       };
 
       // Destroy previous chart if exists
@@ -99,6 +124,8 @@ async function setupAnalyticsPage() {
       chart.render();
     } catch (err) {
       chartContainer.innerHTML = `<div class="text-center text-red-500 py-16">Failed to load chart data.</div>`;
+      priceEl.textContent = '--';
+      changeEl.textContent = '--';
       console.error(err);
     }
   }

@@ -7,50 +7,43 @@
       Advanced charts and technical analysis
     </p>
   </div>
-  <div class="flex-1 flex items-center justify-center w-full h-full">
-    <div class="w-full max-w-screen-xl h-full flex flex-col justify-center">
-      <div
-        class="w-full h-full bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex flex-col"
-      >
-        <div
-          class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-4"
+  <div
+    class="flex flex-col w-full h-full bg-white dark:bg-gray-800 rounded-lg shadow p-4"
+  >
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-4">
+      <div>
+        <select
+          id="coin-select"
+          class="p-2 rounded border border-gray-300 dark:bg-gray-800 dark:text-white dark:border-gray-700"
         >
-          <div
-            id="metric-price"
-            class="text-3xl font-bold text-gray-900 dark:text-white"
-          >
-            --
-          </div>
-          <div
-            id="metric-change"
-            class="text-base font-medium text-green-500 dark:text-green-400"
-          >
-            --
-          </div>
-        </div>
+          <option value="bitcoin">BTC</option>
+          <option value="ethereum">ETH</option>
+          <option value="solana">SOL</option>
+        </select>
         <div
-          id="analytics-chart"
-          class="flex-1 min-h-[300px] h-full w-full"
-        ></div>
-        <div class="flex gap-2">
-          <select
-            id="coin-select"
-            class="p-2 rounded border border-gray-300 dark:bg-gray-800 dark:text-white dark:border-gray-700"
-          >
-            <option value="bitcoin">BTC</option>
-            <option value="ethereum">ETH</option>
-            <option value="solana">SOL</option>
-          </select>
-          <select
-            id="period-select"
-            class="p-2 rounded border border-gray-300 dark:bg-gray-800 dark:text-white dark:border-gray-700"
-          >
-            <option value="1">1D</option>
-            <option value="7">1W</option>
-            <option value="30">1M</option>
-          </select>
+          id="metric-price"
+          class="text-2xl font-bold text-gray-900 dark:text-white mt-4"
+        >
+          --
         </div>
       </div>
+      <div
+        id="metric-change"
+        class="text-base font-medium text-green-500 dark:text-green-400"
+      >
+        --
+      </div>
+    </div>
+    <div id="analytics-chart" class="flex-1 min-h-[300px] h-full w-full"></div>
+    <div>
+      <select
+        id="period-select"
+        class="p-2 rounded border border-gray-300 dark:bg-gray-800 dark:text-white dark:border-gray-700"
+      >
+        <option value="1">1D</option>
+        <option value="7">1W</option>
+        <option value="30">1M</option>
+      </select>
     </div>
   </div>
 </section>

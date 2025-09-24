@@ -1,26 +1,15 @@
 import { renderPageError } from '../../utils/renderPageError.js';
 import { fetchMarketChart } from '../../services/cryptoService.js';
 
-/**
- * Loads and displays the analytics page content
- */
 export const loadAnalyticsPage = async () => {
   const appContainer = document.getElementById('app');
-  if (!appContainer) {
-    console.error('App container not found');
-    return;
-  }
-
+  if (!appContainer) return;
   try {
     const response = await fetch('./pages/Analytics/Analytics.html');
-    if (!response.ok) {
+    if (!response.ok)
       throw new Error(`Failed to fetch Analytics page: ${response.statusText}`);
-    }
-    const html = await response.text();
-    appContainer.innerHTML = html;
-
-    // Wait for DOM to update, then initialize
-    await setupAnalyticsPage();
+    appContainer.innerHTML = await response.text();
+    setupAnalyticsPage();
   } catch (error) {
     console.error('Error loading analytics page:', error);
     renderPageError(appContainer, 'Analytics');
@@ -28,7 +17,6 @@ export const loadAnalyticsPage = async () => {
 };
 
 async function setupAnalyticsPage() {
-  // Load ApexCharts if not already loaded
   if (!window.ApexCharts) {
     await new Promise((resolve, reject) => {
       const script = document.createElement('script');
@@ -38,30 +26,38 @@ async function setupAnalyticsPage() {
       document.head.appendChild(script);
     });
   }
-
-  // Elements
   const chartContainer = document.getElementById('analytics-chart');
   const coinSelect = document.getElementById('coin-select');
   const periodSelect = document.getElementById('period-select');
   const priceEl = document.getElementById('metric-price');
   const changeEl = document.getElementById('metric-change');
-
-  // State
-  let currentCoin = coinSelect.value;
-  let currentPeriod = periodSelect.value;
   let chart = null;
 
-  // Fetch and render chart
   async function updateChart() {
     chartContainer.innerHTML =
       '<div class="text-center animate-pulse text-gray-400 py-16">Loading chart...</div>';
     priceEl.textContent = '--';
     changeEl.textContent = '--';
-
     try {
-      const { prices, times } = await fetchMarketChart(
-        currentCoin,
-        currentPeriod
+      const raw = await fetchMarketChart(coinSelect.value, periodSelect.value);
+      // Group by hour (1D) or by day (>1D), averaging prices
+      const grouped = {};
+      raw.forEach(([ts, price]) => {
+        const d = new Date(ts);
+        const key =
+          periodSelect.value == '1'
+            ? d.getHours()
+            : `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+        if (!grouped[key]) grouped[key] = [];
+        grouped[key].push(price);
+      });
+      const points = Object.entries(grouped).map(([key, arr]) => {
+        const avg = arr.reduce((a, b) => a + b, 0) / arr.length;
+        return [key, avg];
+      });
+      const prices = points.map(([, avg]) => avg);
+      const times = points.map(([key]) =>
+        periodSelect.value == '1' ? `${key}:00` : key
       );
 
       // Metrics
@@ -72,53 +68,45 @@ async function setupAnalyticsPage() {
       changeEl.textContent = `${change >= 0 ? '+' : ''}${change.toFixed(2)}%`;
       changeEl.className = `text-base font-medium ${change >= 0 ? 'text-green-500 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`;
 
-      // Chart options (Flowbite minimal area style)
+      // Chart
       const options = {
         chart: {
-          height: '100%',
-          maxWidth: '100%',
           type: 'area',
-          fontFamily: 'Inter, sans-serif',
-          dropShadow: { enabled: false },
+          width: '100%',
+          height: '100%',
           toolbar: { show: false },
+          background: 'transparent',
+        },
+        series: [{ name: coinSelect.value.toUpperCase(), data: prices }],
+        xaxis: {
+          categories: times,
+          labels: { show: true, rotate: -45, style: { colors: '#9ca3af' } },
+          axisBorder: { show: true, color: '#6b7280' },
+          axisTicks: { show: false },
+        },
+        yaxis: {
+          show: true,
+          labels: {
+            style: { colors: '#9ca3af' },
+            formatter: (v) => `$${Math.round(v).toLocaleString()}`,
+          },
+        },
+        grid: { show: false },
+        dataLabels: { enabled: false },
+        stroke: { width: 3, curve: 'smooth', colors: ['#2563eb'] },
+        fill: {
+          type: 'gradient',
+          gradient: { opacityFrom: 0.4, opacityTo: 0, stops: [0, 100] },
         },
         tooltip: {
           enabled: true,
-          x: { show: false },
-        },
-        fill: {
-          type: 'gradient',
-          gradient: {
-            opacityFrom: 0.55,
-            opacityTo: 0,
-            shade: '#1C64F2',
-            gradientToColors: ['#1C64F2'],
+          y: {
+            formatter: (v) =>
+              `$${v.toLocaleString(undefined, { maximumFractionDigits: 2 })}`,
           },
         },
-        dataLabels: { enabled: false },
-        stroke: { width: 6 },
-        grid: {
-          show: false,
-          strokeDashArray: 4,
-          padding: { left: 2, right: 2, top: 0 },
-        },
-        series: [
-          {
-            name: currentCoin.toUpperCase(),
-            data: prices,
-            color: '#1A56DB',
-          },
-        ],
-        xaxis: {
-          categories: times,
-          labels: { show: false },
-          axisBorder: { show: false },
-          axisTicks: { show: false },
-        },
-        yaxis: { show: false },
+        legend: { show: false },
       };
-
-      // Destroy previous chart if exists
       if (chart) chart.destroy();
       chart = new window.ApexCharts(chartContainer, options);
       chart.render();
@@ -129,16 +117,8 @@ async function setupAnalyticsPage() {
       console.error(err);
     }
   }
-  // Event listeners
-  coinSelect.addEventListener('change', async (e) => {
-    currentCoin = e.target.value;
-    await updateChart();
-  });
-  periodSelect.addEventListener('change', async (e) => {
-    currentPeriod = e.target.value;
-    await updateChart();
-  });
 
-  // Initial chart render
-  await updateChart();
+  coinSelect.addEventListener('change', updateChart);
+  periodSelect.addEventListener('change', updateChart);
+  updateChart();
 }

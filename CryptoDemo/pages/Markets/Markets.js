@@ -1,5 +1,6 @@
 import { fetchTopMarkets } from '../../services/cryptoService.js';
 import { renderPageError } from '../../utils/renderPageError.js';
+import { showAnalyticsModal } from '../../components/AnalyticsModal/AnalyticsModal.js';
 /**
  * Loads and displays the markets page content
  */
@@ -262,6 +263,7 @@ function createRowFromCoin(coinData) {
   const coinRowElement =
     coinRowTemplate.content.firstElementChild.cloneNode(true);
 
+  coinRowElement.dataset.coinId = coinData.id;
   coinRowElement.querySelector('img').src = coinData.image;
   coinRowElement.querySelector('img').alt = coinData.name;
   coinRowElement.querySelector('.coin-name').textContent =
@@ -293,6 +295,22 @@ function createRowFromCoin(coinData) {
   coinRowElement
     .querySelector('.change')
     .setAttribute('data-value', coinData.change24h);
+  coinRowElement.classList.add(
+    'hover:bg-gray-100', // Fondo gris claro en hover (modo claro)
+    'dark:hover:bg-gray-600', // Fondo gris oscuro en hover (modo oscuro)
+    'cursor-pointer' // Cursor pointer para indicar clickeable
+  );
 
   return coinRowElement;
 }
+
+// --- Analytics modal integration ---
+const tbody = document.getElementById('markets-tbody');
+tbody.querySelectorAll('tr').forEach((row) => {
+  row.addEventListener('click', () => {
+    const coinId = row.dataset.coinId || 'bitcoin'; // Extrae el ID de la fila
+    const coinName =
+      row.querySelector('.coin-name').textContent.split(' (')[0] || 'Bitcoin'; // Extrae el nombre
+    showAnalyticsModal(coinId, coinName);
+  });
+});

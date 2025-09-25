@@ -10,12 +10,6 @@ const routes = {
     const { loadMarketsPage } = await import('../pages/Markets/Markets.js');
     return loadMarketsPage();
   },
-  analytics: async () => {
-    const { loadAnalyticsPage } = await import(
-      '../pages/Analytics/Analytics.js'
-    );
-    return loadAnalyticsPage();
-  },
   news: async () => {
     const { loadNewsPage } = await import('../pages/News/News.js');
     return loadNewsPage();

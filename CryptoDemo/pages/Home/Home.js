@@ -56,8 +56,8 @@ const setupHomeEventListeners = () => {
  */
 const updateCryptoCards = async () => {
   try {
-    // Fetch top markets data
-    const marketsData = await fetchTopMarkets(10); // Fetch top 10 for efficiency
+    // Use cached data instead of making a new call
+    const marketsData = await fetchTopMarkets(100); // This will use cache if fresh
 
     // Define the coins we want to update
     const coinsToUpdate = [

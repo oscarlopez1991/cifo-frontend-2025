@@ -12,21 +12,28 @@ export const loadMarketsPage = async () => {
   }
 
   try {
-    const response = await fetch('./pages/Markets/Markets.html');
-    if (!response.ok) {
-      throw new Error(`Failed to fetch Markets page: ${response.statusText}`);
+    let html, data;
+
+    // Use preloaded content if available
+    if (window.preloadedMarkets) {
+      ({ html, data } = window.preloadedMarkets);
+      delete window.preloadedMarkets; // Clear after use
+    } else {
+      // Fallback: Load normally
+      const response = await fetch('./pages/Markets/Markets.html');
+      if (!response.ok) {
+        throw new Error(`Failed to fetch Markets page: ${response.statusText}`);
+      }
+      html = await response.text();
+
+      try {
+        data = await fetchTopMarkets(100);
+      } catch (error) {
+        console.warn('CoinGecko fetch failed, using static rows:', error);
+      }
     }
 
-    const html = await response.text();
     appContainer.innerHTML = html;
-
-    // Try to load live data; fallback to static rows if it fails
-    let data = null;
-    try {
-      data = await fetchTopMarkets(100);
-    } catch (error) {
-      console.warn('CoinGecko fetch failed, using static rows:', error);
-    }
 
     // Initialize search, sorting, and pagination with live data (when available)
     initMarketsTable(data);

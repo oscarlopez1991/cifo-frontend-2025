@@ -76,6 +76,16 @@ const initMarketsTable = (coinsData) => {
 
   // 6. Initial render
   render();
+
+  // 7. Row click event to show analytics modal
+  tbody.querySelectorAll('tr').forEach((row) => {
+    row.addEventListener('click', () => {
+      const coinId = row.dataset.coinId || 'bitcoin';
+      const coinName =
+        row.querySelector('.coin-name').textContent.split(' (')[0] || 'Bitcoin';
+      showAnalyticsModal(coinId, coinName);
+    });
+  });
 };
 
 function renderTableRows(tbody, data, createRowFn) {
@@ -303,14 +313,3 @@ function createRowFromCoin(coinData) {
 
   return coinRowElement;
 }
-
-// --- Analytics modal integration ---
-const tbody = document.getElementById('markets-tbody');
-tbody.querySelectorAll('tr').forEach((row) => {
-  row.addEventListener('click', () => {
-    const coinId = row.dataset.coinId || 'bitcoin'; // Extrae el ID de la fila
-    const coinName =
-      row.querySelector('.coin-name').textContent.split(' (')[0] || 'Bitcoin'; // Extrae el nombre
-    showAnalyticsModal(coinId, coinName);
-  });
-});

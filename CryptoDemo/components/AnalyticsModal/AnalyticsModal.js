@@ -1,5 +1,4 @@
 import { fetchMarketChart } from '../../services/cryptoService.js';
-import { setupAnalyticsPage } from '../../pages/Analytics/Analytics.js';
 
 export async function showAnalyticsModal(
   coinId = 'bitcoin',

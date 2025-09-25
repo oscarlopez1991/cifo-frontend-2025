@@ -1,4 +1,5 @@
 import { renderPageError } from '../../utils/renderPageError.js';
+import { showAnalyticsModal } from '../../components/AnalyticsModal/AnalyticsModal.js'; // Añade este import
 
 /**
  * Sets up event listeners for the home page
@@ -16,21 +17,36 @@ const setupHomeEventListeners = () => {
     });
   }
 
-  // View Demo button
-  const viewDemoBtn = document.getElementById('view-demo-btn');
-  if (viewDemoBtn) {
-    viewDemoBtn.addEventListener('click', () => {
-      alert('Demo feature coming soon! 🚀');
-    });
-  }
-
-  // Get Started button
+  // Get Started button - Navigate to Markets
   const getStartedBtn = document.getElementById('get-started-btn');
   if (getStartedBtn) {
     getStartedBtn.addEventListener('click', () => {
-      alert(
-        'Welcome to Crypto Demo! Start tracking your favorite cryptocurrencies.'
+      // Navigate to Markets page
+      document.dispatchEvent(
+        new CustomEvent('navigate', { detail: { page: 'markets' } })
       );
+    });
+  }
+
+  // View Chart buttons for crypto cards
+  const viewBtcChartBtn = document.getElementById('view-btc-chart');
+  if (viewBtcChartBtn) {
+    viewBtcChartBtn.addEventListener('click', () => {
+      showAnalyticsModal('bitcoin', 'Bitcoin');
+    });
+  }
+
+  const viewEthChartBtn = document.getElementById('view-eth-chart');
+  if (viewEthChartBtn) {
+    viewEthChartBtn.addEventListener('click', () => {
+      showAnalyticsModal('ethereum', 'Ethereum');
+    });
+  }
+
+  const viewXrpChartBtn = document.getElementById('view-xrp-chart');
+  if (viewXrpChartBtn) {
+    viewXrpChartBtn.addEventListener('click', () => {
+      showAnalyticsModal('ripple', 'Ripple');
     });
   }
 };

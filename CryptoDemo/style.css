@@ -1241,12 +1241,12 @@ input:checked + .toggle-bg {
   height: 2.25rem;
 }
 
-.min-h-\[300px\] {
-  min-height: 300px;
+.h-full {
+  height: 100%;
 }
 
-.min-h-\[60vh\] {
-  min-height: 60vh;
+.min-h-\[300px\] {
+  min-height: 300px;
 }
 
 .min-h-screen {
@@ -1295,14 +1295,6 @@ input:checked + .toggle-bg {
 
 .w-full {
   width: 100%;
-}
-
-.max-w-lg {
-  max-width: 32rem;
-}
-
-.max-w-screen-md {
-  max-width: 768px;
 }
 
 .max-w-screen-xl {
@@ -2288,6 +2280,10 @@ input:checked + .toggle-bg {
     flex-direction: row;
   }
 
+  .sm\:items-end {
+    align-items: flex-end;
+  }
+
   .sm\:justify-center {
     justify-content: center;
   }
@@ -2428,6 +2424,11 @@ input:checked + .toggle-bg {
   .lg\:px-48 {
     padding-left: 12rem;
     padding-right: 12rem;
+  }
+
+  .lg\:py-12 {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
   }
 
   .lg\:py-16 {

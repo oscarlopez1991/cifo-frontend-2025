@@ -27,99 +27,91 @@ async function setupAnalyticsPage() {
     });
   }
   const chartContainer = document.getElementById('analytics-chart');
-  const coinSelect = document.getElementById('coin-select');
-  const periodSelect = document.getElementById('period-select');
   const priceEl = document.getElementById('metric-price');
   const changeEl = document.getElementById('metric-change');
   let chart = null;
 
-  async function updateChart() {
-    chartContainer.innerHTML =
-      '<div class="text-center animate-pulse text-gray-400 py-16">Loading chart...</div>';
+  chartContainer.innerHTML =
+    '<div class="text-center animate-pulse text-gray-400 py-16">Loading chart...</div>';
+  priceEl.textContent = '--';
+  changeEl.textContent = '--';
+
+  try {
+    // Always fetch bitcoin for 7 days
+    const raw = await fetchMarketChart('bitcoin', 7);
+
+    // Group by date
+    const grouped = {};
+    raw.forEach(([ts, price]) => {
+      const d = new Date(ts);
+      const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+      if (!grouped[dateStr]) grouped[dateStr] = [];
+      grouped[dateStr].push(price);
+    });
+    const points = Object.entries(grouped)
+      .sort(([a, b]) => a.localeCompare(b))
+      .map(([date, arr]) => {
+        const avg = arr.reduce((a, b) => a + b, 0) / arr.length;
+        return [date, avg];
+      });
+    const prices = points.map(([, avg]) => avg);
+    const times = points.map(([date]) => date);
+
+    // Metrics
+    const last = prices[prices.length - 1];
+    const first = prices[0];
+    const change = ((last - first) / first) * 100;
+    priceEl.textContent = `$${last.toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
+    changeEl.textContent = `${change >= 0 ? '+' : ''}${change.toFixed(2)}%`;
+    changeEl.className = `text-base font-medium ${change >= 0 ? 'text-green-500 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`;
+
+    // Chart
+    const options = {
+      chart: {
+        type: 'area',
+        width: '100%',
+        height: '100%',
+        toolbar: { show: false },
+        background: 'transparent',
+      },
+      series: [{ name: 'BITCOIN', data: prices }],
+      xaxis: {
+        categories: times,
+        labels: { show: true, rotate: -45, style: { colors: '#9ca3af' } },
+        axisBorder: { show: true, color: '#6b7280' },
+        axisTicks: { show: false },
+      },
+      yaxis: {
+        show: true,
+        labels: {
+          style: { colors: '#9ca3af' },
+          formatter: (v) => `$${Math.round(v).toLocaleString()}`,
+        },
+      },
+      grid: { show: false },
+      dataLabels: { enabled: false },
+      stroke: { width: 3, curve: 'smooth', colors: ['#2563eb'] },
+      fill: {
+        type: 'gradient',
+        gradient: { opacityFrom: 0.4, opacityTo: 0, stops: [0, 100] },
+      },
+      tooltip: {
+        enabled: true,
+        y: {
+          formatter: (v) =>
+            `$${v.toLocaleString(undefined, { maximumFractionDigits: 2 })}`,
+        },
+      },
+      legend: { show: false },
+    };
+    if (chart) chart.destroy();
+    chartContainer.innerHTML = '';
+    chart = new window.ApexCharts(chartContainer, options);
+    chart.render();
+  } catch (err) {
+    chartContainer.innerHTML = `<div class="text-center text-red-500 py-16">Failed to load chart data.</div>`;
     priceEl.textContent = '--';
     changeEl.textContent = '--';
-    try {
-      const raw = await fetchMarketChart(coinSelect.value, periodSelect.value);
-      // Group by hour (1D) or by day (>1D), averaging prices
-      const grouped = {};
-      raw.forEach(([ts, price]) => {
-        const d = new Date(ts);
-        const key =
-          periodSelect.value == '1'
-            ? d.getHours()
-            : `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
-        if (!grouped[key]) grouped[key] = [];
-        grouped[key].push(price);
-      });
-      const points = Object.entries(grouped).map(([key, arr]) => {
-        const avg = arr.reduce((a, b) => a + b, 0) / arr.length;
-        return [key, avg];
-      });
-      const prices = points.map(([, avg]) => avg);
-      const times = points.map(([key]) =>
-        periodSelect.value == '1' ? `${key}:00` : key
-      );
-
-      // Metrics
-      const last = prices[prices.length - 1];
-      const first = prices[0];
-      const change = ((last - first) / first) * 100;
-      priceEl.textContent = `$${last.toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
-      changeEl.textContent = `${change >= 0 ? '+' : ''}${change.toFixed(2)}%`;
-      changeEl.className = `text-base font-medium ${change >= 0 ? 'text-green-500 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`;
-
-      // Chart
-      const options = {
-        chart: {
-          type: 'area',
-          width: '100%',
-          height: '100%',
-          toolbar: { show: false },
-          background: 'transparent',
-        },
-        series: [{ name: coinSelect.value.toUpperCase(), data: prices }],
-        xaxis: {
-          categories: times,
-          labels: { show: true, rotate: -45, style: { colors: '#9ca3af' } },
-          axisBorder: { show: true, color: '#6b7280' },
-          axisTicks: { show: false },
-        },
-        yaxis: {
-          show: true,
-          labels: {
-            style: { colors: '#9ca3af' },
-            formatter: (v) => `$${Math.round(v).toLocaleString()}`,
-          },
-        },
-        grid: { show: false },
-        dataLabels: { enabled: false },
-        stroke: { width: 3, curve: 'smooth', colors: ['#2563eb'] },
-        fill: {
-          type: 'gradient',
-          gradient: { opacityFrom: 0.4, opacityTo: 0, stops: [0, 100] },
-        },
-        tooltip: {
-          enabled: true,
-          y: {
-            formatter: (v) =>
-              `$${v.toLocaleString(undefined, { maximumFractionDigits: 2 })}`,
-          },
-        },
-        legend: { show: false },
-      };
-      if (chart) chart.destroy();
-      chartContainer.innerHTML = '';
-      chart = new window.ApexCharts(chartContainer, options);
-      chart.render();
-    } catch (err) {
-      chartContainer.innerHTML = `<div class="text-center text-red-500 py-16">Failed to load chart data.</div>`;
-      priceEl.textContent = '--';
-      changeEl.textContent = '--';
-      console.error(err);
-    }
+    console.error(err);
   }
-
-  coinSelect.addEventListener('change', updateChart);
-  periodSelect.addEventListener('change', updateChart);
-  updateChart();
 }

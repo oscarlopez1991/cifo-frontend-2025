@@ -13,16 +13,32 @@ export const loadNewsPage = async () => {
   }
 
   try {
-    const response = await fetch('./pages/News/News.html');
-    if (!response.ok) {
-      throw new Error(`Failed to fetch News page: ${response.statusText}`);
+    let html, newsData, trendingData;
+
+    // Use preloaded content if available
+    if (window.preloadedNews) {
+      ({ html, newsData, trendingData } = window.preloadedNews);
+      delete window.preloadedNews; // Clear after use
+    } else {
+      // Fallback: Load normally
+      const response = await fetch('./pages/News/News.html');
+      if (!response.ok) {
+        throw new Error(`Failed to fetch News page: ${response.statusText}`);
+      }
+      html = await response.text();
+
+      try {
+        newsData = await fetchNews();
+        trendingData = await fetchTrendingCoins();
+      } catch (error) {
+        console.warn('Failed to load News data:', error);
+      }
     }
 
-    const html = await response.text();
     appContainer.innerHTML = html;
 
-    // Fetch and render news and social data
-    await loadNewsData();
+    // Fetch and render news and trending data (use preloaded if available)
+    await loadNewsData(newsData, trendingData);
   } catch (error) {
     console.error('Error loading news page:', error);
     renderPageError(appContainer, 'News');
@@ -32,17 +48,16 @@ export const loadNewsPage = async () => {
 /**
  * Fetch and render news and trending data
  */
-async function loadNewsData() {
+async function loadNewsData(preloadedNewsData, preloadedTrendingData) {
   const newsContainer = document.getElementById('news-container');
   const trendingContainer = document.getElementById('trending-container');
 
   try {
-    // Fetch news
-    const newsData = await fetchNews();
-    renderNews(newsData, newsContainer);
+    // Use preloaded data if available, else fetch
+    const newsData = preloadedNewsData || (await fetchNews());
+    const trendingData = preloadedTrendingData || (await fetchTrendingCoins());
 
-    // Fetch trending coins
-    const trendingData = await fetchTrendingCoins();
+    renderNews(newsData, newsContainer);
     renderTrending(trendingData, trendingContainer);
   } catch (error) {
     console.warn('Failed to load news/trending data:', error);

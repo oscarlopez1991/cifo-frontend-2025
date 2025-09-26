@@ -64,12 +64,43 @@ async function preloadMarketsPage() {
   }
 }
 
+// Add preloadNewsPage function
+async function preloadNewsPage() {
+  try {
+    // Load HTML
+    const response = await fetch('./pages/News/News.html');
+    if (!response.ok)
+      throw new Error(`Failed to fetch News HTML: ${response.statusText}`);
+    const html = await response.text();
+
+    // Load data
+    let newsData = null;
+    let trendingData = null;
+    try {
+      const { fetchNews } = await import('../services/newsApiService.js');
+      const { fetchTrendingCoins } = await import(
+        '../services/coinGeckoApiService.js'
+      );
+      newsData = await fetchNews();
+      trendingData = await fetchTrendingCoins();
+    } catch (error) {
+      console.warn('Failed to preload News data:', error);
+    }
+
+    // Store preloaded content
+    window.preloadedNews = { html, newsData, trendingData };
+  } catch (error) {
+    console.warn('Failed to preload News page:', error);
+  }
+}
+
 // Main execution on page load
 document.addEventListener('DOMContentLoaded', async () => {
   await loadTemplates();
   await renderLayout();
   await loadInitialCache(); // Load cache on startup
   await preloadMarketsPage(); // Preload Markets page
+  await preloadNewsPage(); // Preload News page
   router.init();
 
   // Refresh cache every 30 seconds

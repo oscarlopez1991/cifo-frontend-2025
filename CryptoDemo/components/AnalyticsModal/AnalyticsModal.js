@@ -6,18 +6,17 @@ export async function showAnalyticsModal(
   coinName = 'Bitcoin',
   days = 7
 ) {
-  // Load modal HTML if not present
-  let modal = document.getElementById('analytics-modal');
-  if (!modal) {
-    const res = await fetch('./components/AnalyticsModal/AnalyticsModal.html');
-    const html = await res.text();
-    const div = document.createElement('div');
-    div.innerHTML = html;
-    document.body.appendChild(div.firstElementChild);
-    modal = document.getElementById('analytics-modal');
-  }
+  // Load modal HTML always to reset placeholders
+  const res = await fetch('./components/AnalyticsModal/AnalyticsModal.html');
+  const html = await res.text();
+  const div = document.createElement('div');
+  div.innerHTML = html;
+  const existingModal = document.getElementById('analytics-modal');
+  if (existingModal) existingModal.remove();
+  document.body.appendChild(div.firstElementChild);
+  const modal = document.getElementById('analytics-modal');
 
-  // Replace placeholder with actual coin name
+  // Replace placeholders with actual values
   const content = modal.querySelector('section');
   content.innerHTML = content.innerHTML
     .replace(/{{coinName}}/g, coinName)
@@ -31,10 +30,6 @@ export async function showAnalyticsModal(
   // Close modal
   document.getElementById('close-analytics-modal').onclick = () => {
     modal.classList.add('hidden');
-    // Reset content if needed for next open
-    content.innerHTML = content.innerHTML
-      .replace(coinName, '{{coinName}}')
-      .replace(/Last \d+ days|Last 24 hours/, 'Last {{days}}');
   };
 }
 

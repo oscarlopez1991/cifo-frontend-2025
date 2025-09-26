@@ -43,10 +43,10 @@ const setupHomeEventListeners = () => {
     });
   }
 
-  const viewXrpChartBtn = document.getElementById('view-xrp-chart');
-  if (viewXrpChartBtn) {
-    viewXrpChartBtn.addEventListener('click', () => {
-      showAnalyticsModal('ripple', 'Ripple', 1); // 24 hours
+  const viewSolChartBtn = document.getElementById('view-sol-chart');
+  if (viewSolChartBtn) {
+    viewSolChartBtn.addEventListener('click', () => {
+      showAnalyticsModal('solana', 'Solana', 1); // 24 hours
     });
   }
 };
@@ -74,10 +74,10 @@ const updateCryptoCards = async () => {
         rangeId: 'eth-range',
       },
       {
-        id: 'ripple',
-        priceId: 'xrp-price',
-        changeId: 'xrp-change',
-        rangeId: 'xrp-range',
+        id: 'solana',
+        priceId: 'sol-price',
+        changeId: 'sol-change',
+        rangeId: 'sol-range',
       },
     ];
 

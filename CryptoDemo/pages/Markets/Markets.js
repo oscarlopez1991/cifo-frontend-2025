@@ -199,26 +199,26 @@ function renderPagination(total, state, pagination, summary, render) {
   pagination.innerHTML = '';
 
   const makeBtn = (label, page, disabled = false, active = false) => {
-    const li = document.createElement('li');
-    const a = document.createElement('a');
-    a.href = '#';
-    a.textContent = label;
-    a.className = [
+    const a = document.createElement('li');
+    const link = document.createElement('a');
+    link.className = [
       'px-3 py-2 leading-tight border',
       active
         ? 'text-blue-600 border-blue-600 bg-blue-50 hover:bg-blue-100 dark:bg-gray-700 dark:text-white'
         : 'text-gray-500 bg-white border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white',
       disabled ? 'cursor-not-allowed opacity-60' : '',
     ].join(' ');
+    link.textContent = label;
     if (!disabled) {
-      a.addEventListener('click', (e) => {
+      link.href = '#';
+      link.addEventListener('click', (e) => {
         e.preventDefault();
         state.page = page;
         render();
       });
     }
-    li.appendChild(a);
-    return li;
+    a.appendChild(link);
+    return a;
   };
 
   const totalPagesToShow = Math.min(5, totalPages);

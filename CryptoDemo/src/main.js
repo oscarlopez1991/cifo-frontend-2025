@@ -24,9 +24,6 @@ async function loadInitialCache() {
   try {
     // Single call to fetch top markets (enough for Home and Markets)
     await fetchTopMarkets(100); // This will cache the data
-    // Pre-load charts only if needed (or skip for now to reduce calls)
-    // await Promise.all([fetchMarketChart('bitcoin', 7), ...]);
-    console.log('Initial cache loaded');
   } catch (error) {
     console.warn('Failed to load initial cache:', error);
   }
@@ -62,7 +59,6 @@ async function preloadMarketsPage() {
 
     // Store preloaded content
     window.preloadedMarkets = { html, data };
-    console.log('Markets page preloaded');
   } catch (error) {
     console.warn('Failed to preload Markets page:', error);
   }

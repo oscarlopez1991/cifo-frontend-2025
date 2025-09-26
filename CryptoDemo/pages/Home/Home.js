@@ -32,21 +32,21 @@ const setupHomeEventListeners = () => {
   const viewBtcChartBtn = document.getElementById('view-btc-chart');
   if (viewBtcChartBtn) {
     viewBtcChartBtn.addEventListener('click', () => {
-      showAnalyticsModal('bitcoin', 'Bitcoin');
+      showAnalyticsModal('bitcoin', 'Bitcoin', 1); // 24 hours
     });
   }
 
   const viewEthChartBtn = document.getElementById('view-eth-chart');
   if (viewEthChartBtn) {
     viewEthChartBtn.addEventListener('click', () => {
-      showAnalyticsModal('ethereum', 'Ethereum');
+      showAnalyticsModal('ethereum', 'Ethereum', 1); // 24 hours
     });
   }
 
   const viewXrpChartBtn = document.getElementById('view-xrp-chart');
   if (viewXrpChartBtn) {
     viewXrpChartBtn.addEventListener('click', () => {
-      showAnalyticsModal('ripple', 'Ripple');
+      showAnalyticsModal('ripple', 'Ripple', 1); // 24 hours
     });
   }
 };

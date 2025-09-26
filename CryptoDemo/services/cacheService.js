@@ -1,5 +1,5 @@
 // Cache service for API data using localStorage
-export const CACHE_EXPIRY_MS = 5 * 60 * 1000; // 5 minutes (increased from 30 seconds)
+export const CACHE_EXPIRY_MS = 5 * 60 * 1000;
 
 /**
  * Get cached data if fresh, else return null

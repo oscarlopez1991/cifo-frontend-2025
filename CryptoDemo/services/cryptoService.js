@@ -1,6 +1,8 @@
-// Simple CoinGecko client for top market data
-
-const API_BASE = 'https://api.coingecko.com/api/v3';
+import { getCachedData, setCachedData } from './cacheService.js';
+const API_BASE = 'https://api.coingecko.com/api/v3'; // Sin proxy, prueba directa
+// Usar un proxy CORS alternativo que no requiere habilitación manual
+// const PROXY = 'https://corsproxy.io/?';
+// const API_BASE = `${PROXY}https://api.coingecko.com/api/v3`;
 
 /**
  * Fetch top coins by market cap.
@@ -8,6 +10,10 @@ const API_BASE = 'https://api.coingecko.com/api/v3';
  * @returns {Promise<Array<{id,name,symbol,image,price,marketCap,volume24h,change24h}>>}
  */
 export async function fetchTopMarkets(perPage = 100) {
+  const cacheKey = 'cryptoTopMarkets';
+  const cached = getCachedData(cacheKey);
+  if (cached) return cached;
+
   const url = `${API_BASE}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=${perPage}&page=1&sparkline=false&price_change_percentage=24h`;
   const res = await fetch(url);
   if (!res.ok)
@@ -15,7 +21,7 @@ export async function fetchTopMarkets(perPage = 100) {
   const json = await res.json();
 
   // Map to our desired structure
-  return json.map((c) => ({
+  const data = json.map((c) => ({
     id: c.id,
     name: c.name,
     symbol: (c.symbol || '').toUpperCase(),
@@ -28,6 +34,9 @@ export async function fetchTopMarkets(perPage = 100) {
       c.price_change_percentage_24h ??
       0,
   }));
+
+  setCachedData(cacheKey, data);
+  return data;
 }
 
 /**
@@ -37,10 +46,16 @@ export async function fetchTopMarkets(perPage = 100) {
  * @returns {Promise<{prices: number[], times: string[]}>}
  */
 export async function fetchMarketChart(coinId, days) {
+  const cacheKey = `cryptoChart-${coinId}-${days}`; // Include days in cache key
+  const cached = getCachedData(cacheKey);
+  if (cached) return cached;
+
   const url = `${API_BASE}/coins/${coinId}/market_chart?vs_currency=usd&days=${days}`;
   const res = await fetch(url);
   if (!res.ok)
     throw new Error(`CoinGecko error: ${res.status} ${res.statusText}`);
   const json = await res.json();
+
+  setCachedData(cacheKey, json.prices);
   return json.prices;
 }

@@ -122,3 +122,30 @@ export async function fetchCoinSocial(coinId) {
   setCachedData(cacheKey, data);
   return data;
 }
+
+/**
+ * Fetch trending coins from CoinGecko
+ * @returns {Promise<Array<{id, name, symbol, thumb, price_btc}>>}
+ */
+export async function fetchTrendingCoins() {
+  const cacheKey = 'cryptoTrending';
+  const cached = getCachedData(cacheKey);
+  if (cached) return cached;
+
+  const url = `${API_BASE}/search/trending`;
+  const res = await fetch(url);
+  if (!res.ok)
+    throw new Error(`CoinGecko error: ${res.status} ${res.statusText}`);
+  const json = await res.json();
+
+  const data = json.coins.slice(0, 6).map((coin) => ({
+    id: coin.item.id,
+    name: coin.item.name,
+    symbol: coin.item.symbol,
+    thumb: coin.item.thumb,
+    price_btc: coin.item.price_btc,
+  }));
+
+  setCachedData(cacheKey, data);
+  return data;
+}

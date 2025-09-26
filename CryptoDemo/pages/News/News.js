@@ -1,5 +1,5 @@
 import { renderPageError } from '../../utils/renderPageError.js';
-import { fetchNews, fetchCoinSocial } from '../../services/cryptoService.js';
+import { fetchNews, fetchTrendingCoins } from '../../services/cryptoService.js';
 
 /**
  * Loads and displays the news page content
@@ -29,31 +29,26 @@ export const loadNewsPage = async () => {
 };
 
 /**
- * Fetch and render news and social data
+ * Fetch and render news and trending data
  */
 async function loadNewsData() {
   const newsContainer = document.getElementById('news-container');
-  const socialContainer = document.getElementById('social-container');
+  const trendingContainer = document.getElementById('trending-container');
 
   try {
     // Fetch news
     const newsData = await fetchNews();
     renderNews(newsData, newsContainer);
 
-    // Fetch social data for top 5 coins
-    const topCoins = ['bitcoin', 'ethereum', 'solana', 'cardano', 'polkadot'];
-    const socialPromises = topCoins.map(async (coinId) => {
-      const socialData = await fetchCoinSocial(coinId);
-      return { coinId, ...socialData };
-    });
-    const socialData = await Promise.all(socialPromises);
-    renderSocial(socialData, socialContainer);
+    // Fetch trending coins
+    const trendingData = await fetchTrendingCoins();
+    renderTrending(trendingData, trendingContainer);
   } catch (error) {
-    console.warn('Failed to load news/social data:', error);
+    console.warn('Failed to load news/trending data:', error);
     newsContainer.innerHTML =
       '<p class="text-center text-red-500">Failed to load news.</p>';
-    socialContainer.innerHTML =
-      '<p class="text-center text-red-500">Failed to load social data.</p>';
+    trendingContainer.innerHTML =
+      '<p class="text-center text-red-500">Failed to load trending coins.</p>';
   }
 }
 
@@ -78,32 +73,21 @@ function renderNews(newsData, container) {
 }
 
 /**
- * Render social data
+ * Render trending coins
  */
-function renderSocial(socialData, container) {
-  container.innerHTML = socialData
+function renderTrending(trendingData, container) {
+  container.innerHTML = trendingData
     .map(
-      (social) => `
+      (coin) => `
     <div class="bg-white rounded-lg shadow-lg p-6 dark:bg-gray-700">
-      <h3 class="mb-4 text-xl font-bold text-gray-900 dark:text-white capitalize">${social.coinId}</h3>
-      <div class="space-y-2">
-        <div class="flex justify-between">
-          <span class="text-gray-500 dark:text-gray-400">Twitter Followers</span>
-          <span class="font-semibold">${social.twitter_followers?.toLocaleString() || 'N/A'}</span>
-        </div>
-        <div class="flex justify-between">
-          <span class="text-gray-500 dark:text-gray-400">Reddit Subscribers</span>
-          <span class="font-semibold">${social.reddit_subscribers?.toLocaleString() || 'N/A'}</span>
-        </div>
-        <div class="flex justify-between">
-          <span class="text-gray-500 dark:text-gray-400">Telegram Users</span>
-          <span class="font-semibold">${social.telegram_channel_user_count?.toLocaleString() || 'N/A'}</span>
-        </div>
-        <div class="flex justify-between">
-          <span class="text-gray-500 dark:text-gray-400">Facebook Likes</span>
-          <span class="font-semibold">${social.facebook_likes?.toLocaleString() || 'N/A'}</span>
+      <div class="flex items-center mb-4">
+        <img src="${coin.thumb}" alt="${coin.name}" class="h-10 w-10 mr-3" />
+        <div>
+          <h3 class="text-xl font-bold text-gray-900 dark:text-white">${coin.name}</h3>
+          <p class="text-gray-500 dark:text-gray-400 uppercase">${coin.symbol}</p>
         </div>
       </div>
+      <p class="text-gray-500 dark:text-gray-400">Price in BTC: ${coin.price_btc}</p>
     </div>
   `
     )

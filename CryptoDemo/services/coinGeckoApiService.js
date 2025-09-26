@@ -1,4 +1,5 @@
 import { getCachedData, setCachedData } from './cacheService.js';
+
 const API_BASE = 'https://api.coingecko.com/api/v3';
 
 /**

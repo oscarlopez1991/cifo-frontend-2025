@@ -1,3 +1,4 @@
+<!-- Modal container for crypto analytics, overlays the entire screen with a dark background -->
 <div
   id="analytics-modal"
   class="fixed inset-0 z-50 bg-black bg-opacity-60 flex items-center justify-center hidden"
@@ -5,32 +6,39 @@
   <div
     class="bg-white dark:bg-gray-900 rounded-lg shadow-lg max-w-xl w-full relative p-0"
   >
+    <!-- Close button positioned at the top-right corner of the modal -->
     <button
       id="close-analytics-modal"
       class="absolute top-2 right-2 text-gray-500 hover:text-gray-900 text-xl z-10"
     >
       &times;
     </button>
+    <!-- Main content section of the modal, styled for light and dark themes -->
     <section class="bg-white dark:bg-gray-900 flex flex-col">
       <div
         class="flex-1 max-w-screen-xl w-full mx-auto px-4 py-8 lg:py-12 text-center"
       >
+        <!-- Title of the modal -->
         <h1 class="mb-2 text-4xl font-extrabold text-gray-900 dark:text-white">
           Crypto Analytics
         </h1>
+        <!-- Description showing the selected coin and time period -->
         <p class="text-sm text-gray-400 dark:text-gray-500 mb-4">
           Periodicity: <span class="font-semibold">Last {{days}}</span> for
           <span class="font-semibold text-blue-700 dark:text-blue-400"
             >{{coinName}}</span
           >
         </p>
+        <!-- Container for the chart and metrics, with responsive layout -->
         <div
           class="flex flex-col w-full h-full bg-white dark:bg-gray-800 rounded-lg shadow p-4 mt-4"
         >
+          <!-- Metrics section: displays price and change -->
           <div
             class="flex-1 flex flex-col sm:flex-row sm:items-end justify-between mb-4"
           >
             <div>
+              <!-- Current price of the coin -->
               <div
                 id="metric-price"
                 class="text-2xl font-bold text-gray-900 dark:text-white mt-4"
@@ -38,6 +46,7 @@
                 --
               </div>
             </div>
+            <!-- Price change percentage -->
             <div
               id="metric-change"
               class="text-base font-medium text-green-500 dark:text-green-400"
@@ -45,11 +54,13 @@
               --
             </div>
           </div>
+          <!-- Chart container where ApexCharts will render the price history -->
           <div
             id="analytics-chart"
             class="flex-1 min-h-[300px] h-full w-full"
           ></div>
         </div>
+        <!-- Placeholder for additional buttons or controls (currently empty) -->
         <div
           class="flex flex-col sm:flex-row gap-4 justify-center items-center mt-4"
         ></div>

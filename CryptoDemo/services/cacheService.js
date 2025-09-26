@@ -40,7 +40,7 @@ export function clearCache() {
     localStorage.removeItem('cryptoTopMarkets');
     localStorage.removeItem('cryptoChart-bitcoin');
     localStorage.removeItem('cryptoChart-ethereum');
-    localStorage.removeItem('cryptoChart-ripple');
+    localStorage.removeItem('cryptoChart-solana');
   } catch (error) {
     console.warn('Error clearing cache:', error);
   }

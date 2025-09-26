@@ -1,5 +1,6 @@
 import { renderPageError } from '../../utils/renderPageError.js';
-import { fetchNews, fetchTrendingCoins } from '../../services/cryptoService.js';
+import { fetchNews } from '../../services/newsApiService.js';
+import { fetchTrendingCoins } from '../../services/coinGeckoApiService.js';
 
 /**
  * Loads and displays the news page content

@@ -2,7 +2,7 @@ import { loadNavbar } from '../components/Navbar/Navbar.js';
 import { loadFooter } from '../components/Footer/Footer.js';
 import { router } from './router.js';
 import { CACHE_EXPIRY_MS } from '../services/cacheService.js'; // Add this import
-import { fetchTopMarkets } from '../services/cryptoService.js';
+import { fetchTopMarkets } from '../services/coinGeckoApiService.js';
 
 // This function renders the shared layout components
 const renderLayout = async () => {

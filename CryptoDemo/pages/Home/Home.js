@@ -1,6 +1,6 @@
 import { renderPageError } from '../../utils/renderPageError.js';
 import { showAnalyticsModal } from '../../components/AnalyticsModal/AnalyticsModal.js';
-import { fetchTopMarkets } from '../../services/cryptoService.js';
+import { fetchTopMarkets } from '../../services/coinGeckoApiService.js';
 /**
  * Sets up event listeners for the home page
  */

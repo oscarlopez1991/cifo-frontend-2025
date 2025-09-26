@@ -1,4 +1,4 @@
-import { fetchMarketChart } from '../../services/cryptoService.js';
+import { fetchMarketChart } from '../../services/coinGeckoApiService.js';
 import { getCachedData } from '../../services/cacheService.js';
 
 export async function showAnalyticsModal(

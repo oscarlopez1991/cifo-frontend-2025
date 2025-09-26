@@ -323,9 +323,9 @@ function createRowFromCoin(coinData) {
     .querySelector('.change')
     .setAttribute('data-value', coinData.change24h);
   coinRowElement.classList.add(
-    'hover:bg-gray-100', // Fondo gris claro en hover (modo claro)
-    'dark:hover:bg-gray-600', // Fondo gris oscuro en hover (modo oscuro)
-    'cursor-pointer' // Cursor pointer para indicar clickeable
+    'hover:bg-gray-100',
+    'dark:hover:bg-gray-600',
+    'cursor-pointer'
   );
 
   return coinRowElement;

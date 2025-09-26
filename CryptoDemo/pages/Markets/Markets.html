@@ -16,6 +16,7 @@
       <!-- Search -->
       <div class="w-full md:w-1/2">
         <label for="market-search" class="sr-only">Search</label>
+        <!-- Search input -->
         <div class="relative">
           <div
             class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
@@ -39,13 +40,14 @@
             id="market-search"
             type="text"
             placeholder="Search coin..."
-            class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:placeholder-gray-400 dark:text-white"
+            class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           />
         </div>
       </div>
 
       <!-- Page size -->
       <div class="flex items-center gap-2">
+        <!-- Page size select -->
         <label
           for="rows-per-page"
           class="text-sm text-gray-600 dark:text-gray-400"
@@ -53,7 +55,7 @@
         >
         <select
           id="rows-per-page"
-          class="p-2 text-sm border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+          class="p-2 text-sm border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         >
           <option>5</option>
           <option selected>10</option>
@@ -149,7 +151,7 @@
                   class="w-3 h-3 opacity-60 sort-icon"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"
-                  viewBox="0 0 24 24"
+                  viewBox="http://www.w3.org/2000/svg"
                 >
                   <path d="M7 10l5-6 5 6H7zm0 4h10l-5 6-5-6z" />
                 </svg>
@@ -157,7 +159,7 @@
             </th>
           </tr>
         </thead>
-        <tbody id="markets-tbody"></tbody>
+        <tbody id="markets-tbody" class="bg-white dark:bg-gray-900"></tbody>
       </table>
     </div>
 

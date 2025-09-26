@@ -81,6 +81,39 @@ export const loadNavbar = async () => {
         mobileMenu.classList.toggle('hidden');
       });
     }
+
+    // Theme toggle functionality
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIconLight = document.getElementById('theme-icon-light');
+    const themeIconDark = document.getElementById('theme-icon-dark');
+    const html = document.documentElement;
+
+    // Load saved theme
+    const savedTheme = localStorage.getItem('theme') || 'dark'; // Mantener dark por defecto
+    if (savedTheme === 'light') {
+      html.classList.remove('dark');
+      themeIconLight.classList.remove('hidden');
+      themeIconDark.classList.add('hidden');
+    } else {
+      html.classList.add('dark');
+      themeIconLight.classList.add('hidden');
+      themeIconDark.classList.remove('hidden');
+    }
+
+    // Toggle theme on click
+    themeToggle.addEventListener('click', () => {
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+        themeIconLight.classList.remove('hidden');
+        themeIconDark.classList.add('hidden');
+      } else {
+        html.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+        themeIconLight.classList.add('hidden');
+        themeIconDark.classList.remove('hidden');
+      }
+    });
   } catch (error) {
     console.error('Error loading the Navbar:', error);
     navbarContainer.innerHTML =

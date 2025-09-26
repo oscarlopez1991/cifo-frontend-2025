@@ -76,7 +76,10 @@ function renderNews(newsData, container) {
   const template = document.getElementById('news-card-template');
   newsData.forEach((news) => {
     const card = template.content.firstElementChild.cloneNode(true);
-    card.querySelector('img').src = news.thumb;
+    let thumb =
+      news.thumb ||
+      `https://picsum.photos/id/${Math.floor(Math.random() * 1000)}/300/200`;
+    card.querySelector('img').src = thumb;
     card.querySelector('img').alt = news.title;
     card.querySelector('h3').textContent = news.title;
     card.querySelector('p').textContent = news.description;

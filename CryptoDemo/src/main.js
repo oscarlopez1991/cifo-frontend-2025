@@ -34,7 +34,6 @@ async function refreshCache() {
   try {
     // Refresh only top markets (charts can be loaded on demand)
     await fetchTopMarkets(100);
-    console.log('Cache refreshed');
   } catch (error) {
     console.warn('Failed to refresh cache:', error);
   }

@@ -66,25 +66,34 @@ const updateCryptoCards = async () => {
         priceId: 'btc-price',
         changeId: 'btc-change',
         rangeId: 'btc-range',
+        imgId: 'btc-img',
       },
       {
         id: 'ethereum',
         priceId: 'eth-price',
         changeId: 'eth-change',
         rangeId: 'eth-range',
+        imgId: 'eth-img',
       },
       {
         id: 'solana',
         priceId: 'sol-price',
         changeId: 'sol-change',
         rangeId: 'sol-range',
+        imgId: 'sol-img',
       },
     ];
 
     // Update each card
-    coinsToUpdate.forEach(({ id, priceId, changeId, rangeId }) => {
+    coinsToUpdate.forEach(({ id, priceId, changeId, rangeId, imgId }) => {
       const coinData = marketsData.find((coin) => coin.id === id);
       if (coinData) {
+        // Update image
+        const imgEl = document.getElementById(imgId);
+        if (imgEl) {
+          imgEl.src = coinData.image;
+        }
+
         // Update price
         const priceEl = document.getElementById(priceId);
         if (priceEl) {

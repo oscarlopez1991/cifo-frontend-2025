@@ -1165,6 +1165,10 @@ input:checked + .toggle-bg {
   margin-right: 0.5rem;
 }
 
+.mr-3 {
+  margin-right: 0.75rem;
+}
+
 .ms-2 {
   margin-inline-start: 0.5rem;
 }

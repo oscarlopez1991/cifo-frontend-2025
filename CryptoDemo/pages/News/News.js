@@ -57,40 +57,33 @@ async function loadNewsData() {
  * Render news articles
  */
 function renderNews(newsData, container) {
-  container.innerHTML = newsData
-    .map(
-      (news) => `
-    <div class="bg-white rounded-lg shadow-lg overflow-hidden dark:bg-gray-700 hover:shadow-xl transition-shadow h-96 flex flex-col">
-      <img src="${news.thumb}" alt="${news.title}" class="w-full h-48 object-cover flex-shrink-0" onerror="this.src='https://picsum.photos/300/200'" />
-      <div class="p-6 flex flex-col">
-        <h3 class="mb-2 text-xl font-bold text-gray-900 dark:text-white line-clamp-2">${news.title}</h3>
-        <p class="text-gray-500 dark:text-gray-400 mb-4 line-clamp-2">${news.description}</p>
-        <a href="${news.url}" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline mt-auto">Read more</a>
-      </div>
-    </div>
-  `
-    )
-    .join('');
+  container.innerHTML = '';
+  const template = document.getElementById('news-card-template');
+  newsData.forEach((news) => {
+    const card = template.content.firstElementChild.cloneNode(true);
+    card.querySelector('img').src = news.thumb;
+    card.querySelector('img').alt = news.title;
+    card.querySelector('h3').textContent = news.title;
+    card.querySelector('p').textContent = news.description;
+    card.querySelector('a').href = news.url;
+    container.appendChild(card);
+  });
 }
 
 /**
  * Render trending coins
  */
 function renderTrending(trendingData, container) {
-  container.innerHTML = trendingData
-    .map(
-      (coin) => `
-    <div class="bg-white rounded-lg shadow-lg p-6 dark:bg-gray-700">
-      <div class="flex items-center mb-4">
-        <img src="${coin.thumb}" alt="${coin.name}" class="h-10 w-10 mr-3" />
-        <div>
-          <h3 class="text-xl font-bold text-gray-900 dark:text-white">${coin.name}</h3>
-          <p class="text-gray-500 dark:text-gray-400 uppercase">${coin.symbol}</p>
-        </div>
-      </div>
-      <p class="text-gray-500 dark:text-gray-400">Price in BTC: ${coin.price_btc}</p>
-    </div>
-  `
-    )
-    .join('');
+  container.innerHTML = '';
+  const template = document.getElementById('trending-card-template');
+  trendingData.forEach((coin) => {
+    const card = template.content.firstElementChild.cloneNode(true);
+    card.querySelector('img').src = coin.thumb;
+    card.querySelector('img').alt = coin.name;
+    card.querySelector('h3').textContent = coin.name;
+    card.querySelector('p').textContent = coin.symbol;
+    card.querySelector('p:last-of-type').textContent =
+      `Price in BTC: ${coin.price_btc}`;
+    container.appendChild(card);
+  });
 }

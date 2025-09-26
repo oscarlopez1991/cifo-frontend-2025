@@ -153,6 +153,16 @@ function renderTable(
   tbody.innerHTML = '';
   pageRows.forEach((tr) => tbody.appendChild(tr.cloneNode(true)));
 
+  // Re-assign row click events after rendering
+  tbody.querySelectorAll('tr').forEach((row) => {
+    row.addEventListener('click', () => {
+      const coinId = row.dataset.coinId || 'bitcoin';
+      const coinName =
+        row.querySelector('.coin-name').textContent.split(' (')[0] || 'Bitcoin';
+      showAnalyticsModal(coinId, coinName, 7); // 7 days (default)
+    });
+  });
+
   renderPagination(total);
   updateSortHeaderStyles();
 }

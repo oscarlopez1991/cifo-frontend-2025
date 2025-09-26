@@ -28,6 +28,16 @@ const setupHomeEventListeners = () => {
     });
   }
 
+  // Explore Markets button - Navigate to Markets
+  const exploreMarketsBtn = document.getElementById('explore-markets-btn');
+  if (exploreMarketsBtn) {
+    exploreMarketsBtn.addEventListener('click', () => {
+      document.dispatchEvent(
+        new CustomEvent('navigate', { detail: { page: 'markets' } })
+      );
+    });
+  }
+
   // View Chart buttons for crypto cards
   const viewBtcChartBtn = document.getElementById('view-btc-chart');
   if (viewBtcChartBtn) {

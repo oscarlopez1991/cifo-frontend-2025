@@ -1,8 +1,5 @@
 import { getCachedData, setCachedData } from './cacheService.js';
-const API_BASE = 'https://api.coingecko.com/api/v3'; // Sin proxy, prueba directa
-// Usar un proxy CORS alternativo que no requiere habilitación manual
-// const PROXY = 'https://corsproxy.io/?';
-// const API_BASE = `${PROXY}https://api.coingecko.com/api/v3`;
+const API_BASE = 'https://api.coingecko.com/api/v3';
 
 /**
  * Fetch top coins by market cap.
@@ -61,7 +58,7 @@ export async function fetchMarketChart(coinId, days) {
 }
 
 /**
- * Fetch latest crypto news (mock data since /news requires Pro API)
+ * Fetch latest crypto news from NewsAPI (free tier: 100 requests/day)
  * @returns {Promise<Array<{title, description, url, thumb, tags, created_at}>>}
  */
 export async function fetchNews() {
@@ -69,36 +66,30 @@ export async function fetchNews() {
   const cached = getCachedData(cacheKey);
   if (cached) return cached;
 
-  // Mock data for demo (since /news requires Pro API key)
-  const data = [
-    {
-      title: 'Bitcoin Surges Past $50,000 Amid Institutional Adoption',
-      description:
-        'Major financial institutions are increasingly adopting Bitcoin, driving prices higher.',
-      url: 'https://example.com/bitcoin-surge',
-      thumb: 'https://via.placeholder.com/300x200?text=Bitcoin',
-      tags: ['Bitcoin', 'Institutional'],
-      created_at: new Date().toISOString(),
-    },
-    {
-      title: 'Ethereum 2.0 Upgrade Completes Successfully',
-      description:
-        'The long-awaited Ethereum 2.0 upgrade has been completed, improving scalability.',
-      url: 'https://example.com/ethereum-upgrade',
-      thumb: 'https://via.placeholder.com/300x200?text=Ethereum',
-      tags: ['Ethereum', 'Upgrade'],
-      created_at: new Date().toISOString(),
-    },
-    {
-      title: 'Solana Network Outage Resolved',
-      description:
-        'Solana has resolved its recent network issues, restoring full functionality.',
-      url: 'https://example.com/solana-outage',
-      thumb: 'https://via.placeholder.com/300x200?text=Solana',
-      tags: ['Solana', 'Network'],
-      created_at: new Date().toISOString(),
-    },
-  ];
+  // Replace 'YOUR_NEWSAPI_KEY' with your actual API key from https://newsapi.org/
+  const NEWSAPI_KEY = '57672bb7b03a48f5b83290634560e733'; // Get it from https://newsapi.org/
+  const url = `https://newsapi.org/v2/everything?q=cryptocurrency&sortBy=publishedAt&apiKey=${NEWSAPI_KEY}`;
+
+  const res = await fetch(url);
+  if (!res.ok)
+    throw new Error(`NewsAPI error: ${res.status} ${res.statusText}`);
+  const json = await res.json();
+
+  const data = json.articles
+    .filter((article) => article.urlToImage)
+    .filter(
+      (article, index, self) =>
+        self.findIndex((a) => a.title === article.title) === index
+    ) // Remove duplicates by title
+    .slice(0, 6)
+    .map((article) => ({
+      title: article.title,
+      description: article.description,
+      url: article.url,
+      thumb: article.urlToImage,
+      tags: ['Cryptocurrency'],
+      created_at: article.publishedAt,
+    }));
 
   setCachedData(cacheKey, data);
   return data;
@@ -125,6 +116,7 @@ export async function fetchCoinSocial(coinId) {
     reddit_subscribers: json.community_data?.reddit_subscribers || 0,
     telegram_channel_user_count:
       json.community_data?.telegram_channel_user_count || 0,
+    facebook_likes: json.community_data?.facebook_likes || 0,
   };
 
   setCachedData(cacheKey, data);

@@ -40,8 +40,8 @@ async function loadNewsData() {
     const newsData = await fetchNews();
     renderNews(newsData, newsContainer);
 
-    // Fetch social data for top 3 coins
-    const topCoins = ['bitcoin', 'ethereum', 'solana'];
+    // Fetch social data for top 5 coins
+    const topCoins = ['bitcoin', 'ethereum', 'solana', 'cardano', 'polkadot'];
     const socialPromises = topCoins.map(async (coinId) => {
       const socialData = await fetchCoinSocial(coinId);
       return { coinId, ...socialData };
@@ -64,12 +64,12 @@ function renderNews(newsData, container) {
   container.innerHTML = newsData
     .map(
       (news) => `
-    <div class="bg-white rounded-lg shadow-lg overflow-hidden dark:bg-gray-700 hover:shadow-xl transition-shadow">
-      <img src="${news.thumb || '/assets/logo.png'}" alt="${news.title}" class="w-full h-48 object-cover" />
-      <div class="p-6">
-        <h3 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">${news.title}</h3>
-        <p class="text-gray-500 dark:text-gray-400 mb-4">${news.description}</p>
-        <a href="${news.url}" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline">Read more</a>
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden dark:bg-gray-700 hover:shadow-xl transition-shadow h-96 flex flex-col">
+      <img src="${news.thumb}" alt="${news.title}" class="w-full h-48 object-cover flex-shrink-0" onerror="this.src='https://picsum.photos/300/200'" />
+      <div class="p-6 flex flex-col">
+        <h3 class="mb-2 text-xl font-bold text-gray-900 dark:text-white line-clamp-2">${news.title}</h3>
+        <p class="text-gray-500 dark:text-gray-400 mb-4 line-clamp-2">${news.description}</p>
+        <a href="${news.url}" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline mt-auto">Read more</a>
       </div>
     </div>
   `
@@ -98,6 +98,10 @@ function renderSocial(socialData, container) {
         <div class="flex justify-between">
           <span class="text-gray-500 dark:text-gray-400">Telegram Users</span>
           <span class="font-semibold">${social.telegram_channel_user_count?.toLocaleString() || 'N/A'}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-500 dark:text-gray-400">Facebook Likes</span>
+          <span class="font-semibold">${social.facebook_likes?.toLocaleString() || 'N/A'}</span>
         </div>
       </div>
     </div>

@@ -123,6 +123,18 @@ async function setupAnalyticsPage(
  * @param {HTMLElement} chartContainer - Container element for the chart.
  * @param {Object} chart - Existing chart instance to destroy if needed.
  */
+
+function getDownSampledData(times, prices, minLabels = 12) {
+  const step = Math.max(1, Math.floor(times.length / minLabels));
+  const filteredTimes = [];
+  const filteredPrices = [];
+  for (let i = 0; i < times.length; i += step) {
+    filteredTimes.push(times[i]);
+    filteredPrices.push(prices[i]);
+  }
+  return { filteredTimes, filteredPrices };
+}
+
 async function renderChart(
   raw,
   coinName,
@@ -167,6 +179,19 @@ async function renderChart(
   priceEl.textContent = `$${last.toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
   changeEl.textContent = `${change >= 0 ? '+' : ''}${change.toFixed(2)}%`;
   changeEl.className = `text-base font-medium ${change >= 0 ? 'text-green-500 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`;
+  const isMobile = window.matchMedia('(max-width: 767px)').matches;
+  let chartTimes = times;
+  let chartPrices = prices;
+
+  if (days === 1 && isMobile) {
+    const { filteredTimes, filteredPrices } = getDownSampledData(
+      times,
+      prices,
+      12
+    );
+    chartTimes = filteredTimes;
+    chartPrices = filteredPrices;
+  }
 
   // Configure ApexCharts options for the area chart
   const options = {
@@ -177,20 +202,13 @@ async function renderChart(
       toolbar: { show: false },
       background: 'transparent',
     },
-    series: [{ name: coinName.toUpperCase(), data: prices }],
+    series: [{ name: coinName.toUpperCase(), data: chartPrices }],
     xaxis: {
-      categories: times,
+      categories: chartTimes,
       labels: {
         show: true,
-        rotate: days === 1 ? -45 : -45,
-        showEvery: days === 1 ? 1 : 1,
-        style: { colors: '#9ca3af' },
-        formatter: (value) => {
-          if (days === 1 && typeof value === 'string' && value.includes(':')) {
-            return value;
-          }
-          return value;
-        },
+        rotate: -45,
+        style: { colors: '#9ca3af', fontSize: isMobile ? '10px' : '12px' },
       },
       axisBorder: { show: true, color: '#6b7280' },
       axisTicks: { show: false },

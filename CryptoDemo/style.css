@@ -1047,6 +1047,10 @@ input:checked + .toggle-bg {
   pointer-events: none;
 }
 
+.\!visible {
+  visibility: visible !important;
+}
+
 .visible {
   visibility: visible;
 }
@@ -2441,10 +2445,6 @@ datalist option {
 @media (min-width: 768px) {
   .md\:static {
     position: static;
-  }
-
-  .md\:relative {
-    position: relative;
   }
 
   .md\:mr-4 {

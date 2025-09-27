@@ -1,45 +1,4 @@
 /**
- * Updates the navbar to highlight the currently active link(s).
- * This function is exported so the router can call it.
- * @param {string} pageName - The name of the active page (e.g., 'home').
- */
-export const setActiveNavLink = (pageName) => {
-  const allNavLinks = document.querySelectorAll('.navbar-link');
-
-  // Define the class sets ONCE.
-  const activeClasses = [
-    'bg-blue-700',
-    'text-white',
-    'md:bg-transparent',
-    'md:text-blue-700',
-    'dark:md:text-blue-500',
-  ];
-  const inactiveClasses = [
-    'text-gray-900',
-    'dark:text-white',
-    'hover:bg-gray-100',
-    'md:hover:bg-transparent',
-    'md:hover:text-blue-700',
-  ];
-
-  allNavLinks.forEach((link) => {
-    const isLinkActive = link.dataset.page === pageName;
-
-    // Remove all possible classes to ensure a clean slate
-    link.classList.remove(...activeClasses, ...inactiveClasses);
-    link.removeAttribute('aria-current');
-
-    // Apply the appropriate classes based on active state
-    if (isLinkActive) {
-      link.classList.add(...activeClasses);
-      link.setAttribute('aria-current', 'page');
-    } else {
-      link.classList.add(...inactiveClasses);
-    }
-  });
-};
-
-/**
  * Main function to load the navbar and set up its internal click listeners.
  */
 export const loadNavbar = async () => {
@@ -129,4 +88,45 @@ export const loadNavbar = async () => {
     navbarContainer.innerHTML =
       '<p class="text-center text-red-500">Error loading navigation bar.</p>';
   }
+};
+
+/**
+ * Updates the navbar to highlight the currently active link(s).
+ * This function is exported so the router can call it.
+ * @param {string} pageName - The name of the active page (e.g., 'home').
+ */
+export const setActiveNavLink = (pageName) => {
+  const allNavLinks = document.querySelectorAll('.navbar-link');
+
+  // Define the class sets ONCE.
+  const activeClasses = [
+    'bg-blue-700',
+    'text-white',
+    'md:bg-transparent',
+    'md:text-blue-700',
+    'dark:md:text-blue-500',
+  ];
+  const inactiveClasses = [
+    'text-gray-900',
+    'dark:text-white',
+    'hover:bg-gray-100',
+    'md:hover:bg-transparent',
+    'md:hover:text-blue-700',
+  ];
+
+  allNavLinks.forEach((link) => {
+    const isLinkActive = link.dataset.page === pageName;
+
+    // Remove all possible classes to ensure a clean slate
+    link.classList.remove(...activeClasses, ...inactiveClasses);
+    link.removeAttribute('aria-current');
+
+    // Apply the appropriate classes based on active state
+    if (isLinkActive) {
+      link.classList.add(...activeClasses);
+      link.setAttribute('aria-current', 'page');
+    } else {
+      link.classList.add(...inactiveClasses);
+    }
+  });
 };

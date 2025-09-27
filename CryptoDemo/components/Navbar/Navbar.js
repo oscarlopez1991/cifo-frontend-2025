@@ -60,14 +60,25 @@ export const loadNavbar = async () => {
     const navLinks = document.querySelectorAll('.navbar-link');
     navLinks.forEach((link) => {
       link.addEventListener('click', (event) => {
-        event.preventDefault(); // Stop the browser from following the href
+        event.preventDefault();
         const page = link.dataset.page;
-
-        // Dispatch a custom event. The router will listen for this.
-        // This decouples the navbar from the router.
         document.dispatchEvent(
           new CustomEvent('navigate', { detail: { page } })
         );
+
+        // Hide mobile menu after click if it's currently visible
+        const mobileMenu = document.getElementById('navbar-default');
+        const menuToggle = document.querySelector(
+          '[data-collapse-toggle="navbar-default"]'
+        );
+        if (
+          mobileMenu &&
+          menuToggle &&
+          !mobileMenu.classList.contains('hidden')
+        ) {
+          mobileMenu.classList.add('hidden');
+          menuToggle.setAttribute('aria-expanded', 'false');
+        }
       });
     });
 
@@ -79,6 +90,11 @@ export const loadNavbar = async () => {
     if (menuToggle && mobileMenu) {
       menuToggle.addEventListener('click', () => {
         mobileMenu.classList.toggle('hidden');
+        // Update aria-expanded for accessibility
+        menuToggle.setAttribute(
+          'aria-expanded',
+          mobileMenu.classList.contains('hidden') ? 'false' : 'true'
+        );
       });
     }
 

@@ -124,6 +124,31 @@ async function setupAnalyticsPage(
  * @param {Object} chart - Existing chart instance to destroy if needed.
  */
 
+function groupChartData(raw, days) {
+  const grouped = {};
+  raw.forEach(([ts, price]) => {
+    const d = new Date(ts);
+    let key;
+    if (days === 1) {
+      key = `${String(d.getHours()).padStart(2, '0')}:00`;
+    } else {
+      key = `${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`;
+    }
+    if (!grouped[key]) grouped[key] = [];
+    grouped[key].push(price);
+  });
+  return Object.entries(grouped)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([key, arr]) => [key, arr.reduce((a, b) => a + b, 0) / arr.length]);
+}
+
+function getChartMetrics(prices) {
+  const last = prices[prices.length - 1];
+  const first = prices[0];
+  const change = ((last - first) / first) * 100;
+  return { last, change };
+}
+
 function getDownSampledData(times, prices, minLabels = 16) {
   const step = Math.max(1, Math.floor(times.length / minLabels));
   const filteredTimes = [];
@@ -144,56 +169,26 @@ async function renderChart(
   chartContainer,
   chart
 ) {
-  // Group data by date or hour based on the selected period
-  const grouped = {};
-  raw.forEach(([ts, price]) => {
-    const d = new Date(ts);
-    let key;
-    if (days === 1) {
-      // For 1 day, group by hour
-      key = `${String(d.getHours()).padStart(2, '0')}:00`;
-    } else {
-      // For multiple days, group by date in MM/dd format
-      key = `${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`;
-    }
-    if (!grouped[key]) grouped[key] = [];
-    grouped[key].push(price);
-  });
+  const points = groupChartData(raw, days);
+  let prices = points.map(([, avg]) => avg);
+  let times = points.map(([key]) => key);
 
-  // Calculate average prices per group and sort by time
-  const points = Object.entries(grouped)
-    .sort(([a, b]) => a.localeCompare(b))
-    .map(([key, arr]) => {
-      const avg = arr.reduce((a, b) => a + b, 0) / arr.length;
-      return [key, avg];
-    });
-
-  // Extract prices and times for chart
-  const prices = points.map(([, avg]) => avg);
-  const times = points.map(([key]) => key);
-
-  // Calculate metrics: current price and percentage change
-  const last = prices[prices.length - 1];
-  const first = prices[0];
-  const change = ((last - first) / first) * 100;
+  const { last, change } = getChartMetrics(prices);
   priceEl.textContent = `$${last.toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
   changeEl.textContent = `${change >= 0 ? '+' : ''}${change.toFixed(2)}%`;
   changeEl.className = `text-base font-medium ${change >= 0 ? 'text-green-500 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`;
-  const isMobile = window.matchMedia('(max-width: 767px)').matches;
-  let chartTimes = times;
-  let chartPrices = prices;
 
+  const isMobile = window.matchMedia('(max-width: 767px)').matches;
   if (days === 1) {
     const { filteredTimes, filteredPrices } = getDownSampledData(
       times,
       prices,
       isMobile ? 8 : 12
     );
-    chartTimes = filteredTimes;
-    chartPrices = filteredPrices;
+    times = filteredTimes;
+    prices = filteredPrices;
   }
 
-  // Configure ApexCharts options for the area chart
   const options = {
     chart: {
       type: 'area',
@@ -202,9 +197,9 @@ async function renderChart(
       toolbar: { show: false },
       background: 'transparent',
     },
-    series: [{ name: coinName.toUpperCase(), data: chartPrices }],
+    series: [{ name: coinName.toUpperCase(), data: prices }],
     xaxis: {
-      categories: chartTimes,
+      categories: times,
       labels: {
         show: true,
         rotate: -45,
@@ -237,11 +232,9 @@ async function renderChart(
     legend: { show: false },
   };
 
-  // Destroy existing chart if present and render new one
   if (chart) chart.destroy();
   chartContainer.innerHTML = '';
   chart = new window.ApexCharts(chartContainer, options);
-  // Wait for the chart container to be visible in the viewport
   await new Promise((resolve) => {
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {

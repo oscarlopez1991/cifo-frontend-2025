@@ -149,7 +149,7 @@ function getChartMetrics(prices) {
   return { last, change };
 }
 
-function getDownSampledData(times, prices, minLabels = 16) {
+function getDownSampledData(times, prices, minLabels = 12) {
   const step = Math.max(1, Math.floor(times.length / minLabels));
   const filteredTimes = [];
   const filteredPrices = [];

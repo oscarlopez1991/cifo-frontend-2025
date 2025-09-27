@@ -223,5 +223,15 @@ async function renderChart(
   if (chart) chart.destroy();
   chartContainer.innerHTML = '';
   chart = new window.ApexCharts(chartContainer, options);
+  // Wait for the chart container to be visible in the viewport
+  await new Promise((resolve) => {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        observer.disconnect();
+        resolve();
+      }
+    });
+    observer.observe(chartContainer);
+  });
   await chart.render();
 }

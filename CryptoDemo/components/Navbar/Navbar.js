@@ -56,8 +56,26 @@ export const loadNavbar = async () => {
     }
     navbarContainer.innerHTML = await response.text();
 
-    // Add click listeners to all navigation links
-    const navLinks = document.querySelectorAll('.navbar-link');
+    // Helper: get menu elements
+    const getMenuElements = () => ({
+      navLinks: document.querySelectorAll('.navbar-link'),
+      mobileMenu: document.getElementById('navbar-default'),
+      menuToggle: document.querySelector(
+        '[data-collapse-toggle="navbar-default"]'
+      ),
+    });
+
+    // Unified menu toggle logic
+    const { navLinks, mobileMenu, menuToggle } = getMenuElements();
+
+    // Toggle mobile menu visibility
+    function setMobileMenuVisible(visible) {
+      if (!mobileMenu || !menuToggle) return;
+      mobileMenu.classList.toggle('hidden', !visible);
+      menuToggle.setAttribute('aria-expanded', visible ? 'true' : 'false');
+    }
+
+    // Click listeners for navigation links
     navLinks.forEach((link) => {
       link.addEventListener('click', (event) => {
         event.preventDefault();
@@ -65,36 +83,17 @@ export const loadNavbar = async () => {
         document.dispatchEvent(
           new CustomEvent('navigate', { detail: { page } })
         );
-
-        // Hide mobile menu after click if it's currently visible
-        const mobileMenu = document.getElementById('navbar-default');
-        const menuToggle = document.querySelector(
-          '[data-collapse-toggle="navbar-default"]'
-        );
-        if (
-          mobileMenu &&
-          menuToggle &&
-          !mobileMenu.classList.contains('hidden')
-        ) {
-          mobileMenu.classList.add('hidden');
-          menuToggle.setAttribute('aria-expanded', 'false');
+        // Hide mobile menu after click if open
+        if (!mobileMenu.classList.contains('hidden')) {
+          setMobileMenuVisible(false);
         }
       });
     });
 
-    // Mobile menu toggle functionality
-    const menuToggle = document.querySelector(
-      '[data-collapse-toggle="navbar-default"]'
-    );
-    const mobileMenu = document.getElementById('navbar-default');
+    // Mobile menu toggle button
     if (menuToggle && mobileMenu) {
       menuToggle.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden');
-        // Update aria-expanded for accessibility
-        menuToggle.setAttribute(
-          'aria-expanded',
-          mobileMenu.classList.contains('hidden') ? 'false' : 'true'
-        );
+        setMobileMenuVisible(mobileMenu.classList.contains('hidden'));
       });
     }
 
@@ -106,29 +105,24 @@ export const loadNavbar = async () => {
 
     // Load saved theme
     const savedTheme = localStorage.getItem('theme') || 'dark';
-    if (savedTheme === 'light') {
-      html.classList.remove('dark');
-      themeIconLight.classList.remove('hidden');
-      themeIconDark.classList.add('hidden');
-    } else {
-      html.classList.add('dark');
-      themeIconLight.classList.add('hidden');
-      themeIconDark.classList.remove('hidden');
-    }
-
-    // Toggle theme on click
-    themeToggle.addEventListener('click', () => {
-      if (html.classList.contains('dark')) {
+    function applyTheme(theme) {
+      if (theme === 'light') {
         html.classList.remove('dark');
-        localStorage.setItem('theme', 'light');
         themeIconLight.classList.remove('hidden');
         themeIconDark.classList.add('hidden');
       } else {
         html.classList.add('dark');
-        localStorage.setItem('theme', 'dark');
         themeIconLight.classList.add('hidden');
         themeIconDark.classList.remove('hidden');
       }
+    }
+    applyTheme(savedTheme);
+
+    // Toggle theme on click
+    themeToggle.addEventListener('click', () => {
+      const newTheme = html.classList.contains('dark') ? 'light' : 'dark';
+      localStorage.setItem('theme', newTheme);
+      applyTheme(newTheme);
     });
   } catch (error) {
     console.error('Error loading the Navbar:', error);

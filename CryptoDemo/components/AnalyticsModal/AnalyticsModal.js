@@ -124,7 +124,7 @@ async function setupAnalyticsPage(
  * @param {Object} chart - Existing chart instance to destroy if needed.
  */
 
-function getDownSampledData(times, prices, minLabels = 12) {
+function getDownSampledData(times, prices, minLabels = 16) {
   const step = Math.max(1, Math.floor(times.length / minLabels));
   const filteredTimes = [];
   const filteredPrices = [];
@@ -153,8 +153,8 @@ async function renderChart(
       // For 1 day, group by hour
       key = `${String(d.getHours()).padStart(2, '0')}:00`;
     } else {
-      // For multiple days, group by date
-      key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+      // For multiple days, group by date in MM/dd format
+      key = `${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`;
     }
     if (!grouped[key]) grouped[key] = [];
     grouped[key].push(price);
@@ -183,11 +183,11 @@ async function renderChart(
   let chartTimes = times;
   let chartPrices = prices;
 
-  if (days === 1 && isMobile) {
+  if (days === 1) {
     const { filteredTimes, filteredPrices } = getDownSampledData(
       times,
       prices,
-      12
+      isMobile ? 8 : 12
     );
     chartTimes = filteredTimes;
     chartPrices = filteredPrices;

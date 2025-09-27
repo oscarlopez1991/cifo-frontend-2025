@@ -1,36 +1,51 @@
+<!-- Templates file: contains reusable HTML templates for dynamic content rendering -->
+
+<!-- Coin row template: used for displaying cryptocurrency data in the markets table -->
 <template id="coin-row-template">
   <tr>
+    <!-- Table header cell for coin name and image -->
     <th
       scope="row"
       class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
     >
       <div class="flex items-center">
+        <!-- Coin image -->
         <img class="h-6 w-6 mr-2" src="" alt="" />
+        <!-- Coin name and symbol -->
         <span class="coin-name"></span>
       </div>
     </th>
+    <!-- Price cell -->
     <td class="px-6 py-4 price"></td>
+    <!-- Market cap cell -->
     <td class="px-6 py-4 market-cap"></td>
+    <!-- Volume cell, highlighted in blue -->
     <td class="px-6 py-4 text-blue-600 dark:text-blue-500 volume"></td>
+    <!-- 24h change cell -->
     <td class="px-6 py-4 change"></td>
   </tr>
 </template>
 
+<!-- Page error template: used for displaying error messages when page loading fails -->
 <template id="page-error-template">
   <div class="text-center py-16">
+    <!-- Error title -->
     <h1
       class="text-2xl font-bold text-gray-900 dark:text-white mb-4 error-title"
     ></h1>
+    <!-- Error message -->
     <p class="text-gray-500 dark:text-gray-400 error-message">
       Please refresh the page to try again.
     </p>
   </div>
 </template>
 
+<!-- News card template: used for displaying news articles in the news page -->
 <template id="news-card-template">
   <div
     class="bg-white rounded-lg shadow-lg overflow-hidden dark:bg-gray-700 hover:shadow-xl transition-shadow h-96 flex flex-col"
   >
+    <!-- News image with fallback on error -->
     <img
       src=""
       alt=""
@@ -38,10 +53,13 @@
       onerror="this.src='https://picsum.photos/300/200'"
     />
     <div class="p-6 flex flex-col">
+      <!-- News title -->
       <h3
         class="mb-2 text-xl font-bold text-gray-900 dark:text-white line-clamp-2"
       ></h3>
+      <!-- News description -->
       <p class="text-gray-500 dark:text-gray-400 mb-4 line-clamp-2"></p>
+      <!-- Read more link -->
       <a
         href=""
         target="_blank"
@@ -52,15 +70,20 @@
   </div>
 </template>
 
+<!-- Trending card template: used for displaying trending coins in the news page -->
 <template id="trending-card-template">
   <div class="bg-white rounded-lg shadow-lg p-6 dark:bg-gray-700">
     <div class="flex items-center mb-4">
+      <!-- Coin image -->
       <img src="" alt="" class="h-10 w-10 mr-3" />
       <div>
+        <!-- Coin name -->
         <h3 class="text-xl font-bold text-gray-900 dark:text-white"></h3>
+        <!-- Coin symbol -->
         <p class="text-gray-500 dark:text-gray-400 uppercase"></p>
       </div>
     </div>
+    <!-- Price in BTC -->
     <p class="text-gray-500 dark:text-gray-400"></p>
   </div>
 </template>

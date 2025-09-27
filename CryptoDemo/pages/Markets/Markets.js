@@ -1,6 +1,7 @@
 import { fetchTopMarkets } from '../../services/coinGeckoApiService.js';
 import { renderPageError } from '../../utils/renderPageError.js';
 import { showAnalyticsModal } from '../../components/AnalyticsModal/AnalyticsModal.js';
+
 /**
  * Loads and displays the markets page content
  */
@@ -43,7 +44,10 @@ export const loadMarketsPage = async () => {
   }
 };
 
-// --- Table logic (search + sort + paginate) ---
+/**
+ * Initializes the markets table with search, sorting, pagination, and row click events.
+ * @param {Array} coinsData - Array of coin data objects from the API.
+ */
 const initMarketsTable = (coinsData) => {
   const table = document.getElementById('markets-table');
   const tbody = document.getElementById('markets-tbody');
@@ -95,6 +99,12 @@ const initMarketsTable = (coinsData) => {
   });
 };
 
+/**
+ * Renders table rows from data array using a row creation function.
+ * @param {HTMLElement} tbody - The table body element to append rows to.
+ * @param {Array} data - Array of data objects.
+ * @param {Function} createRowFn - Function to create a row element from data.
+ */
 function renderTableRows(tbody, data, createRowFn) {
   tbody.innerHTML = '';
   if (Array.isArray(data) && data.length) {
@@ -102,12 +112,25 @@ function renderTableRows(tbody, data, createRowFn) {
   }
 }
 
+/**
+ * Gets a snapshot of the original table rows for filtering and sorting.
+ * @param {HTMLElement} tbody - The table body element.
+ * @returns {Array<HTMLElement>} Array of cloned row elements.
+ */
 function getOriginalRows(tbody) {
   return Array.from(tbody.querySelectorAll('tr')).map((tr) =>
     tr.cloneNode(true)
   );
 }
 
+/**
+ * Sets up event listeners for table sorting, search, and pagination.
+ * @param {HTMLElement} table - The table element.
+ * @param {HTMLElement} searchInput - The search input element.
+ * @param {HTMLElement} pageSizeSelect - The page size select element.
+ * @param {Object} state - The table state object.
+ * @param {Function} render - The render function to update the table.
+ */
 function setupTableEvents(table, searchInput, pageSizeSelect, state, render) {
   table.querySelectorAll('.sort-btn').forEach((btn) => {
     btn.addEventListener('click', () => {
@@ -134,6 +157,14 @@ function setupTableEvents(table, searchInput, pageSizeSelect, state, render) {
   });
 }
 
+/**
+ * Renders the table with filtered, sorted, and paginated rows.
+ * @param {HTMLElement} tbody - The table body element.
+ * @param {Array<HTMLElement>} originalRows - Original rows snapshot.
+ * @param {Object} state - The table state object.
+ * @param {Function} renderPagination - Function to render pagination.
+ * @param {Function} updateSortHeaderStyles - Function to update sort styles.
+ */
 function renderTable(
   tbody,
   originalRows,
@@ -167,6 +198,12 @@ function renderTable(
   updateSortHeaderStyles();
 }
 
+/**
+ * Filters rows based on search query.
+ * @param {Array<HTMLElement>} rows - Array of row elements.
+ * @param {string} query - Search query string.
+ * @returns {Array<HTMLElement>} Filtered rows.
+ */
 function filterRows(rows, query) {
   if (!query) return rows;
   const q = query.toLowerCase();
@@ -175,6 +212,13 @@ function filterRows(rows, query) {
   );
 }
 
+/**
+ * Sorts rows based on sort key and direction.
+ * @param {Array<HTMLElement>} rows - Array of row elements.
+ * @param {string} sortKey - Key to sort by (e.g., 'price').
+ * @param {string} sortDir - Sort direction ('asc' or 'desc').
+ * @returns {Array<HTMLElement>} Sorted rows.
+ */
 function sortRows(rows, sortKey, sortDir) {
   if (!sortKey) return rows;
   const dir = sortDir === 'asc' ? 1 : -1;
@@ -187,6 +231,14 @@ function sortRows(rows, sortKey, sortDir) {
   });
 }
 
+/**
+ * Renders pagination controls.
+ * @param {number} total - Total number of rows.
+ * @param {Object} state - The table state object.
+ * @param {HTMLElement} pagination - Pagination container element.
+ * @param {HTMLElement} summary - Summary text element.
+ * @param {Function} render - The render function.
+ */
 function renderPagination(total, state, pagination, summary, render) {
   const totalPages = Math.max(1, Math.ceil(total / state.pageSize));
   state.page = Math.min(state.page, totalPages);
@@ -246,6 +298,11 @@ function renderPagination(total, state, pagination, summary, render) {
   );
 }
 
+/**
+ * Updates the styles of sort buttons based on current sort state.
+ * @param {HTMLElement} table - The table element.
+ * @param {Object} state - The table state object.
+ */
 function updateSortHeaderStyles(table, state) {
   table.querySelectorAll('.sort-btn').forEach((btn) => {
     const icon = btn.querySelector('.sort-icon');
@@ -259,6 +316,12 @@ function updateSortHeaderStyles(table, state) {
   });
 }
 
+/**
+ * Gets the value from a table cell for sorting.
+ * @param {HTMLElement} tr - The table row element.
+ * @param {string} key - The sort key.
+ * @returns {string|number} The cell value.
+ */
 function getCellValue(tr, key) {
   // Column order: name (0), price (1), marketCap (2), volume (3), change (4)
   switch (key) {

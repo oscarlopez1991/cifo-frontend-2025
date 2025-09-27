@@ -1,26 +1,30 @@
 <!doctype html>
 <html lang="en" class="dark">
   <head>
+    <!-- Document metadata and configuration -->
     <meta charset="UTF-8" />
-    <!-- Replace the data URI favicon with your logo -->
     <link rel="icon" type="image/png" href="./assets/logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Crypto Demo</title>
+    <!-- External stylesheets -->
     <link rel="stylesheet" href="style.css" />
+    <!-- External scripts for ApexCharts library -->
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <!-- Flowbite UI library, loaded deferentially -->
     <script src="assets/vendor/flowbite/flowbite.min.js" defer></script>
+    <!-- Main application script, loaded as module -->
     <script type="module" src="src/main.js"></script>
   </head>
   <body class="bg-gray-50 dark:bg-gray-900 flex flex-col min-h-screen">
-    <!-- Navbar will be rendered here -->
+    <!-- Header section: contains the navigation bar -->
     <header id="navbar-container"></header>
 
-    <!-- Main content for the page -->
+    <!-- Main content area: where page-specific content is dynamically loaded -->
     <main id="app" class="p-4 flex-grow">
-      <!-- Your page-specific content, like charts, will go here -->
+      <!-- Placeholder for dynamic content like charts or tables -->
     </main>
 
-    <!-- Footer will be rendered here -->
+    <!-- Footer section: contains copyright and links -->
     <footer id="footer-container"></footer>
   </body>
 </html>

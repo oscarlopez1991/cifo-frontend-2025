@@ -1,10 +1,48 @@
 import { renderPageError } from '../../utils/renderPageError.js';
 import { showAnalyticsModal } from '../../components/AnalyticsModal/AnalyticsModal.js';
 import { fetchTopMarkets } from '../../services/coinGeckoApiService.js';
+
+/**
+ * Loads and displays the home page content
+ */
+export const loadHomePage = async () => {
+  const appContainer = document.getElementById('app');
+  if (!appContainer) {
+    console.error('App container not found');
+    return;
+  }
+
+  try {
+    // Load the home page HTML
+    const response = await fetch('./pages/Home/Home.html');
+    if (!response.ok) {
+      throw new Error(`Failed to fetch Home page: ${response.statusText}`);
+    }
+
+    const html = await response.text();
+    appContainer.innerHTML = html;
+
+    // Update crypto cards with real data
+    await updateCryptoCards();
+
+    // Set up event listeners after HTML is loaded
+    setupHomeEventListeners();
+  } catch (error) {
+    console.error('Error loading home page:', error);
+    renderPageError(appContainer, 'Home');
+  }
+};
 /**
  * Sets up event listeners for the home page
  */
 const setupHomeEventListeners = () => {
+  // Helper function to navigate to Markets page
+  const navigateToMarkets = () => {
+    document.dispatchEvent(
+      new CustomEvent('navigate', { detail: { page: 'markets' } })
+    );
+  };
+
   // Start Tracking button
   const startTrackingBtn = document.getElementById('start-tracking-btn');
   if (startTrackingBtn) {
@@ -20,22 +58,13 @@ const setupHomeEventListeners = () => {
   // Get Started button - Navigate to Markets
   const getStartedBtn = document.getElementById('get-started-btn');
   if (getStartedBtn) {
-    getStartedBtn.addEventListener('click', () => {
-      // Navigate to Markets page
-      document.dispatchEvent(
-        new CustomEvent('navigate', { detail: { page: 'markets' } })
-      );
-    });
+    getStartedBtn.addEventListener('click', navigateToMarkets);
   }
 
   // Explore Markets button - Navigate to Markets
   const exploreMarketsBtn = document.getElementById('explore-markets-btn');
   if (exploreMarketsBtn) {
-    exploreMarketsBtn.addEventListener('click', () => {
-      document.dispatchEvent(
-        new CustomEvent('navigate', { detail: { page: 'markets' } })
-      );
-    });
+    exploreMarketsBtn.addEventListener('click', navigateToMarkets);
   }
 
   // View Chart buttons for crypto cards
@@ -136,37 +165,5 @@ const updateCryptoCards = async () => {
     });
   } catch (error) {
     console.warn('Failed to update crypto cards with real data:', error);
-    // Fallback: Keep static data
-  }
-};
-
-/**
- * Loads and displays the home page content
- */
-export const loadHomePage = async () => {
-  const appContainer = document.getElementById('app');
-  if (!appContainer) {
-    console.error('App container not found');
-    return;
-  }
-
-  try {
-    // Load the home page HTML
-    const response = await fetch('./pages/Home/Home.html');
-    if (!response.ok) {
-      throw new Error(`Failed to fetch Home page: ${response.statusText}`);
-    }
-
-    const html = await response.text();
-    appContainer.innerHTML = html;
-
-    // Update crypto cards with real data
-    await updateCryptoCards();
-
-    // Set up event listeners after HTML is loaded
-    setupHomeEventListeners();
-  } catch (error) {
-    console.error('Error loading home page:', error);
-    renderPageError(appContainer, 'Home');
   }
 };

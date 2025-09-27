@@ -47,6 +47,8 @@ export const loadNewsPage = async () => {
 
 /**
  * Fetch and render news and trending data
+ * @param {Array} preloadedNewsData - Preloaded news data array.
+ * @param {Array} preloadedTrendingData - Preloaded trending coins data array.
  */
 async function loadNewsData(preloadedNewsData, preloadedTrendingData) {
   const newsContainer = document.getElementById('news-container');
@@ -70,6 +72,8 @@ async function loadNewsData(preloadedNewsData, preloadedTrendingData) {
 
 /**
  * Render news articles
+ * @param {Array} newsData - Array of news article objects.
+ * @param {HTMLElement} container - Container element to append news cards.
  */
 function renderNews(newsData, container) {
   container.innerHTML = '';
@@ -90,6 +94,8 @@ function renderNews(newsData, container) {
 
 /**
  * Render trending coins
+ * @param {Array} trendingData - Array of trending coin objects.
+ * @param {HTMLElement} container - Container element to append trending cards.
  */
 function renderTrending(trendingData, container) {
   container.innerHTML = '';

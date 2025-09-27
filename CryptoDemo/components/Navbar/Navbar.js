@@ -89,7 +89,7 @@ export const loadNavbar = async () => {
     const html = document.documentElement;
 
     // Load saved theme
-    const savedTheme = localStorage.getItem('theme') || 'dark'; // Mantener dark por defecto
+    const savedTheme = localStorage.getItem('theme') || 'dark';
     if (savedTheme === 'light') {
       html.classList.remove('dark');
       themeIconLight.classList.remove('hidden');

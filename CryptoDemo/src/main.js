@@ -4,11 +4,18 @@ import { router } from './router.js';
 import { CACHE_EXPIRY_MS } from '../services/cacheService.js'; // Add this import
 import { fetchTopMarkets } from '../services/coinGeckoApiService.js';
 
-// This function renders the shared layout components
-const renderLayout = async () => {
-  await loadNavbar();
-  await loadFooter();
-};
+// Main execution on page load
+document.addEventListener('DOMContentLoaded', async () => {
+  await loadTemplates();
+  await renderLayout();
+  await loadInitialCache(); // Load cache on startup
+  await preloadMarketsPage(); // Preload Markets page
+  await preloadNewsPage(); // Preload News page
+  router.init();
+
+  // Refresh cache every expiry interval
+  setInterval(refreshCache, CACHE_EXPIRY_MS);
+});
 
 // Add at the top of src/main.js
 async function loadTemplates() {
@@ -19,6 +26,12 @@ async function loadTemplates() {
   document.body.appendChild(div);
 }
 
+// This function renders the shared layout components
+const renderLayout = async () => {
+  await loadNavbar();
+  await loadFooter();
+};
+
 // Add at the top of src/main.js
 async function loadInitialCache() {
   try {
@@ -26,16 +39,6 @@ async function loadInitialCache() {
     await fetchTopMarkets(100); // This will cache the data
   } catch (error) {
     console.warn('Failed to load initial cache:', error);
-  }
-}
-
-// Add refreshCache function
-async function refreshCache() {
-  try {
-    // Refresh only top markets (charts can be loaded on demand)
-    await fetchTopMarkets(100);
-  } catch (error) {
-    console.warn('Failed to refresh cache:', error);
   }
 }
 
@@ -93,15 +96,12 @@ async function preloadNewsPage() {
   }
 }
 
-// Main execution on page load
-document.addEventListener('DOMContentLoaded', async () => {
-  await loadTemplates();
-  await renderLayout();
-  await loadInitialCache(); // Load cache on startup
-  await preloadMarketsPage(); // Preload Markets page
-  await preloadNewsPage(); // Preload News page
-  router.init();
-
-  // Refresh cache every 30 seconds
-  setInterval(refreshCache, CACHE_EXPIRY_MS);
-});
+// Add refreshCache function
+async function refreshCache() {
+  try {
+    // Refresh only top markets (charts can be loaded on demand)
+    await fetchTopMarkets(100);
+  } catch (error) {
+    console.warn('Failed to refresh cache:', error);
+  }
+}

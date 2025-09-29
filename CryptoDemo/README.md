@@ -4,7 +4,7 @@ A simple web app for tracking crypto currency data and news.
 
 ## Demo
 
-[Snapshot](assets/CryptoDemo.png)
+![Snapshot](assets/CryptoDemo.png)
 
 ### Setup
 
@@ -24,8 +24,8 @@ A simple web app for tracking crypto currency data and news.
     ```sh
     npm run build:css
     ```
-5.  **Open the application:**
-    Open the `index.html` file in your web browser. For the best experience, use a live server extension in your code editor.
+5.  **Start the development server:**
+    Use the Five Server extension in VS Code to serve the application. Right-click on `index.html` and select "Open with Five Server". This provides hot reload without injecting code into SVGs (unlike Live Server, which cannot be configured to disable this).
 
 ## Features
 

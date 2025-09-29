@@ -1,6 +1,8 @@
 import { renderPageError } from '../../utils/renderPageError.js';
 import { showAnalyticsModal } from '../../components/AnalyticsModal/AnalyticsModal.js';
 import { fetchTopMarkets } from '../../services/coinGeckoApiService.js';
+import { fetchWithCache } from '../../utils/cacheWrapper.js';
+import { CACHE_KEYS } from '../../services/cacheService.js';
 
 /**
  * Loads and displays the home page content
@@ -95,9 +97,11 @@ const setupHomeEventListeners = () => {
  */
 const updateCryptoCards = async () => {
   try {
-    // Use cached data instead of making a new call
-    const marketsData = await fetchTopMarkets(100); // This will use cache if fresh
-
+    // Use cacheWrapper for API call
+    const marketsData = await fetchWithCache(
+      CACHE_KEYS.TOP_MARKETS,
+      fetchTopMarkets
+    );
     // Define the coins we want to update
     const coinsToUpdate = [
       {

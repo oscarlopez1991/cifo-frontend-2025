@@ -1,6 +1,8 @@
 import { fetchTopMarkets } from '../../services/coinGeckoApiService.js';
 import { renderPageError } from '../../utils/renderPageError.js';
 import { showAnalyticsModal } from '../../components/AnalyticsModal/AnalyticsModal.js';
+import { fetchWithCache } from '../../utils/cacheWrapper.js';
+import { CACHE_KEYS } from '../../services/cacheService.js';
 
 /**
  * Loads and displays the markets page content
@@ -13,30 +15,18 @@ export const loadMarketsPage = async () => {
   }
 
   try {
-    let html, data;
-
-    // Use preloaded content if available
-    if (window.preloadedMarkets) {
-      ({ html, data } = window.preloadedMarkets);
-      delete window.preloadedMarkets; // Clear after use
-    } else {
-      // Fallback: Load normally
-      const response = await fetch('./pages/Markets/Markets.html');
-      if (!response.ok) {
-        throw new Error(`Failed to fetch Markets page: ${response.statusText}`);
-      }
-      html = await response.text();
-
-      try {
-        data = await fetchTopMarkets(100);
-      } catch (error) {
-        console.warn('CoinGecko fetch failed, using static rows:', error);
-      }
+    // Load Markets page HTML
+    const response = await fetch('./pages/Markets/Markets.html');
+    if (!response.ok) {
+      throw new Error(`Failed to fetch Markets page: ${response.statusText}`);
     }
-
+    const html = await response.text();
     appContainer.innerHTML = html;
 
-    // Initialize search, sorting, and pagination with live data (when available)
+    // Use cacheWrapper for API call
+    const data = await fetchWithCache(CACHE_KEYS.TOP_MARKETS, fetchTopMarkets);
+
+    // Initialize search, sorting, and pagination with live data
     initMarketsTable(data);
   } catch (error) {
     console.error('Error loading markets page:', error);

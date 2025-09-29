@@ -1,6 +1,8 @@
 import { renderPageError } from '../../utils/renderPageError.js';
 import { fetchNews } from '../../services/newsApiService.js';
 import { fetchTrendingCoins } from '../../services/coinGeckoApiService.js';
+import { fetchWithCache } from '../../utils/cacheWrapper.js';
+import { CACHE_KEYS } from '../../services/cacheService.js';
 
 /**
  * Loads and displays the news page content
@@ -13,32 +15,22 @@ export const loadNewsPage = async () => {
   }
 
   try {
-    let html, newsData, trendingData;
-
-    // Use preloaded content if available
-    if (window.preloadedNews) {
-      ({ html, newsData, trendingData } = window.preloadedNews);
-      delete window.preloadedNews; // Clear after use
-    } else {
-      // Fallback: Load normally
-      const response = await fetch('./pages/News/News.html');
-      if (!response.ok) {
-        throw new Error(`Failed to fetch News page: ${response.statusText}`);
-      }
-      html = await response.text();
-
-      try {
-        newsData = await fetchNews();
-        trendingData = await fetchTrendingCoins();
-      } catch (error) {
-        console.warn('Failed to load News data:', error);
-      }
+    // Load News page HTML
+    const response = await fetch('./pages/News/News.html');
+    if (!response.ok) {
+      throw new Error(`Failed to fetch News page: ${response.statusText}`);
     }
-
+    const html = await response.text();
     appContainer.innerHTML = html;
 
-    // Fetch and render news and trending data (use preloaded if available)
-    await loadNewsData(newsData, trendingData);
+    // Use cacheWrapper for API calls
+    const newsData = await fetchWithCache(CACHE_KEYS.NEWS, fetchNews);
+    const trendingData = await fetchWithCache(
+      CACHE_KEYS.TRENDING,
+      fetchTrendingCoins
+    );
+
+    loadNewsData(newsData, trendingData);
   } catch (error) {
     console.error('Error loading news page:', error);
     renderPageError(appContainer, 'News');
@@ -47,18 +39,14 @@ export const loadNewsPage = async () => {
 
 /**
  * Fetch and render news and trending data
- * @param {Array} preloadedNewsData - Preloaded news data array.
- * @param {Array} preloadedTrendingData - Preloaded trending coins data array.
+ * @param {Array} newsData - News data array.
+ * @param {Array} trendingData - Trending coins data array.
  */
-async function loadNewsData(preloadedNewsData, preloadedTrendingData) {
+function loadNewsData(newsData, trendingData) {
   const newsContainer = document.getElementById('news-container');
   const trendingContainer = document.getElementById('trending-container');
 
   try {
-    // Use preloaded data if available, else fetch
-    const newsData = preloadedNewsData || (await fetchNews());
-    const trendingData = preloadedTrendingData || (await fetchTrendingCoins());
-
     renderNews(newsData, newsContainer);
     renderTrending(trendingData, trendingContainer);
   } catch (error) {

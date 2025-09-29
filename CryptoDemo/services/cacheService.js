@@ -1,5 +1,10 @@
 // Cache service for API data using localStorage
 export const CACHE_EXPIRY_MS = 5 * 60 * 1000;
+export const CACHE_KEYS = {
+  TOP_MARKETS: 'cryptoTopMarkets',
+  NEWS: 'cryptoNews',
+  TRENDING: 'cryptoTrending',
+};
 
 /**
  * Get cached data if fresh, else return null
@@ -33,15 +38,10 @@ export function setCachedData(key, data) {
 }
 
 /**
- * Clear all cached data
+ * Get the cache key for a specific coin's chart data
+ * @param {string} coinId - The ID of the coin (e.g., 'bitcoin')
+ * @returns {string} The cache key for the coin's chart data
  */
-export function clearCache() {
-  try {
-    localStorage.removeItem('cryptoTopMarkets');
-    localStorage.removeItem('cryptoChart-bitcoin');
-    localStorage.removeItem('cryptoChart-ethereum');
-    localStorage.removeItem('cryptoChart-solana');
-  } catch (error) {
-    console.warn('Error clearing cache:', error);
-  }
+export function getChartCacheKey(coinId) {
+  return `cryptoChart-${coinId}`;
 }

@@ -1,5 +1,7 @@
 import { fetchMarketChart } from '../../services/coinGeckoApiService.js';
 import { getCachedData } from '../../services/cacheService.js';
+import { fetchWithCache } from '../../utils/cacheWrapper.js';
+import { getChartCacheKey } from '../../services/cacheService.js';
 
 /**
  * Displays the analytics modal for a specific cryptocurrency.
@@ -63,7 +65,9 @@ async function setupAnalyticsPage(coinId = 'bitcoin', coinName = 'Bitcoin') {
   changeEl.textContent = '--';
 
   try {
-    const raw = await fetchMarketChart(coinId);
+    // Use cacheWrapper for API call
+    const cacheKey = getChartCacheKey(coinId);
+    const raw = await fetchWithCache(cacheKey, () => fetchMarketChart(coinId));
     const { prices, times } = groupChartData(raw, coinId);
     renderMetrics(prices, coinId, priceEl, changeEl);
     await renderChart(prices, times, coinName, chartContainer, chart);

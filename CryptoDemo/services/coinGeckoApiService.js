@@ -1,5 +1,3 @@
-import { getCachedData, setCachedData } from './cacheService.js';
-
 const API_BASE = 'https://api.coingecko.com/api/v3';
 
 /**
@@ -8,10 +6,6 @@ const API_BASE = 'https://api.coingecko.com/api/v3';
  * @returns {Promise<Array<{id,name,symbol,image,price,marketCap,volume24h,change24h}>>}
  */
 export async function fetchTopMarkets(perPage = 100) {
-  const cacheKey = 'cryptoTopMarkets';
-  const cached = getCachedData(cacheKey);
-  if (cached) return cached;
-
   const url = `${API_BASE}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=${perPage}&page=1&sparkline=false&price_change_percentage=24h`;
   const res = await fetch(url);
   if (!res.ok)
@@ -33,7 +27,6 @@ export async function fetchTopMarkets(perPage = 100) {
       0,
   }));
 
-  setCachedData(cacheKey, data);
   return data;
 }
 
@@ -43,17 +36,12 @@ export async function fetchTopMarkets(perPage = 100) {
  * @returns {Promise<{prices: number[], times: string[]}>}
  */
 export async function fetchMarketChart(coinId) {
-  const cacheKey = `cryptoChart-${coinId}`;
-  const cached = getCachedData(cacheKey);
-  if (cached) return cached;
-
   const url = `${API_BASE}/coins/${coinId}/market_chart?vs_currency=usd&days=7`;
   const res = await fetch(url);
   if (!res.ok)
     throw new Error(`CoinGecko error: ${res.status} ${res.statusText}`);
   const json = await res.json();
 
-  setCachedData(cacheKey, json.prices);
   return json.prices;
 }
 
@@ -62,10 +50,6 @@ export async function fetchMarketChart(coinId) {
  * @returns {Promise<Array<{id, name, symbol, thumb, price_btc}>>}
  */
 export async function fetchTrendingCoins() {
-  const cacheKey = 'cryptoTrending';
-  const cached = getCachedData(cacheKey);
-  if (cached) return cached;
-
   const url = `${API_BASE}/search/trending`;
   const res = await fetch(url);
   if (!res.ok)
@@ -80,6 +64,5 @@ export async function fetchTrendingCoins() {
     price_btc: coin.item.price_btc,
   }));
 
-  setCachedData(cacheKey, data);
   return data;
 }

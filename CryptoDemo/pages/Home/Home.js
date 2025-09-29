@@ -73,21 +73,21 @@ const setupHomeEventListeners = () => {
   const viewBtcChartBtn = document.getElementById('view-btc-chart');
   if (viewBtcChartBtn) {
     viewBtcChartBtn.addEventListener('click', () => {
-      showAnalyticsModal('bitcoin', 'Bitcoin', 1); // 24 hours
+      showAnalyticsModal('bitcoin', 'Bitcoin');
     });
   }
 
   const viewEthChartBtn = document.getElementById('view-eth-chart');
   if (viewEthChartBtn) {
     viewEthChartBtn.addEventListener('click', () => {
-      showAnalyticsModal('ethereum', 'Ethereum', 1); // 24 hours
+      showAnalyticsModal('ethereum', 'Ethereum');
     });
   }
 
   const viewSolChartBtn = document.getElementById('view-sol-chart');
   if (viewSolChartBtn) {
     viewSolChartBtn.addEventListener('click', () => {
-      showAnalyticsModal('solana', 'Solana', 1); // 24 hours
+      showAnalyticsModal('solana', 'Solana');
     });
   }
 };

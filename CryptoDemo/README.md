@@ -24,7 +24,15 @@ A simple web app for tracking crypto currency data and news, built as a Single P
     ```sh
     npm run build:css
     ```
-5.  **Start the development server:**
+5.  **Configure NewsAPI key:**
+    - Register at [NewsAPI.org](https://newsapi.org/) and generate your free API key.
+    - Create a file named `config.js` in the root of the project with the following content:
+      ```js
+      export const NEWSAPI_KEY = 'YOUR_API_KEY_HERE';
+      ```
+    - Make sure `config.js` is included in `.gitignore` so it is not uploaded to GitHub.
+
+6.  **Start the development server:**
 
 Use the **Five Server** extension in VS Code:
 

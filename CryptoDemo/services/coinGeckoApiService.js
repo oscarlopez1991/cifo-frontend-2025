@@ -40,15 +40,14 @@ export async function fetchTopMarkets(perPage = 100) {
 /**
  * Fetch historical market chart data for a coin.
  * @param {string} coinId - CoinGecko coin id (e.g. 'bitcoin')
- * @param {number|string} days - Number of days (1, 7, 30, etc)
  * @returns {Promise<{prices: number[], times: string[]}>}
  */
-export async function fetchMarketChart(coinId, days) {
-  const cacheKey = `cryptoChart-${coinId}-${days}`; // Include days in cache key
+export async function fetchMarketChart(coinId) {
+  const cacheKey = `cryptoChart-${coinId}`;
   const cached = getCachedData(cacheKey);
   if (cached) return cached;
 
-  const url = `${API_BASE}/coins/${coinId}/market_chart?vs_currency=usd&days=${days}`;
+  const url = `${API_BASE}/coins/${coinId}/market_chart?vs_currency=usd&days=7`;
   const res = await fetch(url);
   if (!res.ok)
     throw new Error(`CoinGecko error: ${res.status} ${res.statusText}`);

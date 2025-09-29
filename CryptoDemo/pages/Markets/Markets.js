@@ -94,7 +94,7 @@ const initMarketsTable = (coinsData) => {
       const coinId = row.dataset.coinId || 'bitcoin';
       const coinName =
         row.querySelector('.coin-name').textContent.split(' (')[0] || 'Bitcoin';
-      showAnalyticsModal(coinId, coinName, 7); // 7 days (default)
+      showAnalyticsModal(coinId, coinName);
     });
   });
 };
@@ -190,7 +190,7 @@ function renderTable(
       const coinId = row.dataset.coinId || 'bitcoin';
       const coinName =
         row.querySelector('.coin-name').textContent.split(' (')[0] || 'Bitcoin';
-      showAnalyticsModal(coinId, coinName, 7); // 7 days (default)
+      showAnalyticsModal(coinId, coinName);
     });
   });
 

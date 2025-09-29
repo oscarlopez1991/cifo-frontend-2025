@@ -6,12 +6,10 @@ import { getCachedData } from '../../services/cacheService.js';
  * Loads the modal HTML, replaces placeholders with coin data, and initializes the chart.
  * @param {string} coinId - The CoinGecko ID of the cryptocurrency (e.g., 'bitcoin').
  * @param {string} coinName - The display name of the cryptocurrency (e.g., 'Bitcoin').
- * @param {number} days - The number of days for the chart data (e.g., 1, 7, 30).
  */
 export async function showAnalyticsModal(
   coinId = 'bitcoin',
-  coinName = 'Bitcoin',
-  days = 7
+  coinName = 'Bitcoin'
 ) {
   // Load modal HTML to reset placeholders and ensure fresh content
   const res = await fetch('./components/AnalyticsModal/AnalyticsModal.html');
@@ -29,15 +27,13 @@ export async function showAnalyticsModal(
 
   // Replace placeholders in the modal content with actual values
   const content = modal.querySelector('section');
-  content.innerHTML = content.innerHTML
-    .replace(/{{coinName}}/g, coinName)
-    .replace(/{{days}}/g, days === 1 ? '24 hours' : `${days} days`);
+  content.innerHTML = content.innerHTML.replace(/{{coinName}}/g, coinName);
 
   // Show the modal by removing the 'hidden' class
   modal.classList.remove('hidden');
 
   // Initialize the analytics page with chart rendering
-  setupAnalyticsPage(coinId, coinName, days);
+  setupAnalyticsPage(coinId, coinName);
 
   // Set up close button functionality
   document.getElementById('close-analytics-modal').onclick = () => {
@@ -50,13 +46,8 @@ export async function showAnalyticsModal(
  * preparing UI elements, and rendering the chart.
  * @param {string} coinId - The CoinGecko ID of the cryptocurrency.
  * @param {string} coinName - The display name of the cryptocurrency.
- * @param {number} days - The number of days for the chart data.
  */
-async function setupAnalyticsPage(
-  coinId = 'bitcoin',
-  coinName = 'Bitcoin',
-  days = 7
-) {
+async function setupAnalyticsPage(coinId = 'bitcoin', coinName = 'Bitcoin') {
   // Load ApexCharts library dynamically if not already loaded
   if (!window.ApexCharts) {
     await new Promise((resolve, reject) => {
@@ -82,24 +73,15 @@ async function setupAnalyticsPage(
 
   try {
     // Fetch chart data from API
-    const raw = await fetchMarketChart(coinId, days);
-    await renderChart(
-      raw,
-      coinName,
-      days,
-      priceEl,
-      changeEl,
-      chartContainer,
-      chart
-    );
+    const raw = await fetchMarketChart(coinId);
+    await renderChart(raw, coinName, priceEl, changeEl, chartContainer, chart);
   } catch (err) {
     // Fallback to cached data if available
-    const cached = getCachedData(`cryptoChart-${coinId}-${days}`);
+    const cached = getCachedData(`cryptoChart-${coinId}`);
     if (cached) {
       await renderChart(
         cached,
         coinName,
-        days,
         priceEl,
         changeEl,
         chartContainer,
@@ -116,30 +98,20 @@ async function setupAnalyticsPage(
 /**
  * Processes raw chart data, calculates metrics, and renders the ApexCharts chart.
  * @param {Array<Array<number>>} raw - Raw data from API, array of [timestamp, price] pairs.
- * @param {string} coinName - The display name of the cryptocurrency.
- * @param {number} days - The number of days for the chart data.
- * @param {HTMLElement} priceEl - Element to display the current price.
- * @param {HTMLElement} changeEl - Element to display the price change percentage.
- * @param {HTMLElement} chartContainer - Container element for the chart.
- * @param {Object} chart - Existing chart instance to destroy if needed.
  */
-
-function groupChartData(raw, days) {
+function groupChartData(raw) {
   const grouped = {};
   raw.forEach(([ts, price]) => {
     const d = new Date(ts);
-    let key;
-    if (days === 1) {
-      key = `${String(d.getHours()).padStart(2, '0')}:00`;
-    } else {
-      key = `${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`;
-    }
+    const key = `${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`;
     if (!grouped[key]) grouped[key] = [];
     grouped[key].push(price);
   });
-  return Object.entries(grouped)
-    .sort(([a], [b]) => a.localeCompare(b))
-    .map(([key, arr]) => [key, arr.reduce((a, b) => a + b, 0) / arr.length]);
+  // Average price per day
+  return Object.entries(grouped).map(([key, arr]) => [
+    key,
+    arr.reduce((a, b) => a + b, 0) / arr.length,
+  ]);
 }
 
 function getChartMetrics(prices) {
@@ -149,45 +121,24 @@ function getChartMetrics(prices) {
   return { last, change };
 }
 
-function getDownSampledData(times, prices, minLabels = 12) {
-  const step = Math.max(1, Math.floor(times.length / minLabels));
-  const filteredTimes = [];
-  const filteredPrices = [];
-  for (let i = 0; i < times.length; i += step) {
-    filteredTimes.push(times[i]);
-    filteredPrices.push(prices[i]);
-  }
-  return { filteredTimes, filteredPrices };
-}
-
 async function renderChart(
   raw,
   coinName,
-  days,
   priceEl,
   changeEl,
   chartContainer,
   chart
 ) {
-  const points = groupChartData(raw, days);
-  let prices = points.map(([, avg]) => avg);
-  let times = points.map(([key]) => key);
+  // Always use 7-day grouping
+  const points = groupChartData(raw);
+  const prices = points.map(([, avg]) => avg);
+  const times = points.map(([key]) => key);
 
   const { last, change } = getChartMetrics(prices);
   priceEl.textContent = `$${last.toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
   changeEl.textContent = `${change >= 0 ? '+' : ''}${change.toFixed(2)}%`;
   changeEl.className = `text-base font-medium ${change >= 0 ? 'text-green-500 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`;
-
   const isMobile = window.matchMedia('(max-width: 767px)').matches;
-  if (days === 1) {
-    const { filteredTimes, filteredPrices } = getDownSampledData(
-      times,
-      prices,
-      isMobile ? 8 : 12
-    );
-    times = filteredTimes;
-    prices = filteredPrices;
-  }
 
   const options = {
     chart: {
@@ -211,7 +162,7 @@ async function renderChart(
     yaxis: {
       show: true,
       labels: {
-        style: { colors: '#9ca3af' },
+        style: { colors: '#9ca3af', fontSize: isMobile ? '10px' : '12px' },
         formatter: (v) => `$${Math.round(v).toLocaleString()}`,
       },
     },

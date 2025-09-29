@@ -74,7 +74,15 @@ async function setupAnalyticsPage(coinId = 'bitcoin', coinName = 'Bitcoin') {
   try {
     // Fetch chart data from API
     const raw = await fetchMarketChart(coinId);
-    await renderChart(raw, coinName, priceEl, changeEl, chartContainer, chart);
+    await renderChart(
+      raw,
+      coinName,
+      coinId,
+      priceEl,
+      changeEl,
+      chartContainer,
+      chart
+    );
   } catch (err) {
     // Fallback to cached data if available
     const cached = getCachedData(`cryptoChart-${coinId}`);
@@ -82,6 +90,7 @@ async function setupAnalyticsPage(coinId = 'bitcoin', coinName = 'Bitcoin') {
       await renderChart(
         cached,
         coinName,
+        coinId,
         priceEl,
         changeEl,
         chartContainer,
@@ -114,8 +123,12 @@ function groupChartData(raw) {
   ]);
 }
 
-function getChartMetrics(prices) {
-  const last = prices[prices.length - 1];
+function getChartMetrics(prices, coinId) {
+  const priceElCached = getCachedData('cryptoTopMarkets');
+
+  const last = priceElCached
+    ? priceElCached.find((c) => c.id === coinId).price
+    : prices[prices.length - 1];
   const first = prices[0];
   const change = ((last - first) / first) * 100;
   return { last, change };
@@ -124,6 +137,7 @@ function getChartMetrics(prices) {
 async function renderChart(
   raw,
   coinName,
+  coinId,
   priceEl,
   changeEl,
   chartContainer,
@@ -134,7 +148,7 @@ async function renderChart(
   const prices = points.map(([, avg]) => avg);
   const times = points.map(([key]) => key);
 
-  const { last, change } = getChartMetrics(prices);
+  const { last, change } = getChartMetrics(prices, coinId);
   priceEl.textContent = `$${last.toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
   changeEl.textContent = `${change >= 0 ? '+' : ''}${change.toFixed(2)}%`;
   changeEl.className = `text-base font-medium ${change >= 0 ? 'text-green-500 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`;

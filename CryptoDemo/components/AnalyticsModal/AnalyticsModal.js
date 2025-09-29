@@ -49,15 +49,7 @@ export async function showAnalyticsModal(
  */
 async function setupAnalyticsPage(coinId = 'bitcoin', coinName = 'Bitcoin') {
   // Load ApexCharts library dynamically if not already loaded
-  if (!window.ApexCharts) {
-    await new Promise((resolve, reject) => {
-      const script = document.createElement('script');
-      script.src = 'https://cdn.jsdelivr.net/npm/apexcharts';
-      script.onload = resolve;
-      script.onerror = reject;
-      document.head.appendChild(script);
-    });
-  }
+  await ensureApexChartsLoaded();
 
   // Get references to UI elements
   const chartContainer = document.getElementById('analytics-chart');
@@ -65,43 +57,36 @@ async function setupAnalyticsPage(coinId = 'bitcoin', coinName = 'Bitcoin') {
   const changeEl = document.getElementById('metric-change');
   let chart = null;
 
-  // Show loading state
   chartContainer.innerHTML =
     '<div class="text-center animate-pulse text-gray-400 py-16">Loading chart...</div>';
   priceEl.textContent = '--';
   changeEl.textContent = '--';
 
   try {
-    // Fetch chart data from API
     const raw = await fetchMarketChart(coinId);
-    await renderChart(
-      raw,
-      coinName,
-      coinId,
-      priceEl,
-      changeEl,
-      chartContainer,
-      chart
-    );
+    const { prices, times } = groupChartData(raw);
+    renderMetrics(prices, coinId, priceEl, changeEl);
+    await renderChart(prices, times, coinName, chartContainer, chart);
   } catch (err) {
-    // Fallback to cached data if available
-    const cached = getCachedData(`cryptoChart-${coinId}`);
-    if (cached) {
-      await renderChart(
-        cached,
-        coinName,
-        coinId,
-        priceEl,
-        changeEl,
-        chartContainer,
-        chart
-      );
-    } else {
-      // Show error message if no data available
-      chartContainer.innerHTML = `<div class="text-center text-red-500 py-16">Failed to load chart data. Please try again later.</div>`;
-    }
+    chartContainer.innerHTML = `<div class="text-center text-red-500 py-16">Failed to load chart data. Please try again later.</div>`;
     console.error(err);
   }
+}
+
+/** Ensures the ApexCharts library is loaded, loading it dynamically if needed.
+ * @returns {Promise<void>}
+ */
+function ensureApexChartsLoaded() {
+  if (!window.ApexCharts) {
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/apexcharts';
+      script.onload = resolve;
+      script.onerror = reject;
+      document.head.appendChild(script);
+    });
+  }
+  return Promise.resolve();
 }
 
 /**
@@ -117,43 +102,45 @@ function groupChartData(raw) {
     grouped[key].push(price);
   });
   // Average price per day
-  return Object.entries(grouped).map(([key, arr]) => [
+  const points = Object.entries(grouped).map(([key, arr]) => [
     key,
     arr.reduce((a, b) => a + b, 0) / arr.length,
   ]);
+  return {
+    prices: points.map(([, avg]) => avg),
+    times: points.map(([key]) => key),
+  };
 }
 
-function getChartMetrics(prices, coinId) {
+/** Updates the price and change elements with the latest metrics.
+ * Gets the last price from cache if available, otherwise from chart data.
+ * @param {Array<number>} prices - Array of price data points.
+ * @param {string} coinId - The CoinGecko ID of the cryptocurrency.
+ * @param {HTMLElement} priceEl - The DOM element to display the price.
+ * @param {HTMLElement} changeEl - The DOM element to display the 24h change.
+ */
+function renderMetrics(prices, coinId, priceEl, changeEl) {
   const priceElCached = getCachedData('cryptoTopMarkets');
-
   const last = priceElCached
     ? priceElCached.find((c) => c.id === coinId).price
     : prices[prices.length - 1];
   const first = prices[0];
   const change = ((last - first) / first) * 100;
-  return { last, change };
-}
 
-async function renderChart(
-  raw,
-  coinName,
-  coinId,
-  priceEl,
-  changeEl,
-  chartContainer,
-  chart
-) {
-  // Always use 7-day grouping
-  const points = groupChartData(raw);
-  const prices = points.map(([, avg]) => avg);
-  const times = points.map(([key]) => key);
-
-  const { last, change } = getChartMetrics(prices, coinId);
   priceEl.textContent = `$${last.toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
   changeEl.textContent = `${change >= 0 ? '+' : ''}${change.toFixed(2)}%`;
   changeEl.className = `text-base font-medium ${change >= 0 ? 'text-green-500 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`;
-  const isMobile = window.matchMedia('(max-width: 767px)').matches;
+}
 
+/** Renders the ApexCharts chart in the specified container.
+ * @param {Array<number>} prices - Array of price data points.
+ * @param {Array<string>} times - Array of time labels corresponding to prices.
+ * @param {string} coinName - The display name of the cryptocurrency.
+ * @param {HTMLElement} chartContainer - The DOM element to render the chart in.
+ * @param {ApexCharts|null} chart - Existing ApexCharts instance to destroy if present.
+ */
+async function renderChart(prices, times, coinName, chartContainer, chart) {
+  const isMobile = window.matchMedia('(max-width: 767px)').matches;
   const options = {
     chart: {
       type: 'area',

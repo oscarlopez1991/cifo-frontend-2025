@@ -1,6 +1,6 @@
 # Crypto Demo
 
-A simple web app for tracking crypto currency data and news.
+A simple web app for tracking crypto currency data and news, built as a Single Page Application (SPA) using vanilla JavaScript for dynamic routing and content loading without page reloads.
 
 ## Demo
 
@@ -57,7 +57,7 @@ This gives you hot reload without modifying SVGs (unlike Live Server).
   - Flowbite (UI components and modal support)
   - ApexCharts (interactive charts for analytics)
 
-  ## Project Structure
+## Project Structure
 
 The project follows a modular structure to separate concerns and improve maintainability:
 

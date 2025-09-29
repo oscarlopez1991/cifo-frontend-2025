@@ -25,7 +25,13 @@ A simple web app for tracking crypto currency data and news.
     npm run build:css
     ```
 5.  **Start the development server:**
-    Use the Five Server extension in VS Code to serve the application. Right-click on `index.html` and select "Open with Five Server". This provides hot reload without injecting code into SVGs (unlike Live Server, which cannot be configured to disable this).
+
+Use the **Five Server** extension in VS Code:
+
+1. Right-click `index.html`.
+2. Select **Open with Five Server**.
+
+This gives you hot reload without modifying SVGs (unlike Live Server).
 
 ## Features
 

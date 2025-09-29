@@ -64,7 +64,7 @@ async function setupAnalyticsPage(coinId = 'bitcoin', coinName = 'Bitcoin') {
 
   try {
     const raw = await fetchMarketChart(coinId);
-    const { prices, times } = groupChartData(raw);
+    const { prices, times } = groupChartData(raw, coinId);
     renderMetrics(prices, coinId, priceEl, changeEl);
     await renderChart(prices, times, coinName, chartContainer, chart);
   } catch (err) {
@@ -93,19 +93,35 @@ function ensureApexChartsLoaded() {
  * Processes raw chart data, calculates metrics, and renders the ApexCharts chart.
  * @param {Array<Array<number>>} raw - Raw data from API, array of [timestamp, price] pairs.
  */
-function groupChartData(raw) {
+function groupChartData(raw, coinId) {
   const grouped = {};
   raw.forEach(([ts, price]) => {
     const d = new Date(ts);
     const key = `${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`;
     if (!grouped[key]) grouped[key] = [];
-    grouped[key].push(price);
+    grouped[key].push({ price, ts });
   });
-  // Average price per day
-  const points = Object.entries(grouped).map(([key, arr]) => [
-    key,
-    arr.reduce((a, b) => a + b, 0) / arr.length,
-  ]);
+
+  const todayKey = (() => {
+    const d = new Date();
+    return `${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`;
+  })();
+
+  const priceElCached = getCachedData('cryptoTopMarkets');
+  const lastPrice = priceElCached
+    ? priceElCached.find((c) => c.id === coinId)?.price
+    : null;
+
+  const points = Object.entries(grouped).map(([key, arr]) => {
+    if (key === todayKey && lastPrice !== null) {
+      // Use last price for today
+      return [key, lastPrice];
+    }
+    // Use average for previous days
+    const avg = arr.reduce((a, b) => a + b.price, 0) / arr.length;
+    return [key, avg];
+  });
+
   return {
     prices: points.map(([, avg]) => avg),
     times: points.map(([key]) => key),

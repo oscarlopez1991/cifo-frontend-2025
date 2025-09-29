@@ -1,50 +1,16 @@
-# Crypto Currency Demo
+# Crypto Demo
 
-A web application for tracking crypto currency data, news, and performing simulated trading operations. This project is the final assignment for the "Desenvolupament Web Frontend" course.
+A simple web app for tracking crypto currency data and news.
 
-## 1. Project Overview
+## Demo
 
-### 1.1. Description (En què consisteix)
+[Snapshot](assets/CryptoDemo.png)
 
-_(Provide a summary of your application. What does it do? What is its main purpose?)_
-
-### 1.2. Problem Solved (Quina necessitat resol)
-
-_(Describe the goal of the application. For example: "This app provides a simple, clear, and user-friendly interface for users to track cryptocurrency prices and read the latest news without the clutter of professional trading platforms.")_
-
-### 1.3. Target Audience (A quin tipus d'usuari s'adreça)
-
-_(Who is this application for? For example: "Beginners in the crypto space, students, or anyone curious about cryptocurrency markets.")_
-
----
-
-## 2. Technical Specification
-
-### 2.1. Technologies Used
-
-- **Languages**: HTML5, CSS3, Vanilla JavaScript (ES6+)
-- **Styling**: Tailwind CSS
-- **API Consumed**: [CoinGecko API](https://www.coingecko.com/en/api/documentation)
-- **Tooling**:
-  - Node.js & npm
-  - ESLint (for code linting)
-  - Prettier (for code formatting)
-
-### 2.2. Project Structure
-
-The project follows a modular structure to separate concerns:
-
-- `/assets`: For static files like images and fonts.
-- `/components`: For reusable UI components (e.g., CryptoList, NewsCard).
-- `/pages`: For the logic of each main view (e.g., Home, News, Trade).
-- `/services`: To centralize all API communication.
-- `/utils`: For helper functions (e.g., date formatting, number formatting).
-
-### 2.3. How to Run the Application
+### Setup
 
 1.  **Clone the repository:**
     ```sh
-    git clone <your-repo-url>
+    git clone https://github.com/oscarlopez1991/cifo-frontend-2025.git
     ```
 2.  **Navigate to the project directory:**
     ```sh
@@ -61,49 +27,42 @@ The project follows a modular structure to separate concerns:
 5.  **Open the application:**
     Open the `index.html` file in your web browser. For the best experience, use a live server extension in your code editor.
 
----
+## Features
 
-## 3. Development Process
+- Real-time cryptocurrency price tracking (CoinGecko API)
+- Interactive charts for price history and analytics (ApexCharts)
+- Trending coins and market overview
+- Latest crypto news and articles (NewsAPI)
+- Responsive design for desktop and mobile (Tailwind CSS)
+- Theme switcher (light/dark mode)
+- Modal dialogs for analytics and details (Flowbite)
 
-### 3.1. Timeline
+## Tech Stack
 
-_(Keep a simple log of your progress here. This will help you write the final document.)_
+- **Languages**: HTML5, CSS3, Vanilla JavaScript (ES6+)
+- **Styling**: Tailwind CSS, custom CSS for theming and responsive layouts
+- **APIs Consumed**:
+  - [CoinGecko API](https://www.coingecko.com/en/api/documentation) for cryptocurrency prices, charts, and trending coins
+  - [NewsAPI](https://newsapi.org/docs) for the latest crypto news and articles
+- **Tooling**:
+  - Node.js & npm for dependency management and scripts
+  - ESLint (for code linting, using [eslint.config.mjs](eslint.config.mjs))
+  - Prettier (for code formatting, using [.prettierrc](.prettierrc))
+  - Flowbite (UI components and modal support)
+  - ApexCharts (interactive charts for analytics)
 
-- **Week 1 (Date):** Project setup, Tailwind configuration, initial API service to fetch data from CoinGecko, and `localStorage` management for user favorites.
-- **Week 2 (Date):** ...
-- **Week 3 (Date):** ...
+  ## Project Structure
 
-### 3.2. Key Challenges & Solutions
+The project follows a modular structure to separate concerns and improve maintainability:
 
-_(Describe 1-2 technical problems you faced and how you solved them. For example: "Challenge: Managing application state across different pages without a framework. Solution: Implemented a simple global state object and used custom events to notify components of changes.")_
+- `/assets`: Static assets such as images (e.g., logo.png) and vendor libraries (e.g., Flowbite JavaScript files).
+- `/components`: Reusable UI components, each with their own HTML, CSS, and JavaScript files (e.g., AnalyticsModal for charts, Footer for site credits, Navbar for navigation and theme toggle).
+- `/pages`: Page-specific logic, templates, and styles (e.g., Home for crypto cards, Markets for sortable tables, News for articles and trending coins).
+- `/services`: Centralized API communication, caching, and data fetching (e.g., CoinGecko API for prices/charts, NewsAPI for articles, cache management).
+- `/src`: Core application logic, including routing, initialization, and event handling (e.g., main.js for app startup, router.js for navigation).
+- `/utils`: Helper utilities and shared functions (e.g., device detection for responsive behavior).
+- Root files: Configuration and entry points (e.g., `index.html` as the main page, `tailwind.config.js` for styling, `package.json` for dependencies, `eslint.config.mjs` and `.prettierrc` for code quality).
 
----
+## License
 
-## 4. Project Evaluation
-
-### 4.1. Strengths (Punts forts)
-
-_(What works well in your project?)_
-
--
--
-
-### 4.2. Weaknesses (Punts febles)
-
-_(What could be improved?)_
-
--
-- ***
-
-## 5. Future Evolution
-
-_(What features would you add next if you had more time?)_
-
--
-- ***
-
-## 6. References
-
-_(If you used any significant code snippets from external sources like Stack Overflow, articles, or tutorials, list them here to give credit.)_
-
--
+MIT

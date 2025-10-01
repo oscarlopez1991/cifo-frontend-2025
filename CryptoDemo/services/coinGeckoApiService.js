@@ -13,7 +13,7 @@ export async function fetchTopMarkets(perPage = 100) {
   const json = await res.json();
 
   // Map to our desired structure
-  const data = json.map((c) => ({
+  return json.map((c) => ({
     id: c.id,
     name: c.name,
     symbol: (c.symbol || '').toUpperCase(),
@@ -26,8 +26,6 @@ export async function fetchTopMarkets(perPage = 100) {
       c.price_change_percentage_24h ??
       0,
   }));
-
-  return data;
 }
 
 /**
@@ -55,14 +53,11 @@ export async function fetchTrendingCoins() {
   if (!res.ok)
     throw new Error(`CoinGecko error: ${res.status} ${res.statusText}`);
   const json = await res.json();
-
-  const data = json.coins.slice(0, 6).map((coin) => ({
+  return json.coins.slice(0, 6).map((coin) => ({
     id: coin.item.id,
     name: coin.item.name,
     symbol: coin.item.symbol,
     thumb: coin.item.thumb,
     price_btc: coin.item.price_btc,
   }));
-
-  return data;
 }

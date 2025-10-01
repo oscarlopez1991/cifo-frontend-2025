@@ -96,10 +96,12 @@ const initMarketsTable = (coinsData) => {
  * @param {Function} createRowFn - Function to create a row element from data.
  */
 function renderTableRows(tbody, data, createRowFn) {
-  tbody.innerHTML = '';
+  const fragment = document.createDocumentFragment();
   if (Array.isArray(data) && data.length) {
-    data.map(createRowFn).forEach((tr) => tbody.appendChild(tr));
+    data.map(createRowFn).forEach((tr) => fragment.appendChild(tr));
   }
+  tbody.innerHTML = '';
+  tbody.appendChild(fragment);
 }
 
 /**
@@ -171,8 +173,10 @@ function renderTable(
   const start = (state.page - 1) * state.pageSize;
   const pageRows = rows.slice(start, start + state.pageSize);
 
+  const fragment = document.createDocumentFragment();
+  pageRows.forEach((tr) => fragment.appendChild(tr.cloneNode(true)));
   tbody.innerHTML = '';
-  pageRows.forEach((tr) => tbody.appendChild(tr.cloneNode(true)));
+  tbody.appendChild(fragment);
 
   // Re-assign row click events after rendering
   tbody.querySelectorAll('tr').forEach((row) => {

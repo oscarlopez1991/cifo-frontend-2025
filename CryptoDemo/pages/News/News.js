@@ -64,8 +64,8 @@ function loadNewsData(newsData, trendingData) {
  * @param {HTMLElement} container - Container element to append news cards.
  */
 function renderNews(newsData, container) {
-  container.innerHTML = '';
   const template = document.getElementById('news-card-template');
+  const fragment = document.createDocumentFragment();
   newsData.forEach((news) => {
     const card = template.content.firstElementChild.cloneNode(true);
     let thumb =
@@ -76,8 +76,10 @@ function renderNews(newsData, container) {
     card.querySelector('h3').textContent = news.title;
     card.querySelector('p').textContent = news.description;
     card.querySelector('a').href = news.url;
-    container.appendChild(card);
+    fragment.appendChild(card);
   });
+  container.innerHTML = '';
+  container.appendChild(fragment);
 }
 
 /**
@@ -86,8 +88,8 @@ function renderNews(newsData, container) {
  * @param {HTMLElement} container - Container element to append trending cards.
  */
 function renderTrending(trendingData, container) {
-  container.innerHTML = '';
   const template = document.getElementById('trending-card-template');
+  const fragment = document.createDocumentFragment();
   trendingData.forEach((coin) => {
     const card = template.content.firstElementChild.cloneNode(true);
     card.querySelector('img').src = coin.thumb;
@@ -96,6 +98,8 @@ function renderTrending(trendingData, container) {
     card.querySelector('p').textContent = coin.symbol;
     card.querySelector('p:last-of-type').textContent =
       `Price in BTC: ${coin.price_btc}`;
-    container.appendChild(card);
+    fragment.appendChild(card);
   });
+  container.innerHTML = '';
+  container.appendChild(fragment);
 }

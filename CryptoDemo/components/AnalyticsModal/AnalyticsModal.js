@@ -1,5 +1,8 @@
-import { fetchMarketChart } from '../../services/coinGeckoApiService.js';
-import { getCachedData } from '../../services/cacheService.js';
+import {
+  fetchMarketChart,
+  fetchTopMarkets,
+} from '../../services/coinGeckoApiService.js';
+import { CACHE_KEYS } from '../../services/cacheService.js';
 import { fetchWithCache } from '../../utils/cacheWrapper.js';
 import { getChartCacheKey } from '../../services/cacheService.js';
 
@@ -65,11 +68,18 @@ async function setupAnalyticsPage(coinId = 'bitcoin', coinName = 'Bitcoin') {
   changeEl.textContent = '--';
 
   try {
-    // Use cacheWrapper for API call
+    // Use cacheWrapper for API calls
     const cacheKey = getChartCacheKey(coinId);
-    const raw = await fetchWithCache(cacheKey, () => fetchMarketChart(coinId));
-    const { prices, times } = groupChartData(raw, coinId);
-    renderMetrics(prices, coinId, priceEl, changeEl);
+    const marketChartData = await fetchWithCache(cacheKey, () =>
+      fetchMarketChart(coinId)
+    );
+    const marketsData = await fetchWithCache(
+      CACHE_KEYS.TOP_MARKETS,
+      fetchTopMarkets
+    );
+    const lastPrice = marketsData.find((c) => c.id === coinId).price;
+    const { prices, times } = groupChartData(marketChartData, lastPrice);
+    renderMetrics(prices, lastPrice, priceEl, changeEl);
     await renderChart(prices, times, coinName, chartContainer, chart);
   } catch (err) {
     chartContainer.innerHTML = `<div class="text-center text-red-500 py-16">Failed to load chart data. Please try again later.</div>`;
@@ -97,7 +107,7 @@ function ensureApexChartsLoaded() {
  * Processes raw chart data, calculates metrics, and renders the ApexCharts chart.
  * @param {Array<Array<number>>} raw - Raw data from API, array of [timestamp, price] pairs.
  */
-function groupChartData(raw, coinId) {
+function groupChartData(raw, lastPrice) {
   const grouped = {};
   raw.forEach(([ts, price]) => {
     const d = new Date(ts);
@@ -110,11 +120,6 @@ function groupChartData(raw, coinId) {
     const d = new Date();
     return `${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`;
   })();
-
-  const priceElCached = getCachedData('cryptoTopMarkets');
-  const lastPrice = priceElCached
-    ? priceElCached.find((c) => c.id === coinId)?.price
-    : null;
 
   const points = Object.entries(grouped).map(([key, arr]) => {
     if (key === todayKey && lastPrice !== null) {
@@ -139,15 +144,11 @@ function groupChartData(raw, coinId) {
  * @param {HTMLElement} priceEl - The DOM element to display the price.
  * @param {HTMLElement} changeEl - The DOM element to display the 24h change.
  */
-function renderMetrics(prices, coinId, priceEl, changeEl) {
-  const priceElCached = getCachedData('cryptoTopMarkets');
-  const last = priceElCached
-    ? priceElCached.find((c) => c.id === coinId).price
-    : prices[prices.length - 1];
-  const first = prices[0];
-  const change = ((last - first) / first) * 100;
+function renderMetrics(prices, lastPrice, priceEl, changeEl) {
+  const firstPrice = prices[0];
+  const change = ((lastPrice - firstPrice) / firstPrice) * 100;
 
-  priceEl.textContent = `$${last.toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
+  priceEl.textContent = `$${lastPrice.toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
   changeEl.textContent = `${change >= 0 ? '+' : ''}${change.toFixed(2)}%`;
   changeEl.className = `text-base font-medium ${change >= 0 ? 'text-green-500 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`;
 }

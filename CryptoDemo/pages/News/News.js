@@ -23,12 +23,11 @@ export const loadNewsPage = async () => {
     const html = await response.text();
     appContainer.innerHTML = html;
 
-    // Use cacheWrapper for API calls
-    const newsData = await fetchWithCache(CACHE_KEYS.NEWS, fetchNews);
-    const trendingData = await fetchWithCache(
-      CACHE_KEYS.TRENDING,
-      fetchTrendingCoins
-    );
+    // Use cacheWrapper for API calls in parallel
+    const [newsData, trendingData] = await Promise.all([
+      fetchWithCache(CACHE_KEYS.NEWS, fetchNews),
+      fetchWithCache(CACHE_KEYS.TRENDING, fetchTrendingCoins),
+    ]);
 
     loadNewsData(newsData, trendingData);
   } catch (error) {

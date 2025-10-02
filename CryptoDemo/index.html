@@ -6,8 +6,24 @@
     <link rel="icon" type="image/png" href="./assets/logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Crypto Demo</title>
-    <!-- External stylesheets -->
+    <!-- Critical resources -->
+    <link rel="preload" href="./utils/templates.html" as="fetch" crossorigin />
+    <link
+      rel="preload"
+      href="./components/Navbar/Navbar.html"
+      as="fetch"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="./components/Footer/Footer.html"
+      as="fetch"
+      crossorigin
+    />
+
+    <!-- Fonts and CSS -->
     <link rel="stylesheet" href="style.css" />
+
     <!-- External scripts for ApexCharts library -->
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <!-- Flowbite UI library, loaded deferentially -->

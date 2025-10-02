@@ -2,7 +2,9 @@ import { loadNavbar } from '../components/Navbar/Navbar.js';
 import { loadFooter } from '../components/Footer/Footer.js';
 import { router } from './router.js';
 
-// Add at the top of src/main.js
+/**
+ * Loads template HTML fragments used throughout the app
+ */
 async function loadTemplates() {
   const res = await fetch('./utils/templates.html');
   const html = await res.text();
@@ -11,15 +13,17 @@ async function loadTemplates() {
   document.body.appendChild(div);
 }
 
-// This function renders the shared layout components
+/**
+ * Renders the shared layout components (navbar and footer) in parallel
+ */
 const renderLayout = async () => {
-  await loadNavbar();
-  await loadFooter();
+  await Promise.all([loadNavbar(), loadFooter()]);
 };
 
-// Main execution on page load
+/**
+ * Main execution on page load - optimized with parallel loading
+ */
 document.addEventListener('DOMContentLoaded', async () => {
-  await loadTemplates();
-  await renderLayout();
+  await Promise.all([loadTemplates(), renderLayout()]);
   router.init();
 });

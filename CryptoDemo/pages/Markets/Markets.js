@@ -277,19 +277,21 @@ function renderPagination(total, state, pagination, summary, render) {
     (_, i) => startPage + i
   );
 
-  pagination.appendChild(
+  const fragment = document.createDocumentFragment();
+  fragment.appendChild(
     makeBtn('Prev', Math.max(1, state.page - 1), state.page === 1)
   );
   pages.forEach((p) =>
-    pagination.appendChild(makeBtn(String(p), p, false, p === state.page))
+    fragment.appendChild(makeBtn(String(p), p, false, p === state.page))
   );
-  pagination.appendChild(
+  fragment.appendChild(
     makeBtn(
       'Next',
       Math.min(totalPages, state.page + 1),
       state.page === totalPages
     )
   );
+  pagination.appendChild(fragment);
 }
 
 /**

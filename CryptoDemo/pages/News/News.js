@@ -1,8 +1,8 @@
-import { renderPageError } from '../../utils/renderPageError.js';
 import { fetchNews } from '../../services/newsApiService.js';
 import { fetchTrendingCoins } from '../../services/coinGeckoApiService.js';
 import { fetchWithCache } from '../../utils/cacheWrapper.js';
 import { CACHE_KEYS } from '../../services/cacheService.js';
+import { handleApiError, displayError } from '../../utils/errorHandler.js';
 
 /**
  * Loads and displays the news page content
@@ -32,8 +32,8 @@ export const loadNewsPage = async () => {
 
     loadNewsData(newsData, trendingData);
   } catch (error) {
-    console.error('Error loading news page:', error);
-    renderPageError(appContainer, 'News');
+    const userMessage = handleApiError(error, 'News');
+    displayError(appContainer, 'News', userMessage);
   }
 };
 
@@ -45,17 +45,8 @@ export const loadNewsPage = async () => {
 function loadNewsData(newsData, trendingData) {
   const newsContainer = document.getElementById('news-container');
   const trendingContainer = document.getElementById('trending-container');
-
-  try {
-    renderNews(newsData, newsContainer);
-    renderTrending(trendingData, trendingContainer);
-  } catch (error) {
-    console.warn('Failed to load news/trending data:', error);
-    newsContainer.innerHTML =
-      '<p class="text-center text-red-500">Failed to load news.</p>';
-    trendingContainer.innerHTML =
-      '<p class="text-center text-red-500">Failed to load trending coins.</p>';
-  }
+  renderNews(newsData, newsContainer);
+  renderTrending(trendingData, trendingContainer);
 }
 
 /**

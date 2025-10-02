@@ -1,8 +1,8 @@
 import { fetchTopMarkets } from '../../services/coinGeckoApiService.js';
-import { renderPageError } from '../../utils/renderPageError.js';
 import { showAnalyticsModal } from '../../components/AnalyticsModal/AnalyticsModal.js';
 import { fetchWithCache } from '../../utils/cacheWrapper.js';
 import { CACHE_KEYS } from '../../services/cacheService.js';
+import { handleApiError, displayError } from '../../utils/errorHandler.js';
 
 /**
  * Loads and displays the markets page content
@@ -29,8 +29,8 @@ export const loadMarketsPage = async () => {
     // Initialize search, sorting, and pagination with live data
     initMarketsTable(data);
   } catch (error) {
-    console.error('Error loading markets page:', error);
-    renderPageError(appContainer, 'Markets');
+    const userMessage = handleApiError(error, 'Markets');
+    displayError(appContainer, 'Markets', userMessage);
   }
 };
 

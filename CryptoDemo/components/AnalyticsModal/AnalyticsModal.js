@@ -5,6 +5,7 @@ import {
 import { CACHE_KEYS } from '../../services/cacheService.js';
 import { fetchWithCache } from '../../utils/cacheWrapper.js';
 import { getChartCacheKey } from '../../services/cacheService.js';
+import { handleApiError } from '../../utils/errorHandler.js';
 
 /**
  * Displays the analytics modal for a specific cryptocurrency.
@@ -82,8 +83,8 @@ async function setupAnalyticsPage(coinId = 'bitcoin', coinName = 'Bitcoin') {
     renderMetrics(prices, lastPrice, priceEl, changeEl);
     await renderChart(prices, times, coinName, chartContainer, chart);
   } catch (err) {
-    chartContainer.innerHTML = `<div class="text-center text-red-500 py-16">Failed to load chart data. Please try again later.</div>`;
-    console.error(err);
+    const userMessage = handleApiError(err, 'Analytics Chart');
+    chartContainer.innerHTML = `<div class="text-center text-red-500 py-16">${userMessage}</div>`;
   }
 }
 

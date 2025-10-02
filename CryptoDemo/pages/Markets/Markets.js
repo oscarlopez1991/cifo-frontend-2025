@@ -24,10 +24,13 @@ export const loadMarketsPage = async () => {
     appContainer.innerHTML = html;
 
     // Use cacheWrapper for API call
-    const data = await fetchWithCache(CACHE_KEYS.TOP_MARKETS, fetchTopMarkets);
+    const topMarketsData = await fetchWithCache(
+      CACHE_KEYS.TOP_MARKETS,
+      fetchTopMarkets
+    );
 
     // Initialize search, sorting, and pagination with live data
-    initMarketsTable(data);
+    initMarketsTable(topMarketsData);
   } catch (error) {
     const userMessage = handleApiError(error, 'Markets');
     displayError(appContainer, 'Markets', userMessage);
@@ -44,14 +47,16 @@ const initMarketsTable = (coinsData) => {
   const searchInput = document.getElementById('market-search');
   const pageSizeSelect = document.getElementById('rows-per-page');
   const pagination = document.getElementById('pagination');
-  const summary = document.getElementById('pagination-summary');
+  const paginationSummary = document.getElementById('pagination-summary');
   if (!table || !tbody) return;
 
   // 1. Render initial rows
   renderTableRows(tbody, coinsData, createRowFromCoin);
 
   // 2. Snapshot original rows
-  let originalRows = getOriginalRows(tbody);
+  let originalRows = Array.from(tbody.querySelectorAll('tr')).map((tr) =>
+    tr.cloneNode(true)
+  );
 
   // 3. State object
   const state = {
@@ -68,7 +73,8 @@ const initMarketsTable = (coinsData) => {
       tbody,
       originalRows,
       state,
-      (total) => renderPagination(total, state, pagination, summary, render),
+      (total) =>
+        renderPagination(total, state, pagination, paginationSummary, render),
       () => updateSortHeaderStyles(table, state)
     );
 
@@ -102,17 +108,6 @@ function renderTableRows(tbody, data, createRowFn) {
   }
   tbody.innerHTML = '';
   tbody.appendChild(fragment);
-}
-
-/**
- * Gets a snapshot of the original table rows for filtering and sorting.
- * @param {HTMLElement} tbody - The table body element.
- * @returns {Array<HTMLElement>} Array of cloned row elements.
- */
-function getOriginalRows(tbody) {
-  return Array.from(tbody.querySelectorAll('tr')).map((tr) =>
-    tr.cloneNode(true)
-  );
 }
 
 /**
@@ -200,9 +195,9 @@ function renderTable(
  */
 function filterRows(rows, query) {
   if (!query) return rows;
-  const q = query.toLowerCase();
+  const searchQuery = query.toLowerCase();
   return rows.filter((tr) =>
-    tr.children[0].innerText.toLowerCase().includes(q)
+    tr.children[0].innerText.toLowerCase().includes(searchQuery)
   );
 }
 
@@ -215,13 +210,13 @@ function filterRows(rows, query) {
  */
 function sortRows(rows, sortKey, sortDir) {
   if (!sortKey) return rows;
-  const dir = sortDir === 'asc' ? 1 : -1;
-  return rows.slice().sort((a, b) => {
-    const va = getCellValue(a, sortKey);
-    const vb = getCellValue(b, sortKey);
-    if (typeof va === 'number' && typeof vb === 'number')
-      return (va - vb) * dir;
-    return va.localeCompare(vb) * dir;
+  const sortDirection = sortDir === 'asc' ? 1 : -1;
+  return rows.slice().sort((rowA, rowB) => {
+    const cellValueA = getCellValue(rowA, sortKey);
+    const cellValueB = getCellValue(rowB, sortKey);
+    if (typeof cellValueA === 'number' && typeof cellValueB === 'number')
+      return (cellValueA - cellValueB) * sortDirection;
+    return cellValueA.localeCompare(cellValueB) * sortDirection;
   });
 }
 
@@ -245,26 +240,26 @@ function renderPagination(total, state, pagination, summary, render) {
   pagination.innerHTML = '';
 
   const makeBtn = (label, page, disabled = false, active = false) => {
-    const a = document.createElement('li');
-    const link = document.createElement('a');
-    link.className = [
+    const marketListItem = document.createElement('li');
+    const marketLink = document.createElement('a');
+    marketLink.className = [
       'px-3 py-2 leading-tight border',
       active
         ? 'text-blue-600 border-blue-600 bg-blue-50 hover:bg-blue-100 dark:bg-gray-700 dark:text-white'
         : 'text-gray-500 bg-white border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white',
       disabled ? 'cursor-not-allowed opacity-60' : '',
     ].join(' ');
-    link.textContent = label;
+    marketLink.textContent = label;
     if (!disabled) {
-      link.href = '#';
-      link.addEventListener('click', (e) => {
+      marketLink.href = '#';
+      marketLink.addEventListener('click', (e) => {
         e.preventDefault();
         state.page = page;
         render();
       });
     }
-    a.appendChild(link);
-    return a;
+    marketListItem.appendChild(marketLink);
+    return marketListItem;
   };
 
   const totalPagesToShow = Math.min(5, totalPages);
@@ -281,8 +276,10 @@ function renderPagination(total, state, pagination, summary, render) {
   fragment.appendChild(
     makeBtn('Prev', Math.max(1, state.page - 1), state.page === 1)
   );
-  pages.forEach((p) =>
-    fragment.appendChild(makeBtn(String(p), p, false, p === state.page))
+  pages.forEach((pageNumber) =>
+    fragment.appendChild(
+      makeBtn(String(pageNumber), pageNumber, false, pageNumber === state.page)
+    )
   );
   fragment.appendChild(
     makeBtn(
@@ -327,14 +324,14 @@ function getCellValue(tr, key) {
     case 'marketCap':
     case 'volume':
     case 'change': {
-      const idx = { price: 1, marketCap: 2, volume: 3, change: 4 }[key];
-      const cell = tr.children[idx];
+      const index = { price: 1, marketCap: 2, volume: 3, change: 4 }[key];
+      const cell = tr.children[index];
       const dataVal = cell.getAttribute('data-value');
-      const n =
+      const parsedValue =
         dataVal != null
           ? parseFloat(dataVal)
           : parseFloat(cell.innerText.replace(/[$,%\s,]/g, ''));
-      return isNaN(n) ? 0 : n;
+      return isNaN(parsedValue) ? 0 : parsedValue;
     }
     default:
       return 0;

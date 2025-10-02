@@ -110,26 +110,33 @@ function ensureApexChartsLoaded() {
  */
 function groupChartData(raw, lastPrice) {
   const grouped = {};
-  raw.forEach(([ts, price]) => {
-    const d = new Date(ts);
-    const key = `${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`;
-    if (!grouped[key]) grouped[key] = [];
-    grouped[key].push({ price, ts });
+  raw.forEach(([timestampMilliseconds, price]) => {
+    const timestampDate = new Date(timestampMilliseconds);
+    const timestampKey = `${String(timestampDate.getMonth() + 1).padStart(2, '0')}/${String(timestampDate.getDate()).padStart(2, '0')}`;
+    if (!grouped[timestampKey]) grouped[timestampKey] = [];
+    grouped[timestampKey].push({
+      price,
+      timestampMilliseconds: timestampMilliseconds,
+    });
   });
 
   const todayKey = (() => {
-    const d = new Date();
-    return `${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`;
+    const currentDate = new Date();
+    return `${String(currentDate.getMonth() + 1).padStart(2, '0')}/${String(currentDate.getDate()).padStart(2, '0')}`;
   })();
 
-  const points = Object.entries(grouped).map(([key, arr]) => {
-    if (key === todayKey && lastPrice !== null) {
+  const points = Object.entries(grouped).map(([dateKey, priceEntries]) => {
+    if (dateKey === todayKey && lastPrice !== null) {
       // Use last price for today
-      return [key, lastPrice];
+      return [dateKey, lastPrice];
     }
     // Use average for previous days
-    const avg = arr.reduce((a, b) => a + b.price, 0) / arr.length;
-    return [key, avg];
+    const avg =
+      priceEntries.reduce(
+        (totalPrice, priceEntry) => totalPrice + priceEntry.price,
+        0
+      ) / priceEntries.length;
+    return [dateKey, avg];
   });
 
   return {

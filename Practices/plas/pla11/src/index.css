@@ -1,0 +1,199 @@
+/*#region Variables, Reset, General & Body ----------------------------------------------------- */
+
+:root {
+  --blue: #58a;
+  --red: #d34;
+  --gray: #333;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  transition: all ease-in-out 200ms;
+  font-family: 'Roboto', sans-serif;
+  box-sizing: border-box;
+}
+
+body {
+  background: #fff;
+  background-image: radial-gradient(#eef7 25%, transparent 0), radial-gradient(#fee9 20%, transparent 0);
+  background-size: 30px 40px;
+  background-position: 0 0, 15px 20px;
+}
+
+/*#endregion */
+
+/*#region Header ------------------------------------------------------------------------------- */
+
+header h1 {
+  font-family: 'Lobster', cursive;
+  font-size: 5em;
+  color: var(--blue);
+  padding: 1rem 2rem;
+}
+
+/*#endregion */
+
+/*#region Footer ------------------------------------------------------------------------------- */
+
+footer {
+  width: 70%;
+  margin: 5rem auto 0 auto;
+  text-align: center;
+  padding: 1em;
+  font-size: 0.75em;
+  font-weight: 300;
+  color: var(--blue);
+}
+
+/*#endregion */
+
+/*#region Texts -------------------------------------------------------------------------------- */
+
+h2 {
+  font-family: 'Lobster', cursive;
+  font-size: 3em;
+  font-weight: 300;
+  padding: 1rem 2rem;
+  color: var(--blue);
+  margin: 2rem auto;
+  text-align: center;
+}
+
+h2::before,
+h2::after {
+  content: '';
+  vertical-align: middle;
+  display: inline-block;
+  width: 2em;
+  border-bottom: 1px solid var(--blue);
+}
+
+h2::before {
+  margin-right: 0.5em;
+}
+
+h2::after {
+  margin-left: 0.5em;
+}
+
+/*#endregion */
+
+/*#region Specific for SuggestFollow section --------------------------------------------------- */
+
+.suggest-follow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  width: 80%;
+  margin: 0 auto 2em;
+}
+
+.user {
+  text-align: center;
+  font-size: 0.9em;
+  color: var(--gray);
+}
+
+.user img {
+  border-radius: 50%;
+  width: 75px;
+  height: 75px;
+  margin-bottom: 5px;
+}
+
+.premium p::before {
+  content: '';
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  vertical-align: sub;
+  border-radius: 50%;
+  background-color: var(--gray);
+  border: 6px solid var(--red);
+  margin-right: 0.35em;
+}
+
+.premium p::after {
+  content: '';
+  display: inline-block;
+  width: 5px;
+}
+
+/*#endregion */
+
+/*#region Specific for Story section ----------------------------------------------------------- */
+
+.list-stories {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.story {
+  margin-bottom: 5em;
+}
+
+.picture {
+  width: 100%;
+  background-color: var(--gray);
+  padding: 4% 15%;
+}
+
+.story figcaption {
+  font-size: 1.2em;
+  font-family: 'Lobster', cursive;
+  margin: 0.3em auto 1em;
+  text-align: left;
+  color: var(--blue);
+}
+
+.comment-author {
+  font-size: 0.9em;
+  color: var(--red);
+  font-style: italic;
+}
+
+.comment-text {
+  line-height: 1.5;
+  margin-top: 0.1em;
+  margin-bottom: 1em;
+}
+
+/*#endregion */
+
+/*#region Form --------------------------------------------------------------------------------- */
+
+form {
+  display: flex;
+  gap: 1em;
+}
+
+form input {
+  border: 0;
+  padding: 1em;
+  font-size: 1em;
+}
+
+form input {
+  outline: none;
+}
+
+form input[type='text'] {
+  width: 80%;
+  background-color: #eeec;
+}
+
+form input[type='text']:focus {
+  background-color: var(--gray);
+  color: #eee;
+}
+
+form input[type='submit'] {
+  width: 20%;
+  background-color: var(--red);
+  color: #fff;
+  cursor: pointer;
+}
+
+/*#endregion */

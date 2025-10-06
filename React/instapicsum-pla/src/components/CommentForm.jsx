@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useState } from "react";
 
 const CommentForm = ({ storyId, onAddComment }) => {
   // TODO #7
   // Fes servir el hook adequat per gestionar un estat amb nom `text`.
+  const [text, setText] = useState("");
 
   // TODO #8
   // Implementa aquesta funció per tal que:
@@ -11,16 +12,24 @@ const CommentForm = ({ storyId, onAddComment }) => {
   // 3) si no ho és:
   // 3.1) faci servir la funció rebuda com a prop en aquest component per afegir el comentari,
   // 3.2) deixi de nou buit el quadre de text.
-  const onSubmit = (e) => {}
+  const onSubmit = (e) => {
+    e.preventDefault();
+    text !== "" ? onAddComment(storyId, text) : setText("");
+  };
 
   return (
     <form onSubmit={onSubmit}>
       {/* TODO #9
       /// Un dels quatre atributs d'aquest input té un problema evident que cal arreglar. */}
-      <input type='text' placeholder='Join the conversation' value='text' onChange={(e) => setText(e.target.value)} />
-      <input type='submit' value='Say it' className='btn btn-block' />
+      <input
+        type="text"
+        placeholder="Join the conversation"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+      />
+      <input type="submit" value="Say it" className="btn btn-block" />
     </form>
-  )
-}
+  );
+};
 
-export default CommentForm
+export default CommentForm;

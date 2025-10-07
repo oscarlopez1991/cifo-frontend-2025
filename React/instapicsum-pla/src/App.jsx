@@ -58,7 +58,7 @@ function App() {
       {
         /* TODO #4
       /// Afegeix aquí el component ListStories passant-li com a props l'array amb les stories i la funció per afegir un comentari. */
-        <ListStories stories={stories} addComment={addComment} />
+        <ListStories stories={stories} onAddComment={addComment} />
       }
 
       {

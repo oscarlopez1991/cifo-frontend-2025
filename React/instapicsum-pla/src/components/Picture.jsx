@@ -19,9 +19,9 @@ const Picture = ({ photo, author, timestamp }) => {
   return (
     // TODO #11
     // Afegeix la classe de CSS picture on correspongui.
-    <div className="picture">
+    <div>
       <figure>
-        <img src={photo} alt={`Uploaded by ${author}`} />
+        <img className="picture" src={photo} alt={`Uploaded by ${author}`} />
         <figcaption>
           {/* TODO #12
           /// Afegeix el contingut de figcaption perquè mostri el següent text:

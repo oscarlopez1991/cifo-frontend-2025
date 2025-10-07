@@ -1,15 +1,20 @@
-import User from './User'
+import User from "./User";
 
 const SuggestFollow = ({ users }) => {
   return (
-    <div className='suggest-follow'>
+    <div className="suggest-follow">
       {users.map((user) => (
         // TODO #14
         // Mirant la definició del component User veuràs que aquí falta passar-li dues props molt importants.
-        <User key={user.username} name={user.username} />
+        <User
+          key={user.username}
+          name={user.username}
+          avatar={user.avatar}
+          isPremium={user.isPremium}
+        />
       ))}
     </div>
-  )
-}
+  );
+};
 
-export default SuggestFollow
+export default SuggestFollow;

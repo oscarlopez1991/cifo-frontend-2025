@@ -14,7 +14,10 @@ const CommentForm = ({ storyId, onAddComment }) => {
   // 3.2) deixi de nou buit el quadre de text.
   const onSubmit = (e) => {
     e.preventDefault();
-    text !== "" ? onAddComment(storyId, text) : setText("");
+    if (text !== "") {
+      onAddComment(storyId, text);
+      setText("");
+    }
   };
 
   return (

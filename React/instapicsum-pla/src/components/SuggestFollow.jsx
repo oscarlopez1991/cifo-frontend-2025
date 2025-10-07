@@ -10,7 +10,7 @@ const SuggestFollow = ({ users }) => {
           key={user.username}
           name={user.username}
           avatar={user.avatar}
-          isPremium={user.isPremium}
+          isPremium={user.premium}
         />
       ))}
     </div>

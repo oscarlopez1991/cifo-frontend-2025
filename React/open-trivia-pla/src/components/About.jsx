@@ -2,7 +2,7 @@ const About = () => {
   return (
     // TODO #1
     // Crea el JSX corresponent a aquest component (similar al que es mostra al vídeo).
-    <div className="about container">
+    <section className="about container">
       <h2>Open Trivia 1.0</h2>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla bibendum
@@ -35,7 +35,7 @@ const About = () => {
         Fusce porttitor nisl purus, nec pharetra sem vehicula vitae. Suspendisse
         at enim eget nulla tempus aliquet eu ornare nunc.
       </p>
-    </div>
+    </section>
   );
 };
 

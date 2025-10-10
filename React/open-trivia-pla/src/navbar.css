@@ -1,0 +1,72 @@
+/*
+    Based on How to create an awesome navigation bar with HTML & CSS by Kevin Powell.
+    https://www.youtube.com/watch?v=FEmysQARWFU
+*/
+
+header {
+  background-color: var(--primary-dark-color);
+}
+
+/* As both .logo and nav have float property, header no longer has anything setting its height. */
+/* This little trick fixes that. */
+header::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.logo {
+  font-family: Neucha, cursive;
+  font-size: 4em;
+  float: left;
+  margin: 0.4em 0;
+  color: var(--primary-light-color);
+}
+
+nav {
+  float: right;
+}
+
+nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+nav li {
+  display: inline-block;
+  margin-left: 3em;
+  line-height: 3em;
+  padding-top: 2.25em;
+
+  position: relative; /* Required so that position: absolute in nav a::before works. */
+}
+
+nav a {
+  color: var(--primary-light-color);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: all ease-in-out 200ms;
+}
+
+nav a:hover {
+  color: #fff;
+}
+
+nav a::before {
+  content: '';
+  display: block;
+  height: 15px;
+  width: 100%;
+  background-color: var(--primary-light-color);
+
+  position: absolute;
+  top: 0;
+  width: 0%; /* As we don't want to see this initially. */
+
+  transition: all ease-in-out 200ms;
+}
+
+nav a:hover::before {
+  width: 100%; /* As we want to see it on mouse hover. */
+}

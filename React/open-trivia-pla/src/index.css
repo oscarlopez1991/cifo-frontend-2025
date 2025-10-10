@@ -1,0 +1,183 @@
+/*#region Variables, Reset, General & Body ----------------------------------------------------- */
+
+:root {
+  --primary-dark-color: #904;
+  --primary-light-color: #f3e9f0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Raleway', sans-serif;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/*#endregion */
+
+/*#region Header ------------------------------------------------------------------------------- */
+
+/* See navbar.css file */
+
+/*#endregion */
+
+/*#region Footer ------------------------------------------------------------------------------- */
+
+footer {
+  color: #fff9;
+  background-color: var(--primary-dark-color);
+  font-size: 0.8rem;
+  text-align: center;
+  margin: 0 auto 0;
+  padding: 1em 0;
+}
+
+p.footer {
+  column-count: 3;
+  gap: 4em;
+  text-align: justify;
+}
+
+/*#endregion */
+
+/*#region Divs --------------------------------------------------------------------------------- */
+
+.container {
+  width: 80%;
+  margin: 0 auto 2em;
+}
+
+.content {
+  flex: 1 0 auto;
+}
+
+/*#endregion */
+
+/*#region Specific for Settings screen --------------------------------------------------------- */
+
+.setting p {
+  margin: 2em 0 0.4em 0;
+}
+
+button {
+  font-size: 1.1rem;
+  text-transform: capitalize;
+  color: #333;
+  background-color: #f2f2f1;
+  border: 0;
+  outline: none;
+  width: 10em;
+  height: 2.5em;
+}
+
+.btn-selected {
+  background-color: var(--primary-dark-color);
+  color: #fff;
+}
+
+/*#endregion */
+
+/*#region Specific for Questions screen ----------------------------------------------------------- */
+
+.bg-quiz {
+  background-color: #ad8;
+}
+
+.questions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 1200px;
+  min-height: 100vh;
+  flex-wrap: wrap;
+  margin: 2em auto;
+  gap: 2rem;
+}
+
+.questions .card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-align: center;
+  width: 300px;
+  height: 500px;
+  padding: 1em;
+  box-shadow: 10px 10px 30px #0008;
+  background: var(--primary-dark-color);
+}
+
+.questions .card h2 {
+  font-size: 1.5rem;
+  font-family: Neucha, cursive;
+  text-transform: uppercase;
+  background-color: var(--primary-light-color);
+  color: var(--primary-dark-color);
+  margin: 0 auto 1em;
+  padding: 0.3em 1em 0.1em;
+}
+
+.questions .card p {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.questions .card p.difficulty {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--primary-dark-color);
+  background-color: yellowgreen;
+  margin: 0 auto 1em;
+  padding: 0.25em 1em;
+}
+
+.questions .card p.question {
+  font-size: 0.9rem;
+  margin: 1em auto;
+}
+
+.questions .card p.answer {
+  font-size: 0.9rem;
+  font-weight: normal;
+  background-color: #000a;
+  margin-top: 1.5em;
+  padding: 0.8em 0.5em;
+  width: 80%;
+  cursor: pointer;
+}
+
+/*#endregion */
+
+/*#region Specific for About screen ------------------------------------------------------------ */
+
+.about h2 {
+  font-size: 3rem;
+}
+
+.about p {
+  width: 50%;
+  text-align: justify;
+  margin-bottom: 3em;
+}
+
+/*#endregion */
+
+/*#region Specific for Error 404 screen -------------------------------------------------------- */
+
+.not-found {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 8rem;
+  font-weight: 700;
+  color: var(--primary-dark-color);
+}
+
+/*#endregion */

@@ -2,7 +2,7 @@ const About = () => {
   return (
     // TODO #1
     // Crea el JSX corresponent a aquest component (similar al que es mostra al vídeo).
-    <div className="about">
+    <div className="about container">
       <h2>Open Trivia 1.0</h2>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla bibendum
@@ -33,36 +33,7 @@ const About = () => {
         auctor, sit amet auctor lorem vehicula. Nulla condimentum imperdiet
         velit. Duis tellus odio, consectetur ut nisl et, dictum accumsan ligula.
         Fusce porttitor nisl purus, nec pharetra sem vehicula vitae. Suspendisse
-        at enim eget nulla tempus aliquet eu ornare nunc. Aliquam volutpat risus
-        dolor, in ultrices mauris porttitor a. Sed viverra porttitor
-        sollicitudin. Praesent eu gravida augue, id tempor lacus. Nunc commodo
-        ultricies enim. Maecenas vehicula erat eget congue iaculis. In auctor,
-        risus blandit pulvinar posuere, arcu nisl maximus augue, et eleifend
-        arcu augue hendrerit velit. Aliquam convallis varius dui lobortis
-        fringilla. Fusce a augue et nisl vehicula accumsan. Donec ut libero eu
-        eros vestibulum facilisis ac et diam. Donec enim tortor, lacinia non
-        erat ac, placerat tincidunt ex. Phasellus tristique mi quam, sit amet
-        consectetur tellus pellentesque ut. In hac habitasse platea dictumst.
-        Integer in bibendum justo. In hac habitasse platea dictumst. Proin eu
-        purus non erat viverra finibus. Praesent non sapien vel leo suscipit
-        placerat at blandit augue. Morbi elementum tincidunt arcu, et porttitor
-        leo facilisis at. Mauris dignissim elementum accumsan. Donec non ipsum
-        vel lacus interdum fermentum non in orci. Nunc iaculis libero dui, id
-        accumsan tortor sagittis vitae. Praesent sed diam ornare, tempus orci
-        at, dignissim ipsum. Nullam et turpis lorem. Quisque sodales non diam at
-        sollicitudin. Donec euismod vitae felis imperdiet suscipit. Vivamus
-        sollicitudin odio augue, ac eleifend sem suscipit vel. Ut sed elit eget
-        ipsum tempus ultricies. Etiam metus nisl, aliquam dapibus felis nec,
-        tempus tristique est. Nam ac varius nunc, sed pretium dolor. Morbi
-        tristique felis a tortor pretium lobortis. Nam commodo ante ullamcorper
-        interdum venenatis. Mauris eu nibh ut urna ullamcorper tincidunt. Class
-        aptent taciti sociosqu ad litora torquent per conubia nostra, per
-        inceptos himenaeos. Suspendisse et massa sit amet lacus varius placerat.
-        Phasellus eu placerat eros. Etiam eu dolor congue, semper neque at,
-        rutrum ante. Sed porttitor, nisl at malesuada interdum, nulla velit
-        consectetur nibh, eget consectetur ligula metus sed felis. Maecenas vel
-        arcu iaculis, egestas ipsum ut, venenatis nunc. Etiam in sagittis nunc.
-        Phasellus vulputate lacus non feugiat pellentesque.
+        at enim eget nulla tempus aliquet eu ornare nunc.
       </p>
     </div>
   );

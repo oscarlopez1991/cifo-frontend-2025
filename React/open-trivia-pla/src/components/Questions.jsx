@@ -35,17 +35,17 @@ const Questions = () => {
           /* TODO #7
         /// Afegeix aquí un map sobre `questions` de tal manera que per cada element insereixi un
         /// component Question amb les propietats (key + 6) informades adequadament. */
-          questions.map((quizItem) => {
+          questions.map((quizItem) => (
             <Question
-              key={crypto.randomUUID}
+              key={crypto.randomUUID()}
               category={quizItem.category}
               type={quizItem.type}
               difficulty={quizItem.difficulty}
               question={quizItem.question}
               correctAnswer={quizItem.correct_answer}
               incorrectAnswers={quizItem.incorrect_answers}
-            />;
-          })
+            />
+          ))
         }
       </div>
     </div>

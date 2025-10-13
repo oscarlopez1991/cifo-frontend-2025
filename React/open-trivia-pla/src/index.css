@@ -28,18 +28,30 @@ body {
 /*#region Footer ------------------------------------------------------------------------------- */
 
 footer {
-  color: #fff9;
-  background-color: var(--primary-dark-color);
+  color: rgba(255, 255, 255, 0.85);
+  background: linear-gradient(180deg, #2e3047 0%, #272838 100%);
   font-size: 0.8rem;
   text-align: center;
   margin: 0 auto 0;
-  padding: 1em 0;
+  padding: 2em 0;
+  box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.2);
+  border-top: 2px solid rgba(216, 226, 220, 0.1);
+}
+
+footer h6 {
+  font-size: 1.2rem;
+  color: var(--primary-light-color);
+  margin-bottom: 1em;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
 p.footer {
   column-count: 3;
   gap: 4em;
   text-align: justify;
+  line-height: 1.6;
+  opacity: 0.9;
 }
 
 /*#endregion */

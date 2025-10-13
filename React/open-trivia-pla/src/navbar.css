@@ -16,8 +16,8 @@ header::after {
 }
 
 .logo {
-  font-family: Neucha, cursive;
-  font-size: 4em;
+  font-family: "Montserrat", cursive;
+  font-size: 3em;
   float: left;
   margin: 0.4em 0;
   color: var(--primary-light-color);

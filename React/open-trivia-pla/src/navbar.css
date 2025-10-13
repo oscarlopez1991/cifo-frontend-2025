@@ -50,21 +50,11 @@ nav a {
 }
 
 nav a:hover {
-  color: #d8e2dc;
-}
-
-nav a::before {
-  content: "";
-  display: block;
-  height: 15px;
-  width: 100%;
-  background-color: var(--primary-light-color);
-
-  position: absolute;
-  top: 0;
-  width: 0%; /* As we don't want to see this initially. */
-
-  transition: all ease-in-out 200ms;
+  color: #272838;
+  background-color: #d8e2dc;
+  border-radius: 4px;
+  padding: 0.2em 0.6em;
+  transition: background 0.2s;
 }
 
 nav a:hover::before {

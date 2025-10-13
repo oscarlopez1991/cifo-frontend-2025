@@ -67,16 +67,21 @@ button {
   font-size: 1.1rem;
   text-transform: capitalize;
   color: #333;
-  background-color: #a97c73;
+  background-color: #9db4a8;
   border: 0;
   outline: none;
   width: 10em;
   height: 2.5em;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .btn-selected {
   background-color: var(--primary-dark-color);
-  color: #fff;
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 /*#endregion */
@@ -109,6 +114,7 @@ button {
   height: 500px;
   padding: 1em;
   box-shadow: 10px 10px 30px #0008;
+  border-radius: 10px;
   background: var(--primary-dark-color);
 }
 

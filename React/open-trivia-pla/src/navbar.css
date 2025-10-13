@@ -10,7 +10,7 @@ header {
 /* As both .logo and nav have float property, header no longer has anything setting its height. */
 /* This little trick fixes that. */
 header::after {
-  content: '';
+  content: "";
   display: table;
   clear: both;
 }
@@ -50,11 +50,11 @@ nav a {
 }
 
 nav a:hover {
-  color: #fff;
+  color: #d8e2dc;
 }
 
 nav a::before {
-  content: '';
+  content: "";
   display: block;
   height: 15px;
   width: 100%;

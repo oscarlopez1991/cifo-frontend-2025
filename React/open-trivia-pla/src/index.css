@@ -1,8 +1,8 @@
 /*#region Variables, Reset, General & Body ----------------------------------------------------- */
 
 :root {
-  --primary-dark-color: #904;
-  --primary-light-color: #f3e9f0;
+  --primary-dark-color: #272838;
+  --primary-light-color: #d8e2dc;
 }
 
 body {
@@ -67,7 +67,7 @@ button {
   font-size: 1.1rem;
   text-transform: capitalize;
   color: #333;
-  background-color: #f2f2f1;
+  background-color: #a97c73;
   border: 0;
   outline: none;
   width: 10em;
@@ -84,7 +84,7 @@ button {
 /*#region Specific for Questions screen ----------------------------------------------------------- */
 
 .bg-quiz {
-  background-color: #ad8;
+  background-color: #a97c73;
 }
 
 .questions {
@@ -133,7 +133,7 @@ button {
   text-transform: uppercase;
   letter-spacing: 0.2em;
   color: var(--primary-dark-color);
-  background-color: yellowgreen;
+  background-color: #537a5a;
   margin: 0 auto 1em;
   padding: 0.25em 1em;
 }

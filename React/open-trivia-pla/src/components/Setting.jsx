@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import SettingsContext from "../context/SettingsContext";
 
-const Setting = ({ property, text, first, second }) => {
+const Setting = ({ property, text, first, second, third }) => {
   const { settings, updateSetting } = useContext(SettingsContext);
 
   return (
@@ -20,6 +20,12 @@ const Setting = ({ property, text, first, second }) => {
         className={settings[property] === second ? "btn-selected" : ""}
       >
         {second}
+      </button>
+      <button
+        onClick={(e) => updateSetting(property, e.target.textContent)}
+        className={settings[property] === third ? "btn-selected" : ""}
+      >
+        {third}
       </button>
     </div>
   );

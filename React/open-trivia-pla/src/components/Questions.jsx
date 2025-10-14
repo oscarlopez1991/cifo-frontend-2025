@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import SettingsContext from "../context/SettingsContext";
 import Question from "./Question";
+import categoryMap from "../helpers/categoryMap";
 
 const Questions = () => {
   const [questions, setQuestions] = useState([]);
@@ -14,8 +15,9 @@ const Questions = () => {
   useEffect(() => {
     const fetchData = async () => {
       const filterNumber = "&amount=" + settings.number;
-      const filterCategory =
-        "&category=" + (settings.category === "Sports" ? 21 : 22);
+      const filterCategory = `&category=${
+        categoryMap[settings.category] || categoryMap.Sports
+      }`;
       const filterDifficulty =
         "&difficulty=" + settings.difficulty.toLowerCase();
       const response = await fetch(

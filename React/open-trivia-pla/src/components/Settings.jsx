@@ -7,7 +7,8 @@ const Settings = () => {
         property="number"
         text="Number of questions"
         first="6"
-        second="12"
+        second="9"
+        third="12"
       />
       {/* TODO #9
       /// Afegeix un nou element que permeti a l'usuari triar la categoria de les preguntes a mostrar. */}
@@ -16,12 +17,14 @@ const Settings = () => {
         text="Category"
         first="Sports"
         second="Geography"
+        third="History"
       />
       <Setting
         property="difficulty"
         text="Difficulty"
         first="Easy"
-        second="Hard"
+        second="Medium"
+        third="Hard"
       />
     </div>
   );

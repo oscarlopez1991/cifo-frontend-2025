@@ -7,7 +7,9 @@ const Question = ({
 }) => {
   // TODO #6
   // Crea una variable `answers` que contingui un array amb totes les respostes (correctes + incorrectes).
-  const answers = [correctAnswer, ...incorrectAnswers];
+  const answers = [correctAnswer, ...incorrectAnswers].sort(
+    () => Math.random() - 0.5
+  );
 
   const sanitize = (text) =>
     text

@@ -18,8 +18,8 @@ function App() {
           <Route path="/" element={<Questions />} />
           {/* TODO #12
           /// Afegeix rutes per la pàgina About i per la pàgina Settings. */}
-          <Route path="/About" element={<About />} />
-          <Route path="/Settings" element={<Settings />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/settings" element={<Settings />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />

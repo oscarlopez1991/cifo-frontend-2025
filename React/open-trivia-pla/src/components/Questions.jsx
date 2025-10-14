@@ -37,7 +37,7 @@ const Questions = () => {
         /// component Question amb les propietats (key + 6) informades adequadament. */
           questions.map((quizItem) => (
             <Question
-              key={crypto.randomUUID()}
+              key={`${quizItem.category}-${quizItem.type}-${quizItem.difficulty}-${quizItem.question}`}
               category={quizItem.category}
               type={quizItem.type}
               difficulty={quizItem.difficulty}

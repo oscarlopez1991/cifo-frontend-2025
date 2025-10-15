@@ -246,3 +246,36 @@ button {
 }
 
 /*#endregion */
+
+/*#region Scoreboard --------------------------------------------------------------------------- */
+
+.scoreboard {
+  display: flex;
+  justify-content: center;
+  gap: 3em;
+  margin: 2em 0;
+  padding: 1em;
+  background: linear-gradient(135deg, #2e3047 0%, #272838 100%);
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.score-correct,
+.score-incorrect {
+  font-size: 1.5em;
+  font-weight: bold;
+  padding: 0.5em 1em;
+  border-radius: 8px;
+}
+
+.score-correct {
+  color: #fff;
+  background-color: #234f1e;
+}
+
+.score-incorrect {
+  color: #fff;
+  background-color: #a94442;
+}
+
+/*#endregion */

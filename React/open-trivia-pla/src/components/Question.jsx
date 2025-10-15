@@ -6,6 +6,8 @@ const Question = ({
   question,
   correctAnswer,
   incorrectAnswers,
+  onCorrect,
+  onIncorrect,
 }) => {
   const [selected, setSelected] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
@@ -25,14 +27,18 @@ const Question = ({
       .replaceAll("&shy;", "\u00AD");
 
   const handleAnswerClick = (answer) => {
+    if (selected) return; // Only allows answering once
+
     setSelected(answer);
     if (answer === correctAnswer) {
       setPopupMsg("✅ Correct!");
+      onCorrect && onCorrect();
     } else {
       setPopupMsg("❌ Incorrect!");
+      onIncorrect && onIncorrect();
     }
     setShowPopup(true);
-    setTimeout(() => setShowPopup(false), 1500); // Hide after 1.5s
+    setTimeout(() => setShowPopup(false), 1500);
   };
 
   return (

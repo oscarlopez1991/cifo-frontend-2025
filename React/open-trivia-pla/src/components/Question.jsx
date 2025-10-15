@@ -8,6 +8,8 @@ const Question = ({
   incorrectAnswers,
 }) => {
   const [selected, setSelected] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMsg, setPopupMsg] = useState("");
 
   const answers = useMemo(() => {
     const arr = [correctAnswer, ...incorrectAnswers];
@@ -24,6 +26,13 @@ const Question = ({
 
   const handleAnswerClick = (answer) => {
     setSelected(answer);
+    if (answer === correctAnswer) {
+      setPopupMsg("✅ Correct!");
+    } else {
+      setPopupMsg("❌ Incorrect!");
+    }
+    setShowPopup(true);
+    setTimeout(() => setShowPopup(false), 1500); // Hide after 1.5s
   };
 
   return (
@@ -47,6 +56,7 @@ const Question = ({
             {sanitize(answer)}
           </p>
         ))}
+        {showPopup && <div className="popup">{popupMsg}</div>}
       </div>
     </div>
   );

@@ -202,6 +202,22 @@ button {
   color: #fff;
 }
 
+/* Add to your CSS file */
+.popup {
+  position: absolute;
+  left: 50%;
+  top: 30%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  color: #272838;
+  padding: 1em 2em;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  font-size: 1.2em;
+  font-weight: bold;
+  z-index: 10;
+}
+
 /*#endregion */
 
 /*#region Specific for About screen ------------------------------------------------------------ */

@@ -1,4 +1,4 @@
-import { useContext, useState, useMemo } from "react";
+import { useContext, useState, useMemo, useCallback } from "react";
 import ScoreContext from "../context/ScoreContext";
 
 const Question = ({
@@ -13,29 +13,35 @@ const Question = ({
   const [popupMsg, setPopupMsg] = useState("");
   const { updateScore } = useContext(ScoreContext);
 
+  const sanitize = useCallback(
+    (text) =>
+      text
+        .replaceAll("&quot;", '"')
+        .replaceAll("&#039;", "'")
+        .replaceAll("&amp;", "&")
+        .replaceAll("&deg;", "º")
+        .replaceAll("&shy;", "\u00AD"),
+    []
+  );
+
   const answers = useMemo(() => {
     const arr = [correctAnswer, ...incorrectAnswers];
     return arr.sort(() => Math.random() - 0.5);
   }, [correctAnswer, incorrectAnswers]);
 
-  const sanitize = (text) =>
-    text
-      .replaceAll("&quot;", '"')
-      .replaceAll("&#039;", "'")
-      .replaceAll("&amp;", "&")
-      .replaceAll("&deg;", "º")
-      .replaceAll("&shy;", "\u00AD");
+  const handleAnswerClick = useCallback(
+    (answer) => {
+      if (selected) return;
 
-  const handleAnswerClick = (answer) => {
-    if (selected) return; // Only allows answering once
-
-    const isCorrect = answer === correctAnswer;
-    setSelected(answer);
-    setPopupMsg(isCorrect ? "✅ Correct!" : "❌ Incorrect!");
-    updateScore(isCorrect);
-    setShowPopup(true);
-    setTimeout(() => setShowPopup(false), 1500);
-  };
+      const isCorrect = answer === correctAnswer;
+      setSelected(answer);
+      setPopupMsg(isCorrect ? "✅ Correct!" : "❌ Incorrect!");
+      updateScore(isCorrect);
+      setShowPopup(true);
+      setTimeout(() => setShowPopup(false), 1500);
+    },
+    [selected, correctAnswer, updateScore]
+  );
 
   return (
     <div>

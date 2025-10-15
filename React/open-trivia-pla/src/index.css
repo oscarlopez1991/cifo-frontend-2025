@@ -192,6 +192,16 @@ button {
   transform: scale(1.03);
 }
 
+.questions .card p.answer.correct {
+  background-color: #234f1e;
+  color: #fff;
+}
+
+.questions .card p.answer.incorrect {
+  background-color: #a94442;
+  color: #fff;
+}
+
 /*#endregion */
 
 /*#region Specific for About screen ------------------------------------------------------------ */

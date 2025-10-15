@@ -1,3 +1,5 @@
+import { useState, useMemo } from "react";
+
 const Question = ({
   category,
   difficulty,
@@ -5,11 +7,12 @@ const Question = ({
   correctAnswer,
   incorrectAnswers,
 }) => {
-  // TODO #6
-  // Crea una variable `answers` que contingui un array amb totes les respostes (correctes + incorrectes).
-  const answers = [correctAnswer, ...incorrectAnswers].sort(
-    () => Math.random() - 0.5
-  );
+  const [selected, setSelected] = useState(null);
+
+  const answers = useMemo(() => {
+    const arr = [correctAnswer, ...incorrectAnswers];
+    return arr.sort(() => Math.random() - 0.5);
+  }, [correctAnswer, incorrectAnswers]);
 
   const sanitize = (text) =>
     text
@@ -19,6 +22,10 @@ const Question = ({
       .replaceAll("&deg;", "º")
       .replaceAll("&shy;", "\u00AD");
 
+  const handleAnswerClick = (answer) => {
+    setSelected(answer);
+  };
+
   return (
     <div>
       <div className="card">
@@ -26,7 +33,17 @@ const Question = ({
         <p className="difficulty">{difficulty}</p>
         <p className="question">{sanitize(question)}</p>
         {answers.map((answer) => (
-          <p key={answer} className="answer">
+          <p
+            key={answer}
+            onClick={() => handleAnswerClick(answer)}
+            className={`answer ${
+              selected
+                ? answer === correctAnswer
+                  ? "correct"
+                  : "incorrect"
+                : ""
+            }`}
+          >
             {sanitize(answer)}
           </p>
         ))}

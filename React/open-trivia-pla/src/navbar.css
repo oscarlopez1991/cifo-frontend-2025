@@ -4,27 +4,23 @@
 */
 
 header {
-  background-color: var(--primary-dark-color);
-}
-
-/* As both .logo and nav have float property, header no longer has anything setting its height. */
-/* This little trick fixes that. */
-header::after {
-  content: "";
-  display: table;
-  clear: both;
+  display: flex;
+  align-items: center; /* vertical alignment */
+  justify-content: space-between; /* logo left, navbar right */
+  padding: 0.5em 1em;
+  background: linear-gradient(90deg, #1a1d28 0%, #272838 100%);
 }
 
 .logo {
   font-family: "Montserrat", cursive;
   font-size: 3em;
-  float: left;
-  margin: 0.4em 0;
   color: var(--primary-light-color);
+  margin: 0;
+  /* Remove float */
 }
 
 nav {
-  float: right;
+  /* Remove float */
 }
 
 nav ul {

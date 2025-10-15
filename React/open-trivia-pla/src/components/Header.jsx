@@ -3,12 +3,10 @@ import NavBar from "./NavBar";
 const Header = () => {
   return (
     <header>
-      <div className="container">
-        <div className="logo">Open Trivia October 2025</div>
-        {/* TODO #3
-        /// Manca afegir un component aquí (ja el tenim creat en un altre arxiu). */}
+      <div className="logo">Open Trivia by Oscar edition</div>
+      <nav>
         <NavBar />
-      </div>
+      </nav>
     </header>
   );
 };

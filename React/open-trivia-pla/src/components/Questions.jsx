@@ -39,7 +39,7 @@ const Questions = () => {
         /// component Question amb les propietats (key + 6) informades adequadament. */
           questions.map((quizItem) => (
             <Question
-              key={`${quizItem.category}-${quizItem.type}-${quizItem.difficulty}-${quizItem.question}`}
+              key={`${quizItem.question}-${quizItem.correct_answer}`}
               category={quizItem.category}
               type={quizItem.type}
               difficulty={quizItem.difficulty}

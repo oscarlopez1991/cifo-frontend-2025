@@ -1,17 +1,23 @@
-import { createContext, useState } from "react";
-
-// TODO #10
-// Fes que aquest context reculli també la dificultat de les preguntes a mostrar.
-// En altres arxius trobaràs quin nom **exacte** ha de tenir la propietat.
+import { createContext, useState, useEffect } from "react";
 
 const SettingsContext = createContext();
 
 export const SettingsProvider = ({ children }) => {
-  const [settings, setSettings] = useState({
-    number: "6",
-    category: "Sports",
-    difficulty: "Easy",
+  const [settings, setSettings] = useState(() => {
+    const saved = localStorage.getItem("quizSettings");
+    return saved
+      ? JSON.parse(saved)
+      : {
+          number: "6",
+          category: "Sports",
+          difficulty: "Easy",
+        };
   });
+
+  // Save settings to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem("quizSettings", JSON.stringify(settings));
+  }, [settings]);
 
   const updateSetting = (property, value) => {
     setSettings({ ...settings, [property]: value });

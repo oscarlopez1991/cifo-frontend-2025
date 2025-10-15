@@ -1,13 +1,14 @@
 import { useContext, useEffect, useState } from "react";
 import SettingsContext from "../context/SettingsContext";
+import ScoreContext from "../context/ScoreContext";
 import Question from "./Question";
 import Scoreboard from "./Scoreboard";
 import categoryMap from "../helpers/categoryMap";
 
 const Questions = () => {
   const [questions, setQuestions] = useState([]);
-  const [score, setScore] = useState({ correct: 0, incorrect: 0 });
   const { settings } = useContext(SettingsContext);
+  const { score, updateScore, resetScore } = useContext(ScoreContext);
 
   const apiUrl = "https://opentdb.com/api.php?type=multiple";
 
@@ -24,19 +25,11 @@ const Questions = () => {
       );
       const data = await response.json();
       setQuestions(data.results);
-      setScore({ correct: 0, incorrect: 0 }); // Reset score when new questions are fetched
+      resetScore(); // Reset score when new questions are fetched
     };
 
     fetchData();
-  }, [settings]);
-
-  const handleAnswer = (isCorrect) => {
-    setScore((prevScore) => ({
-      ...prevScore,
-      correct: isCorrect ? prevScore.correct + 1 : prevScore.correct,
-      incorrect: !isCorrect ? prevScore.incorrect + 1 : prevScore.incorrect,
-    }));
-  };
+  }, [settings, resetScore]);
 
   return (
     <div className="bg-quiz">
@@ -52,7 +45,7 @@ const Questions = () => {
               question={quizItem.question}
               correctAnswer={quizItem.correct_answer}
               incorrectAnswers={quizItem.incorrect_answers}
-              onAnswer={handleAnswer}
+              onAnswer={updateScore}
             />
           ))}
         </div>

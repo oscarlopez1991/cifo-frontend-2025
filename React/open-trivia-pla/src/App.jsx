@@ -7,23 +7,24 @@ import Settings from "./components/Settings";
 import Questions from "./components/Questions";
 import NotFound from "./components/NotFound";
 import { SettingsProvider } from "./context/SettingsContext";
+import { ScoreProvider } from "./context/ScoreContext";
 import { BrowserRouter as Router, Route, Routes } from "react-router";
 
 function App() {
   return (
     <SettingsProvider>
-      <Router>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Questions />} />
-          {/* TODO #12
-          /// Afegeix rutes per la pàgina About i per la pàgina Settings. */}
-          <Route path="/about" element={<About />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-        <Footer />
-      </Router>
+      <ScoreProvider>
+        <Router>
+          <Header />
+          <Routes>
+            <Route path="/" element={<Questions />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+          <Footer />
+        </Router>
+      </ScoreProvider>
     </SettingsProvider>
   );
 }

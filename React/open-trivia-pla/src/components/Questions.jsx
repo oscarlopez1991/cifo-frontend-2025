@@ -30,14 +30,11 @@ const Questions = () => {
     fetchData();
   }, [settings]);
 
-  const handleCorrect = () => {
-    setScore((prevScore) => ({ ...prevScore, correct: prevScore.correct + 1 }));
-  };
-
-  const handleIncorrect = () => {
+  const handleAnswer = (isCorrect) => {
     setScore((prevScore) => ({
       ...prevScore,
-      incorrect: prevScore.incorrect + 1,
+      correct: isCorrect ? prevScore.correct + 1 : prevScore.correct,
+      incorrect: !isCorrect ? prevScore.incorrect + 1 : prevScore.incorrect,
     }));
   };
 
@@ -55,8 +52,7 @@ const Questions = () => {
               question={quizItem.question}
               correctAnswer={quizItem.correct_answer}
               incorrectAnswers={quizItem.incorrect_answers}
-              onCorrect={handleCorrect}
-              onIncorrect={handleIncorrect}
+              onAnswer={handleAnswer}
             />
           ))}
         </div>

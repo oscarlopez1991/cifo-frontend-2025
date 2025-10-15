@@ -2,7 +2,7 @@ const About = () => {
   return (
     // TODO #1
     // Crea el JSX corresponent a aquest component (similar al que es mostra al vídeo).
-    <section className="about container">
+    <section className="content about container">
       <h2>Open Trivia 1.0</h2>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla bibendum

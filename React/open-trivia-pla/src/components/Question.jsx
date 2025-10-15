@@ -1,4 +1,5 @@
-import { useState, useMemo } from "react";
+import { useContext, useState, useMemo } from "react";
+import ScoreContext from "../context/ScoreContext";
 
 const Question = ({
   category,
@@ -6,11 +7,11 @@ const Question = ({
   question,
   correctAnswer,
   incorrectAnswers,
-  onAnswer,
 }) => {
   const [selected, setSelected] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
   const [popupMsg, setPopupMsg] = useState("");
+  const { updateScore } = useContext(ScoreContext);
 
   const answers = useMemo(() => {
     const arr = [correctAnswer, ...incorrectAnswers];
@@ -31,7 +32,7 @@ const Question = ({
     const isCorrect = answer === correctAnswer;
     setSelected(answer);
     setPopupMsg(isCorrect ? "✅ Correct!" : "❌ Incorrect!");
-    onAnswer && onAnswer(isCorrect);
+    updateScore(isCorrect);
     setShowPopup(true);
     setTimeout(() => setShowPopup(false), 1500);
   };

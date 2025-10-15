@@ -8,7 +8,7 @@ import categoryMap from "../helpers/categoryMap";
 const Questions = () => {
   const [questions, setQuestions] = useState([]);
   const { settings } = useContext(SettingsContext);
-  const { score, updateScore, resetScore } = useContext(ScoreContext);
+  const { resetScore } = useContext(ScoreContext);
 
   const apiUrl = "https://opentdb.com/api.php?type=multiple";
 
@@ -34,7 +34,7 @@ const Questions = () => {
   return (
     <div className="bg-quiz">
       <div className="container">
-        <Scoreboard correct={score.correct} incorrect={score.incorrect} />
+        <Scoreboard />
         <div className="questions">
           {questions.map((quizItem) => (
             <Question
@@ -45,7 +45,6 @@ const Questions = () => {
               question={quizItem.question}
               correctAnswer={quizItem.correct_answer}
               incorrectAnswers={quizItem.incorrect_answers}
-              onAnswer={updateScore}
             />
           ))}
         </div>

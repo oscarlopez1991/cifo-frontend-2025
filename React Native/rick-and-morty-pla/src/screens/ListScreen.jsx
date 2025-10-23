@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from "react";
 // TODO #5
 // Afegeix tot el que calgui dins de les claus de l'import a la línia següent.
-import {} from 'react-native'
-import Character from '../components/Character'
-import localData from '../data/data.json'
-import emptyData from '../data/empty.json'
-import Colors from '../common/Colors'
+import { View, Text, FlatList, StyleSheet } from "react-native";
+import Character from "../components/Character";
+import localData from "../data/data.json";
+import emptyData from "../data/empty.json";
+import Colors from "../common/Colors";
 
 const ListScreen = ({ navigation }) => {
-  const [characters, setCharacters] = useState([])
+  const [characters, setCharacters] = useState([]);
 
   // Data -- Using real API.
   // const api = 'https://rickandmortyapi.com/api/character'
@@ -24,10 +24,10 @@ const ListScreen = ({ navigation }) => {
   // Data -- Local file to prevent API calls.
   useEffect(() => {
     const fetchData = async () => {
-      setCharacters(localData.results)
-    }
-    fetchData()
-  }, [])
+      setCharacters(localData.results);
+    };
+    fetchData();
+  }, []);
 
   // Data -- Local file to test empty results.
   // useEffect(() => {
@@ -37,11 +37,17 @@ const ListScreen = ({ navigation }) => {
   //   fetchData()
   // }, [])
 
-  const separator = () => <View style={styles.separator} />
+  const separator = () => <View style={styles.separator} />;
 
   // TODO #3
   // Millora la UI que es mostra en cas de no rebre dades, aquest simple Text queda molt pobre.
-  if (characters.length === 0) return <Text>No data</Text>
+  if (characters.length === 0) {
+    return (
+      <View style={styles.nodataContainer}>
+        <Text style={styles.nodataText}>No data</Text>
+      </View>
+    );
+  }
 
   return (
     <FlatList
@@ -51,14 +57,20 @@ const ListScreen = ({ navigation }) => {
           gender={item.gender}
           // TODO #4
           // Revisa Character.jsx i afegeix aquí les props que manquen.
-          onPress={() => navigation.navigate('Detail', { id: item.id, name: item.name })}
+          name={item.name}
+          image={item.image}
+          status={item.status}
+          species={item.species}
+          onPress={() =>
+            navigation.navigate("Detail", { id: item.id, name: item.name })
+          }
         />
       )}
       keyExtractor={(item) => item.id}
       ItemSeparatorComponent={separator}
     />
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   nodataContainer: {},
@@ -68,6 +80,6 @@ const styles = StyleSheet.create({
     left: 16,
     backgroundColor: Colors.primary,
   },
-})
+});
 
-export default ListScreen
+export default ListScreen;
